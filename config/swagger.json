@@ -1,0 +1,242 @@
+{
+    "swagger": "2.0.0",
+    "info": {
+        "description": "Permexo Api's.",
+        "version": "1.0.3",
+        "title": "Permexo"
+    },
+    "host": "localhost:3025",
+    "basePath": "",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "securityDefinitions": {
+        "authorization": {
+            "type": "apiKey",
+            "name": "authorization",
+            "in": "header"
+        }
+    },
+    "paths": {
+        "/auth/check-cnpj": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Api for check cnpj exist in inurance company or not",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": false,
+                        "type": "object",
+                        "schema": {
+                            "properties": {
+                                "cnpj": {
+                                    "type": "string",
+                                    "example": "66.666.776/0001-53"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            }
+        },
+        "/auth/signup": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Api for register new user",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "type": "object",
+                        "schema": {
+                            "properties": {
+                                "role_id": {
+                                    "type": "Number",
+                                    "example": 1
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Api for user login",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "type": "string",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "example": "user@gmail.com"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            }
+        },
+        "/auth/update-password": {
+            "put": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Api for update password",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "type": "object",
+                        "schema": {
+                            "properties": {
+                                "old_password": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "new_password": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                },
+                "security": [
+                    {
+                        "authorization": []
+                    }
+                ]
+            }
+        },
+        "/auth/forgot-password": {
+            "put": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Api for forgot password",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "type": "object",
+                        "schema": {
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "example": "abc@gmail.com"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            }
+        },
+        "/auth/reset-password/{token}": {
+            "put": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Api for reset password",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "type": "string",
+                        "schema": {
+                            "properties": {
+                                "password": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            }
+        },
+        "/admin/signup": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Api for register new admin",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "type": "object",
+                        "schema": {
+                            "properties": {
+                                
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            }
+        }
+    }
+}

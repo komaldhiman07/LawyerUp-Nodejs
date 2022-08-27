@@ -1,0 +1,14 @@
+node_modules/
+dump/
+src/album/thumbnails
+src/album/videos
+.DS_Store
+**/.DS_Store
+.idea/
+logs/ashwani-app-builder.error.log
+logs/ashwani-app-builder.app.log
+logs/
+# config/db.js
+database/config/config.js
+.env
+
