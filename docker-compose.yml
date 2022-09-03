@@ -10,12 +10,12 @@ services:
       - mongo_db:/data/db
 
   # Node API service
-    api:
-      build: .
-      ports: 
-        - 3000:3000
-      depends_on:
-        - mongo_db
+  api:
+    build: .
+    ports: 
+      - 3000:3000
+    depends_on:
+      - mongo_db
 
 volumes:
   mongo_db: {}
