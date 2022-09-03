@@ -12,6 +12,8 @@ services:
   # Node API service
   api:
     build: .
+    env-file:
+      - .env.dev
     ports: 
       - 3000:3000
     depends_on:
