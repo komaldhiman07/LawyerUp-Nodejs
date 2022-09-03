@@ -58,7 +58,7 @@ const authMiddleWare = async (req, res, next) => {
       // ignoring register URL
       return next();
     }
-
+    console.log("originalUrl : ", originalUrl)
     const ignoreIndex = ignorePaths.findIndex((item) => item === originalUrl);
     if (ignoreIndex > -1) {
       logger.logInfo("Activity Log: ", logObj);
