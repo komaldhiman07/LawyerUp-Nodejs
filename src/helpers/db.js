@@ -23,6 +23,7 @@ export default class DB {
   async connectMongoClient() {
     // eslint-disable-next-line no-useless-catch
     try {
+      console.log("Mongo URI : ", process.env.MONGO_DB_URI)
       mongoose.connect(process.env.MONGO_DB_URI, {
         useUnifiedTopology: true,
       });
