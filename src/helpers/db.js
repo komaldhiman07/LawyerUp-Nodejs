@@ -23,11 +23,11 @@ export default class DB {
   async connectMongoClient() {
     // eslint-disable-next-line no-useless-catch
     try {
-      mongoose.connect("mongodb://localhost/lawerup", {
+      mongoose.connect(process.env.MONGO_DB_URI, {
         useUnifiedTopology: true,
       });
       console.log("Connected to MongoDB");
-      await this.setupModels();
+      // await this.setupModels();
       await this.runSeed();
     } catch (err) {
       console.error("Unable to connect to the Client database:", err);
@@ -35,9 +35,9 @@ export default class DB {
     }
   }
 
-  async setupModels() {
-    this.db.categorySubcategory = require("../../database/models/CategorySubcategory");
-  }
+  // async setupModels() {
+  //   this.db.categorySubcategory = require("../../database/models/CategorySubcategory");
+  // }
 
   async getDB() {
     return this.db;

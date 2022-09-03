@@ -1,24 +1,14 @@
 import mongoose, { Schema } from "mongoose";
 import mongoosePaginate from "mongoose-paginate";
 import User from "./User";
-import Album from "./Album";
 
 const transactionSchema = mongoose.Schema({
   amount: {
     type: Number,
     required: false,
   },
-  album_id: {
-    type: Schema.Types.ObjectId,
-    ref: Album,
-    required: false,
-  },
-  expert_id: {
-    type: Schema.Types.ObjectId,
-    ref: User,
-    required: false,
-  },
-  performer_id: {
+
+  user_id: {
     type: Schema.Types.ObjectId,
     ref: User,
     required: false,

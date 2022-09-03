@@ -19,12 +19,12 @@ class AuthController {
     const data = matchedData(req);
     const emailExpression =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const isEmail = emailExpression.test(String(data.email).toLowerCase());
+    const isEmail = emailExpression.test(String(data.emailOrUsername).toLowerCase());
     let user = null;
     if (isEmail) {
-      user = await authService.getUser({ email: data.email });
+      user = await authService.getUser({ email: data.emailOrUsername });
     } else {
-      user = await authService.getUser({ phone: data.email });
+      user = await authService.getUser({ username: data.emailOrUsername });
     }
     if (user) {
       if (isEmail && user.login_type !== "Manual") {
@@ -126,7 +126,7 @@ class AuthController {
       const salt = await bcrypt.genSalt(10);
       const hash = data.password ? await bcrypt.hash(data.password, salt) : null;
       const otp = this.generateOTP();
-      let userData = { ...data, password: hash, otp };
+      let userData = { ...data, password: hash, otp, is_otp_verified: true };
       if (role.name === "Admin" || data.device_type == 'web') {
         userData = { ...userData, is_otp_verified: true };
       }
@@ -190,7 +190,8 @@ class AuthController {
         retObj = {
           status: RESPONSE_CODES.POST,
           success: true,
-          data: { otp, token },
+          data: { token },
+          // data: { otp, token },
           message: CUSTOM_MESSAGES.USER_REGISTER_SUCESS,
         };
       } else {
@@ -340,31 +341,36 @@ class AuthController {
     const data = matchedData(req);
     const emailExpression =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const isEmail = emailExpression.test(String(data.phoneEmail).toLowerCase());
+    const isEmail = emailExpression.test(String(data.emailOrUsername).toLowerCase());
     let user = null;
     if (isEmail) {
-      user = await authService.getUser({ email: data.phoneEmail });
+      user = await authService.getUser({ email: data.emailOrUsername });
     } else {
-      user = await authService.getUser({ phone: data.phoneEmail });
+      user = await authService.getUser({ username: data.emailOrUsername });
     }
     if (user) {
       const otp = this.generateOTP();
       user.otp = otp;
       const token = await this.createToken(authObj(user));
       await user.save();
-      if (isEmail) {
-        await emailService.sendMail({
-          from: data.phoneEmail,
-          subject: `Forgot Password`,
-          text: `<b>Hello ${user.first_name} ${user.last_name}</b><br />We have recieved a request from you to set password, please use below otp and set your password. <br /><b>OTP</b> : ${otp} <br /><br />Regards<br />Admin`,
-        });
-      } else {
-        const message = `Please verify your OTP at ${otp}`;
-        await twilioService.sendMessage({
-          message,
-          to: data.phoneEmail,
-        });
-      }
+      await emailService.sendMail({
+        from: user.email,
+        subject: `Forgot Password`,
+        text: `<b>Hello ${user.first_name} ${user.last_name}</b><br />We have recieved a request from you to set password, please use below otp and set your password. <br /><b>OTP</b> : ${otp} <br /><br />Regards<br />LawyerUp Team`,
+      });
+      // if (isEmail) {
+      //   await emailService.sendMail({
+      //     from: data.emailOrUsername,
+      //     subject: `Forgot Password`,
+      //     text: `<b>Hello ${user.first_name} ${user.last_name}</b><br />We have recieved a request from you to set password, please use below otp and set your password. <br /><b>OTP</b> : ${otp} <br /><br />Regards<br />LawyerUp Team`,
+      //   });
+      // } else {
+      //   const message = `Please verify your OTP at ${otp}`;
+      //   await twilioService.sendMessage({
+      //     message,
+      //     to: user.email,
+      //   });
+      // }
       return {
         status: RESPONSE_CODES.POST,
         success: true,

@@ -11,4 +11,4 @@ logs/
 # config/db.js
 database/config/config.js
 .env
-.env.save/
+.env.example/

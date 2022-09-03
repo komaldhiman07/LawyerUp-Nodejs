@@ -1,7 +1,6 @@
 import User from "../../database/models/User";
 import Role from "../../database/models/Role";
 import Device from "../../database/models/Device";
-import categorySubcategory from "../../database/models/CategorySubcategory";
 import Country from "../../database/models/Country";
 import State from "../../database/models/State";
 import Language from "../../database/models/Language";

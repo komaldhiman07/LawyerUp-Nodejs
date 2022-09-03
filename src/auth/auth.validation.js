@@ -3,12 +3,7 @@ class AuthValidator {
 
   constructor() {
     this.field = {
-      email: {
-        in: ["body"],
-        exists:{
-          errorMessage: "Please enter email",
-        }
-      },
+      
       password: {
         in: ["body"],
         exists:{
@@ -36,7 +31,17 @@ class AuthValidator {
     };
   }
 
-  login = () => this.field;
+  login = () => {
+    return {
+      ...this.field,
+      emailOrUsername:{
+        in: ["body"],
+        exists:{
+          errorMessage: "Please enter email or username",
+        }
+      }
+    }
+  }
 
   logout = () => {
     return {
@@ -122,6 +127,12 @@ class AuthValidator {
           errorMessage: "Please enter username",
         }
       },
+      email: {
+        in: ["body"],
+        exists:{
+          errorMessage: "Please enter email",
+        }
+      },
       first_name: {
         in: ["body"],
         exists:{
@@ -173,9 +184,9 @@ class AuthValidator {
 
   forgotPassword = () => {
     return {
-      phoneEmail: {
+      emailOrUsername: {
         in: ["body"],
-        errorMessage: "Please select phone or email",
+        errorMessage: "Please enter email or username",
       },
     };
   };
