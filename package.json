@@ -1,5 +1,5 @@
 {
-  "name": "permaxo-backend",
+  "name": "lawyerup-backend",
   "version": "1.0.0",
   "description": "saas apis for multiple mobile app projects",
   "main": "app.js",
@@ -15,17 +15,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/dev.malvinder/softradix-saas-apis.git"
+    "url": "git+ssh://git@github.com:komaldhiman07/LawyerUp-Nodejs.git"
   },
   "keywords": [
     "saas"
   ],
-  "author": "SoftRadix Technologies Pvt. Ltd.",
+  "author": "Komal",
   "license": "ISC",
   "bugs": {
-    "url": "https://gitlab.com/dev.malvinder/softradix-saas-apis/issues"
+    "url": "https://github.com/komaldhiman07/LawyerUp-Nodejs/issues"
   },
-  "homepage": "https://gitlab.com/dev.malvinder/softradix-saas-apis#readme",
+  "homepage": "https://github.com/komaldhiman07/LawyerUp-Nodejs#readme",
   "dependencies": {
     "@babel/register": "^7.13.16",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
