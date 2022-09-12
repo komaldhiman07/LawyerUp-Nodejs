@@ -77,26 +77,7 @@ class UserRoutes {
       handler(controller.getRoles, (req) => [req])
     );
 
-    router.post(
-      "/expert-list",
-      handler(controller.getExpertList, (req) => [req])
-    );
 
-    router.get(
-      "/expert-list",
-      handler(controller.getExpertList, (req) => [req])
-    );
-
-    router.get(
-      "/performer-list",
-      handler(controller.getPerformerList, (req) => [req])
-    );
-
-    router.post(
-      "/clubs",
-      checkSchema(Validator.getClubs()),
-      handler(controller.getClubs, (req) => [req])
-    );
 
     router.get(
       "/",

@@ -12,6 +12,7 @@ import authMiddleWare from "../src/helpers/middlewares";
 import UserRoutes from "../src/user/index.js";
 // import AlbumRoutes from "../src/album/index.js";
 import AuthRoutes from "../src/auth/index.js";
+import StateRoutes from "../src/states/index";
 // import StripeRoutes from "../src/stripe";
 // import DashboarRoutes from "../src/dashboard/index";
 // import CategorySubcategoryRoutes from "../src/categorySubcategory/index.js";
@@ -66,6 +67,7 @@ class Server {
       // await this.healthyDB();
       await this.configureRoutes(this.db);
       this.app.use("/api-docs", swaggerUi.serve);
+      this.app.use("/states", StateRoutes);
       this.app.use("/user", UserRoutes);
       this.app.use("/auth", AuthRoutes);
       // this.app.use("/video", AlbumRoutes);
@@ -80,6 +82,7 @@ class Server {
       });
       return this.app;
     } catch (err) {
+      console.log("e : ", err)
       throw err;
     }
   }

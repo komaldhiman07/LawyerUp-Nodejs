@@ -89,5 +89,6 @@ exports.CUSTOM_MESSAGES = {
   CRAD_ADDED: 'Card successfully added.',
   ACCOUNT_DETAILS: 'Account details.',
   CARD_DELETED: 'Card removed successfully.',
-  CARD_LIST: 'List of cards.'
+  CARD_LIST: 'List of cards.',
+  STATES_FOUND: 'States list loaded successfully'
 };

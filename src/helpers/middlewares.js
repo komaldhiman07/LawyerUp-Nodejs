@@ -11,6 +11,7 @@ const authMiddleWare = async (req, res, next) => {
     const ignorePaths = [
       "/",
       "/api-docs",
+      "/states",
       "/auth/sign-up",
       "/auth/social-login",
       "/auth/otp-verification",
@@ -51,14 +52,13 @@ const authMiddleWare = async (req, res, next) => {
       (method === "GET" && originalUrl.includes("/api-docs/")) ||
       (method === "PUT" && originalUrl.includes("/auth/reset-password/")) ||
       (method === "POST" && originalUrl.includes("/upload")) ||
-      (method === "GET" && originalUrl.includes("/user/stripe-integration/return")) ||
-      (method === 'PUT' && originalUrl.includes('/video/expired-album'))
+      (method === "GET" && originalUrl.includes("/user/stripe-integration/return"))
     ) {
       logger.logInfo("Activity Log: ", logObj);
       // ignoring register URL
       return next();
     }
-    console.log("originalUrl : ", originalUrl)
+    console.log("originalUrl :", originalUrl)
     const ignoreIndex = ignorePaths.findIndex((item) => item === originalUrl);
     if (ignoreIndex > -1) {
       logger.logInfo("Activity Log: ", logObj);
