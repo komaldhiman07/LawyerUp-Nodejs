@@ -145,6 +145,8 @@ export const authObj = (data) => ({
   status: data.status || null,
   zip_code: data.zip_code || null,
   term_and_condition: data.term_and_condition || null,
+  is_receive_notification: data.is_receive_notification || null,
+  is_enable_notification: data.is_receive_notification || null,
   is_deleted: data.is_deleted || null,
   createdAt: data.createdAt || null,
   updatedAt: data.updatedAt || null,

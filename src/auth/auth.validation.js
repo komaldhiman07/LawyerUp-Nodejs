@@ -178,6 +178,15 @@ class AuthValidator {
       zip_code: {
         optional: { options: { nullable: false } },
       },
+      term_and_condition: {
+        optional: { options: { nullable: false } },
+      },
+      is_receive_notification: {
+        optional: { options: { nullable: false } },
+      },
+      is_enable_notification: {
+        optional: { options: { nullable: false } },
+      },
     };
     return schema;
   };
