@@ -83,13 +83,6 @@ class UserController {
 
   getUser = async (req) => {
     const user = await userService.getUser({ email: req.user.data.email });
-    if (user.other_club_name) {
-      if (user.club && user.club.length) {
-        user.club.push({ _id: null, name: user.other_club_name });
-      } else {
-        user.club = [{ _id: null, name: user.other_club_name }];
-      }
-    }
     return {
       status: 200,
       success: true,

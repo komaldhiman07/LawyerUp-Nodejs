@@ -166,7 +166,7 @@ class AuthValidator {
       country_id: {
         optional: { options: { nullable: false } },
       },
-      state: {
+      state_id: {
         optional: { options: { nullable: false } },
       },
       city: {
