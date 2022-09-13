@@ -16,7 +16,7 @@ export const handler = (promise, params) => async (req, res, next) => {
       message: Object.values(error)[0].message,
       data: {},
     };
-    return res.send(response);
+    return res.status(400).json(response);
   }
   try {
     const result = await promise(...boundParams);
@@ -29,7 +29,8 @@ export const handler = (promise, params) => async (req, res, next) => {
       res.set("Content-type", "text/xml");
       return res.send(result.data.xml);
     }
-    return result.status == 401 ? res.status(result.status).send(result) : res.send(result);
+
+    return result.status == 401 ? res.status(result.status).send(result) : res.status(result.status).send(result);
   } catch (err) {
     const response = {
       status: 400,
@@ -37,6 +38,6 @@ export const handler = (promise, params) => async (req, res, next) => {
       message: err.message || "",
       data: err,
     };
-    return res.send(response);
+    return res.status(500).send(response);
   }
 };
