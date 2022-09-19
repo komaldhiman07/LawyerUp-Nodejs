@@ -14,18 +14,22 @@ import { createStripeCustomer, createStripeAccount } from '../services/common/st
 class AuthController {
   constructor() { }
 
+  getUserByEmailOrUserName = async (emailOrUsername) => {
+    const emailExpression =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const isEmail = emailExpression.test(String(emailOrUsername).toLowerCase());
+    let user = null;
+    if (isEmail) {
+      user = await authService.getUser({ email: emailOrUsername });
+    } else {
+      user = await authService.getUser({ username: emailOrUsername });
+    }
+    return { user, isEmail };
+  }
   login = async (req) => {
     let retObj = {};
     const data = matchedData(req);
-    const emailExpression =
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const isEmail = emailExpression.test(String(data.emailOrUsername).toLowerCase());
-    let user = null;
-    if (isEmail) {
-      user = await authService.getUser({ email: data.emailOrUsername });
-    } else {
-      user = await authService.getUser({ username: data.emailOrUsername });
-    }
+    let { user, isEmail } = await this.getUserByEmailOrUserName(data.emailOrUsername);
     if (user) {
       if (isEmail && user.login_type !== "Manual") {
         return {
@@ -336,7 +340,37 @@ class AuthController {
   generateOTP() {
     return Math.floor(1000 + Math.random() * 9000);
   }
-
+  validateOtp = async (req) => {
+    const data = matchedData(req);
+    const {user} = await this.getUserByEmailOrUserName(data.emailOrUsername);
+    if (user) {
+      if (user.otp === data.otp) {
+        user.is_otp_verified = true;
+        user.otp = "";
+        await user.save();
+        return {
+          status: RESPONSE_CODES.POST,
+          success: true,
+          data: {},
+          message: CUSTOM_MESSAGES.OTP_VALIDATE_SUCCESS,
+        };
+      } else {
+        return {
+          status: RESPONSE_CODES.BAD_REQUEST,
+          success: false,
+          data: {},
+          message: CUSTOM_MESSAGES.OTP_VALIDATE_FAILURE,
+        };
+      }
+    } else {
+      return {
+        status: RESPONSE_CODES.BAD_REQUEST,
+        success: false,
+        data: {},
+        message: CUSTOM_MESSAGES.USER_NOT_FOUND,
+      };
+    }
+  };
   forgotPassword = async (req) => {
     const data = matchedData(req);
     const emailExpression =
@@ -351,7 +385,7 @@ class AuthController {
     if (user) {
       const otp = this.generateOTP();
       user.otp = otp;
-      const token = await this.createToken(authObj(user));
+      // const token = await this.createToken(authObj(user));
       await user.save();
       await emailService.sendMail({
         from: user.email,
@@ -374,7 +408,7 @@ class AuthController {
       return {
         status: RESPONSE_CODES.POST,
         success: true,
-        data: { otp, token },
+        data: { otp },
         message: CUSTOM_MESSAGES.OTP_SUCCESS,
       };
     }
@@ -385,7 +419,64 @@ class AuthController {
       message: CUSTOM_MESSAGES.USER_NOT_FOUND,
     };
   };
-
+  resendOtp = async (req) => {
+    const data = matchedData(req);
+    const {user} = await this.getUserByEmailOrUserName(data.emailOrUsername);
+    if (user) {
+      const otp = this.generateOTP();
+      user.otp = otp;
+      await user.save();
+      // const message = `Please verify your OTP at ${otp}`;
+      // if (user.phone) {
+      //   await twilioService.sendMessage({
+      //     message,
+      //     to: user.phone,
+      //   });
+      // }
+      if (user.email) {
+        await emailService.sendMail({
+          from: user.email,
+          subject: `Forgot Password`,
+          text: `<b>Hello ${user.first_name} ${user.last_name}</b><br />We have recieved a request from you to set password, please use below otp and set your password. <br /><b>OTP</b> : ${otp} <br /><br />Regards<br />LawyerUp Team`,
+        });
+      }
+      return {
+        status: RESPONSE_CODES.GET,
+        success: true,
+        data: { otp },
+        message: CUSTOM_MESSAGES.SUCESS,
+      };
+    }
+    return {
+      status: RESPONSE_CODES.BAD_REQUEST,
+      success: false,
+      data: {},
+      message: CUSTOM_MESSAGES.USER_NOT_FOUND,
+    };
+  };
+  setNewPassword = async (req) => {
+    const data = matchedData(req);
+    const {user} = await this.getUserByEmailOrUserName(data.emailOrUsername);
+    if(user){
+      const salt = await bcrypt.genSalt(10);
+      const hash = data.password ? await bcrypt.hash(data.password, salt) : null;
+      user.password = hash;
+      await user.save();
+      return {
+        status: RESPONSE_CODES.POST,
+        success: true,
+        data: {},
+        message: CUSTOM_MESSAGES.PASSWORD_SET,
+      };
+    }else{
+      return {
+        status: RESPONSE_CODES.BAD_REQUEST,
+        success: false,
+        data: {},
+        message: CUSTOM_MESSAGES.USER_NOT_FOUND,
+      };
+    }
+  }
   createToken = async (data) => {
     const token = await jwt.sign({ data }, process.env.PRIVATE_JWT_SECRET, {
       expiresIn: "365d",

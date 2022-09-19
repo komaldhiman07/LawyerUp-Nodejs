@@ -63,6 +63,10 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    address: {
+      type: String,
+      required: false
+    },
     country_id: {
       type: Schema.Types.ObjectId,
       ref: Country,
@@ -90,7 +94,7 @@ const userSchema = mongoose.Schema(
     last_login: {
       type: Date,
     },
-    term_and_condition: {
+    is_enable_location: {
       type: Boolean,
       default: false
     },

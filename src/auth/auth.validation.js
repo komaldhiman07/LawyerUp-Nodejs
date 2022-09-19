@@ -3,28 +3,28 @@ class AuthValidator {
 
   constructor() {
     this.field = {
-      
+
       password: {
         in: ["body"],
-        exists:{
+        exists: {
           errorMessage: "Please enter password",
         }
       },
       device_id: {
         in: ["body"],
-        exists:{
-          errorMessage: "Please enter password",
+        exists: {
+          errorMessage: "Please enter device_id",
         }
       },
       device_type: {
         in: ["body"],
-        exists:{
+        exists: {
           errorMessage: "Please add device type",
         }
       },
       device_token: {
         in: ["body"],
-        exists:{
+        exists: {
           errorMessage: "Please add device token",
         }
       },
@@ -34,9 +34,9 @@ class AuthValidator {
   login = () => {
     return {
       ...this.field,
-      emailOrUsername:{
+      emailOrUsername: {
         in: ["body"],
-        exists:{
+        exists: {
           errorMessage: "Please enter email or username",
         }
       }
@@ -123,52 +123,62 @@ class AuthValidator {
       },
       username: {
         in: ["body"],
-        exists:{
+        exists: {
           errorMessage: "Please enter username",
         }
       },
       email: {
         in: ["body"],
-        exists:{
+        exists: {
           errorMessage: "Please enter email",
         }
       },
       first_name: {
         in: ["body"],
-        exists:{
+        exists: {
           errorMessage: "Please enter first name",
         }
       },
       last_name: {
-        in: ["body"],
-        exists:{
-          errorMessage: "Please enter last name",
-        }
+        optional: { options: { nullable: false } },
+        // in: ["body"],
+        // exists:{
+        //   errorMessage: "Please enter last name",
+        // }
       },
       role_id: {
         in: ["body"],
-        exists:{
+        exists: {
           errorMessage: "Please select role",
         }
       },
       date_of_birth: {
         in: ["body"],
-        exists:{
+        exists: {
           errorMessage: "Please select date of birth",
         }
       },
       gender: {
         in: ["body"],
-        exists:{
+        exists: {
           errorMessage: "Please select gender",
         }
       },
       country_id: {
         optional: { options: { nullable: false } },
       },
-      state_id: {
+      address: {
         optional: { options: { nullable: false } },
       },
+      state_id: {
+        in: ["body"],
+        exists: {
+          errorMessage: "Please select a state",
+        }
+      },
+      // state_id: {
+      //   optional: { options: { nullable: false } },
+      // },
       city: {
         optional: { options: { nullable: false } },
       },
@@ -178,7 +188,7 @@ class AuthValidator {
       zip_code: {
         optional: { options: { nullable: false } },
       },
-      term_and_condition: {
+      is_enable_location: {
         optional: { options: { nullable: false } },
       },
       is_receive_notification: {
@@ -199,6 +209,30 @@ class AuthValidator {
       },
     };
   };
+  validateOtp = () => {
+    return {
+      emailOrUsername: {
+        in: ["body"],
+        errorMessage: "Please enter email or username",
+      },
+      otp: {
+        in: ["body"],
+        errorMessage: "Please enter otp",
+      },
+    }
+  }
+  validatePassword = () => {
+    return {
+      emailOrUsername: {
+        in: ["body"],
+        errorMessage: "Please enter email or username",
+      },
+      password: {
+        in: ["body"],
+        errorMessage: "Please enter password",
+      }, 
+    }
+  }
 }
 
 export default new AuthValidator();

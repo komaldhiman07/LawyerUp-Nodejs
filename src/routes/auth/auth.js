@@ -38,7 +38,7 @@ export default class Auth {
       .put(schemaValidator(forgotPasswordValidator), (req, res) =>
         this.authInstance.forgotPassword(req, res)
       );
-
+    
     /*** reset password ***/
     this.router
       .route("/auth/reset-password/:token")

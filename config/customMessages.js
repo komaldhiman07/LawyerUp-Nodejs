@@ -25,6 +25,7 @@ exports.CUSTOM_MESSAGES = {
   USER_NOT_FOUND: "User not found." /*** User not found. ***/,
   USER_EMAIL_ALREADY_EXIST: "Email already exists.",
   USER_PHONE_ALREADY_EXIST: "Phone number already exists.",
+  USERNAME_ALREADY_EXIST: "Username already taken. Please choose another...",
   ADD_USER_ERROR: "There occured some error while adding user.",
   OTP_VALIDATE_SUCCESS: "OTP validated successfully.",
   OTP_VALIDATE_FAILURE: "Please enter correct OTP.",
@@ -40,7 +41,7 @@ exports.CUSTOM_MESSAGES = {
   OTP_SUCCESS: "Otp sent successfully.",
   PASSWORD_SET: "Password updated successfully.",
   LOGIN_SUCCESS: "Logged in successfully.",
-  INCORRECT_PASSWORD: "Please enter valid password.",
+  INCORRECT_PASSWORD: "Username or password is incorrect",
   INCORRECT_OLD_PASSWORD: "Current password is incorrect.",
 
   USER_LIST: "User list.",

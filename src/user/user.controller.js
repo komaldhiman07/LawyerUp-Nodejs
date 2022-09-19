@@ -104,55 +104,46 @@ class UserController {
 
   updateProfile = async (req) => {
     const data = matchedData(req);
-    let userEmailExist = data.email
-      ? await userService.getUser({ email: data.email })
+    let userNameExist = data.username
+      ? await userService.getUser({ username: data.username })
       : null;
-    if (userEmailExist && req.user.data.email != userEmailExist.email) {
+    if (userNameExist && req.user.data.username != userNameExist.username) {
       return {
         status: RESPONSE_CODES.BAD_REQUEST,
         success: false,
         data: {},
-        message: CUSTOM_MESSAGES.USER_EMAIL_ALREADY_EXIST,
+        message: CUSTOM_MESSAGES.USERNAME_ALREADY_EXIST,
       };
     }
 
-    let userPhoneExist = data.phone
-      ? await userService.getUser({ phone: data.phone })
-      : null;
-    if (userPhoneExist && req.user.data.phone != userPhoneExist.phone) {
-      return {
-        status: RESPONSE_CODES.BAD_REQUEST,
-        success: false,
-        data: {},
-        message: CUSTOM_MESSAGES.USER_PHONE_ALREADY_EXIST,
-      };
-    }
-    if (data.other_club_name) {
-      data.club = [];
-    }
-    const stripeUser = await userService.getUser({ _id: req.user.data._id });
-    if (req.user.data.social_key && req.user.data.role_id._id == '620ca6e733032d8eb3c3b239' && !stripeUser.stripe_customer_id) {
-      const stripeCustomer = await createStripeCustomer(data)
-      data.stripe_customer_id = stripeCustomer.id;
-    }
-    if (data.state_id && req.user.data.role_id._id == '620ca6da33032d8eb3c3b236' && !stripeUser.stripe_account_id) {
-      if (req.user.data.social_key) {
-        req.user.data.first_name = data.first_name ? data.first_name : null
-        req.user.data.last_name = data.last_name ? data.last_name : null
-      }
-      const stripeAccount = await createStripeAccount(data, req.user.data)
-      data.stripe_account_id = stripeAccount.id;
-    }
+    // let userPhoneExist = data.phone
+    //   ? await userService.getUser({ phone: data.phone })
+    //   : null;
+    // if (userPhoneExist && req.user.data.phone != userPhoneExist.phone) {
+    //   return {
+    //     status: RESPONSE_CODES.BAD_REQUEST,
+    //     success: false,
+    //     data: {},
+    //     message: CUSTOM_MESSAGES.USER_PHONE_ALREADY_EXIST,
+    //   };
+    // }
+    
+    // const stripeUser = await userService.getUser({ _id: req.user.data._id });
+    // if (req.user.data.social_key && req.user.data.role_id._id == '620ca6e733032d8eb3c3b239' && !stripeUser.stripe_customer_id) {
+    //   const stripeCustomer = await createStripeCustomer(data)
+    //   data.stripe_customer_id = stripeCustomer.id;
+    // }
+    // if (data.state_id && req.user.data.role_id._id == '620ca6da33032d8eb3c3b236' && !stripeUser.stripe_account_id) {
+    //   if (req.user.data.social_key) {
+    //     req.user.data.first_name = data.first_name ? data.first_name : null
+    //     req.user.data.last_name = data.last_name ? data.last_name : null
+    //   }
+    //   const stripeAccount = await createStripeAccount(data, req.user.data)
+    //   data.stripe_account_id = stripeAccount.id;
+    // }
     await userService.updateUser(data, req.user.data._id);
     const user = await userService.getUser({ _id: req.user.data._id });
-    const doc = { ...user };
-    if (doc._doc.other_club_name) {
-      if (doc._doc.club && doc._doc.club.length) {
-        doc._doc.club.push({ _id: null, club_name: doc._doc.other_club_name });
-      } else {
-        doc._doc.club = [{ _id: null, club_name: doc._doc.other_club_name }];
-      }
-    }
+    
     if (user) {
       const token = await this.createToken(authObj(user));
       const result = authObj(user)

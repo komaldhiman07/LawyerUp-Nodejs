@@ -129,6 +129,7 @@ export const authObj = (data) => ({
   social_key: data.social_key || null,
   first_name: data.first_name || null,
   last_name: data.last_name || null,
+  username: data.username || null,
   email: data.email || null,
   phone: data.phone || null,
   profile_image: data.profile_image || null,

@@ -81,107 +81,10 @@ class UserValidator {
       profile_image: {
         optional: { options: { nullable: false } },
       },
-      club_name: {
+      username: {
         optional: { options: { nullable: false } },
       },
-      first_name: {
-        optional: { options: { nullable: false } },
-      },
-      last_name: { optional: { options: { nullable: false } } },
-      phone: {
-        optional: { options: { nullable: false } },
-      },
-      email: {
-        optional: { options: { nullable: false } },
-      },
-      address: {
-        optional: { options: { nullable: false } },
-      },
-      public_profile_url: {
-        optional: { options: { nullable: false } },
-      },
-      crediential_document: {
-        optional: { options: { nullable: false } },
-      },
-      competition_category: {
-        optional: { options: { nullable: false } },
-      },
-      city: {
-        optional: { options: { nullable: false } },
-      },
-      state_id: {
-        optional: { options: { nullable: false } },
-      },
-      country_id: {
-        optional: { options: { nullable: false } },
-      },
-      zip_code: {
-        optional: { options: { nullable: false } },
-      },
-      photo_id_url: {
-        optional: { options: { nullable: false } },
-      },
-      language: {
-        optional: { options: { nullable: false } },
-      },
-      gender: {
-        optional: { options: { nullable: false } },
-      },
-      talent: {
-        optional: { options: { nullable: false } },
-      },
-      club: {
-        optional: { options: { nullable: false } },
-      },
-      experience: {
-        optional: { options: { nullable: false } },
-      },
-      specialization: {
-        optional: { options: { nullable: false } },
-      },
-      price: {
-        optional: { options: { nullable: false } },
-      },
-      time_period: {
-        optional: { options: { nullable: false } },
-      },
-      age: {
-        optional: { options: { nullable: false } },
-      },
-      type_of_club: {
-        optional: { options: { nullable: false } },
-      },
-      initials_for_concent: {
-        optional: { options: { nullable: false } },
-      },
-      initials_for_date: {
-        optional: { options: { nullable: false } },
-      },
-      url: {
-        optional: { options: { nullable: false } },
-      },
-      coach_name: {
-        optional: { options: { nullable: false } },
-      },
-      coach_email: {
-        optional: { options: { nullable: false } },
-      },
-      coach_phone: {
-        optional: { options: { nullable: false } },
-      },
-      other_club_name: {
-        optional: { options: { nullable: false } },
-      },
-      term_and_condition: {
-        optional: {
-          optional: { options: { nullable: false } },
-        }
-      },
-      declaration: {
-        optional: {
-          optional: { options: { nullable: false } },
-        }
-      }
+      address: { optional: { options: { nullable: false } } },
     };
     return schema;
   };

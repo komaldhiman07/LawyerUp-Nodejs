@@ -15,6 +15,7 @@ const authMiddleWare = async (req, res, next) => {
       "/auth/sign-up",
       "/auth/social-login",
       "/auth/otp-verification",
+      "/auth/set-new-password",
       "/auth/resend-otp",
       "/auth/login",
       "/user/roles",
@@ -90,7 +91,6 @@ const authMiddleWare = async (req, res, next) => {
               err
               // || !utils.authenticateHash(`${req.ip}${req.headers['user-agent']}${token._id}`, token.loc)
             ) {
-              console.log("line no. 81 : err :", err);
               return res.status(RESPONSE_CODES.UNAUTHORIZED).json({
                 status: RESPONSE_CODES.UNAUTHORIZED,
                 success: false,
@@ -99,11 +99,19 @@ const authMiddleWare = async (req, res, next) => {
               });
             }
             const user = await User.findOne({ _id: token.data._id });
-            token.data.phone = user.phone;
-            token.data.email = user.email;
-            token.data.talent = user.talent
-            req.user = token;
-            return validateUser(req, res, next);
+            if(user){
+              token.data.email = user.email;
+              req.user = token;
+              return validateUser(req, res, next);
+            }else{
+              return res.status(RESPONSE_CODES.UNAUTHORIZED).json({
+                status: RESPONSE_CODES.UNAUTHORIZED,
+                success: false,
+                data: {},
+                message: CUSTOM_MESSAGES.UNAUTHORIZED,
+              });
+            }
+            
           }
         );
       } else {

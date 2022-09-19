@@ -36,6 +36,22 @@ class AuthRoutes {
     );
 
     router.post(
+      "/otp-verification",
+      checkSchema(Validator.validateOtp()),
+      handler(controller.validateOtp, (req) => [req])
+    );
+    
+    router.post(
+      "/resend-otp",
+      checkSchema(Validator.forgotPassword()),
+      handler(controller.resendOtp, (req) => [req])
+    );
+    router.post(
+      "/set-new-password",
+      checkSchema(Validator.validatePassword()),
+      handler(controller.setNewPassword, (req) => [req])
+    );
+    router.post(
       "/social-signup",
       checkSchema(Validator.socialSignUp()),
       handler(controller.socialSignUp, (req) => [req])
