@@ -342,7 +342,7 @@ class AuthController {
   }
   validateOtp = async (req) => {
     const data = matchedData(req);
-    const {user} = await this.getUserByEmailOrUserName(data.emailOrUsername);
+    const { user } = await this.getUserByEmailOrUserName(data.emailOrUsername);
     if (user) {
       if (user.otp === data.otp) {
         user.is_otp_verified = true;
@@ -421,7 +421,7 @@ class AuthController {
   };
   resendOtp = async (req) => {
     const data = matchedData(req);
-    const {user} = await this.getUserByEmailOrUserName(data.emailOrUsername);
+    const { user } = await this.getUserByEmailOrUserName(data.emailOrUsername);
     if (user) {
       const otp = this.generateOTP();
       user.otp = otp;
@@ -456,19 +456,31 @@ class AuthController {
   };
   setNewPassword = async (req) => {
     const data = matchedData(req);
-    const {user} = await this.getUserByEmailOrUserName(data.emailOrUsername);
-    if(user){
-      const salt = await bcrypt.genSalt(10);
-      const hash = data.password ? await bcrypt.hash(data.password, salt) : null;
-      user.password = hash;
-      await user.save();
-      return {
-        status: RESPONSE_CODES.POST,
-        success: true,
-        data: {},
-        message: CUSTOM_MESSAGES.PASSWORD_SET,
-      };
-    }else{
+    const { user } = await this.getUserByEmailOrUserName(data.emailOrUsername);
+    if (user) {
+      if (user.otp === data.otp) {
+        user.is_otp_verified = true;
+        user.otp = "";
+        const salt = await bcrypt.genSalt(10);
+        const hash = data.password ? await bcrypt.hash(data.password, salt) : null;
+        user.password = hash;
+        await user.save();
+        return {
+          status: RESPONSE_CODES.POST,
+          success: true,
+          data: {},
+          message: CUSTOM_MESSAGES.PASSWORD_SET,
+        };
+      } else {
+        return {
+          status: RESPONSE_CODES.BAD_REQUEST,
+          success: false,
+          data: {},
+          message: CUSTOM_MESSAGES.OTP_VALIDATE_FAILURE,
+        };
+      }
+
+    } else {
       return {
         status: RESPONSE_CODES.BAD_REQUEST,
         success: false,
@@ -487,7 +499,7 @@ class AuthController {
   logout = async (req) => {
     const data = matchedData(req);
     await authService.deleteDevice({
-      device_id: data.device_id,
+      device_token: data.device_token,
       user_id: req.user.data._id,
     });
     return {

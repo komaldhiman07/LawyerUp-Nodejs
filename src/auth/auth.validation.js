@@ -45,9 +45,9 @@ class AuthValidator {
 
   logout = () => {
     return {
-      device_id: {
+      device_token: {
         in: ["body"],
-        errorMessage: "Please add device id",
+        errorMessage: "Device token is required!",
       },
     };
   };
@@ -230,6 +230,10 @@ class AuthValidator {
       password: {
         in: ["body"],
         errorMessage: "Please enter password",
+      }, 
+      otp: {
+        in: ["body"],
+        errorMessage: "Please enter otp",
       }, 
     }
   }
