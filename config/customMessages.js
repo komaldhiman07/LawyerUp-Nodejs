@@ -28,7 +28,7 @@ exports.CUSTOM_MESSAGES = {
   USERNAME_ALREADY_EXIST: "Username already taken. Please choose another...",
   ADD_USER_ERROR: "There occured some error while adding user.",
   OTP_VALIDATE_SUCCESS: "OTP validated successfully.",
-  OTP_VALIDATE_FAILURE: "Please enter correct OTP.",
+  OTP_VALIDATE_FAILURE: "Wrong OTP entered",
   USER_ID_REQUIRED: "User ID Required",
 
   UNAUTHORIZED: "Unauthorized user.",

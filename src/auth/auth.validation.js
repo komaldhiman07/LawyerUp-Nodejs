@@ -159,10 +159,11 @@ class AuthValidator {
         }
       },
       gender: {
-        in: ["body"],
-        exists: {
-          errorMessage: "Please select gender",
-        }
+        // in: ["body"],
+        // exists: {
+        //   errorMessage: "Please select gender",
+        // }
+        optional: { options: { nullable: false } },
       },
       country_id: {
         optional: { options: { nullable: false } },
@@ -170,15 +171,15 @@ class AuthValidator {
       address: {
         optional: { options: { nullable: false } },
       },
-      state_id: {
-        in: ["body"],
-        exists: {
-          errorMessage: "Please select a state",
-        }
-      },
       // state_id: {
-      //   optional: { options: { nullable: false } },
+      //   in: ["body"],
+      //   exists: {
+      //     errorMessage: "Please select a state",
+      //   }
       // },
+      state: {
+        optional: { options: { nullable: false } },
+      },
       city: {
         optional: { options: { nullable: false } },
       },

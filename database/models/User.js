@@ -3,7 +3,7 @@ import mongoosePaginate from "mongoose-paginate";
 import Role from "./Role";
 import Language from "./Language";
 import Country from "./Country";
-import State from "./State";
+// import State from "./State";
 
 const userSchema = mongoose.Schema(
   {
@@ -71,10 +71,14 @@ const userSchema = mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: Country,
     },
-    state_id: {
-      type: Schema.Types.ObjectId,
-      ref: State,
+    state: {
+      type: String,
+      required: false
     },
+    // state_id: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: State,
+    // },
     city: {
       type: String,
       required: false

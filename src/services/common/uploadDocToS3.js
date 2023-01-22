@@ -84,7 +84,7 @@ const uploadDocs = async (files, type) => {
         contentType: ele.mimetype,
         ACL: "public-read",
       };
-      const result = await uploadFlieToAWS(params);
+      const result = await uploadFileToAWS(params);
       ele.location = result.Location;
       ele.key = result.Key;
       console.log("********* result : ", result);
@@ -102,10 +102,11 @@ const uploadDocs = async (files, type) => {
         });
       }
     }
-    response.status = 1;
-    response.code = RESPONSE_CODES.POST;
+    response.status = RESPONSE_CODES.POST;
+    response.success= true;
     response.message = CUSTOM_MESSAGES.FILE_UPLOADED;
     response.data = uploadedFiles;
+    console.log("response : ", response)
     return response;
   } catch (error) {
     this.logger.logError("Upload File Error: ", error);
@@ -113,7 +114,7 @@ const uploadDocs = async (files, type) => {
   }
 };
 
-export const uploadFlieToAWS = async (params) =>
+export const uploadFileToAWS = async (params) =>
   new Promise((resolve, reject) => {
     s3.upload(params, (err, response) => {
       if (err) {

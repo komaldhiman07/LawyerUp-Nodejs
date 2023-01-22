@@ -20,6 +20,13 @@ import cron from "node-cron";
 import { expiredAlbums } from "../src/services/common/cronjobs";
 
 const morgan = require("morgan");
+import AWS from 'aws-sdk';
+
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+});
+
 class Server {
   constructor() {
     this.app = null;
@@ -65,6 +72,8 @@ class Server {
       await this.db.init();
       await this.healthCheckRoute();
       // await this.healthyDB();
+      console.log("bucket : ", process.env.AWS_BUCKET)
+      await this.createBucket(process.env.AWS_BUCKET);
       await this.configureRoutes(this.db);
       this.app.use("/api-docs", swaggerUi.serve);
       this.app.use("/states", StateRoutes);
@@ -99,6 +108,48 @@ class Server {
       throw err;
     }
   }
+
+  async createBucket(bucketName) {
+    try {
+      const params = {
+        Bucket: bucketName
+      };
+      let bucket = await this.checkBucketExists(params)
+      if (!bucket) {
+        console.log("creating bucket...")
+        s3.createBucket(params, function (err, data) {
+          if (err) {
+            console.log("error creating bucket : " + err.message);
+          } // an error occurred
+          else { console.log("bucket created :" + data.Location); }
+        });
+      } else {
+        console.log("Bucket already exist...")
+      }
+
+    } catch (err) {
+      throw err;
+    }
+  }
+  async checkBucketExists(options) {
+    try {
+      // await s3.headBucket(options).promise();
+      return new Promise((resolve, reject) => {
+        s3.headBucket(options).promise().then(res => {
+          resolve(true);
+        }).catch(e => {
+          resolve(false);
+        })
+      })
+
+    } catch (error) {
+      if (error.statusCode === 404) {
+        return false;
+      }
+      throw error;
+    }
+  };
+
 
   async configureRoutes(db) {
     this.router = express.Router();
