@@ -93,7 +93,7 @@ const userSchema = mongoose.Schema(
     },
     gender: {
       type: String,
-      enum: ["Male", "Female", "Others"],
+      enum: ["male", "female", ""],
     },
     last_login: {
       type: Date,
@@ -118,8 +118,8 @@ const userSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Active", "Inactive"],
-      default: "Active",
+      enum: ["active", "inactive"],
+      default: "active",
     },
     is_deleted: {
       type: Boolean,

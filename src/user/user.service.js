@@ -33,11 +33,11 @@ class UserService {
         model: Country,
         select: "name",
       },
-      {
-        path: "state_id",
-        model: State,
-        select: "name",
-      },
+      // {
+      //   path: "state_id",
+      //   model: State,
+      //   select: "name",
+      // },
       {
         path: "language",
         model: Language,
@@ -61,11 +61,11 @@ class UserService {
         model: Country,
         select: "name",
       })
-      .populate({
-        path: "state_id",
-        model: State,
-        select: "name",
-      })
+      // .populate({
+      //   path: "state_id",
+      //   model: State,
+      //   select: "name",
+      // })
       .populate({
         path: "language",
         model: Language,
@@ -84,11 +84,11 @@ class UserService {
         model: Country,
         select: "name",
       })
-      .populate({
-        path: "state_id",
-        model: State,
-        select: "name",
-      })
+      // .populate({
+      //   path: "state_id",
+      //   model: State,
+      //   select: "name",
+      // })
       .populate({
         path: "language",
         model: Language,
@@ -112,11 +112,11 @@ class UserService {
         model: Country,
         select: "name",
       })
-      .populate({
-        path: "state_id",
-        model: State,
-        select: "name",
-      })
+      // .populate({
+      //   path: "state_id",
+      //   model: State,
+      //   select: "name",
+      // })
       .populate({
         path: "language",
         model: Language,

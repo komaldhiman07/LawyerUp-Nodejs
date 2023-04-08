@@ -3,11 +3,13 @@ import Role from "../../database/models/Role";
 import Country from "../../database/models/Country";
 import State from "../../database/models/State";
 import Language from "../../database/models/Language";
+import Law from "../../database/models/laws";
 import Status from "../../database/models/Status";
 import { Roles } from "../../database/Seed/roles";
 import { States } from "../../database/Seed/states";
 import { Countries } from "../../database/Seed/countrys";
 import { Languages } from "../../database/Seed/language";
+import { Laws } from "../../database/Seed/laws";
 // import { Statuses } from "../../database/Seed/status";
 
 export default class DB {
@@ -53,6 +55,7 @@ export default class DB {
     await State.insertMany(States);
     await Language.deleteMany({});
     await Language.insertMany(Languages);
+    await Law.insertMany(Laws)
     // await Status.deleteMany({});
     // await Status.insertMany(Statuses);
   }

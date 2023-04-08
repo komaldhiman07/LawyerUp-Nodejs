@@ -16,11 +16,11 @@ class AuthService {
         model: Country,
         select: "name",
       },
-      {
-        path: "state_id",
-        model: State,
-        select: "name",
-      },
+      // {
+      //   path: "state_id",
+      //   model: State,
+      //   select: "name",
+      // },
       {
         path: "language",
         model: Language,

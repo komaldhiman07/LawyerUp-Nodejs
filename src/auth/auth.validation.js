@@ -159,11 +159,15 @@ class AuthValidator {
         }
       },
       gender: {
-        // in: ["body"],
+        in: ["body"],
+        isIn: {
+          options: [["male", "female", ""]],
+          errorMessage: "Invalid gender. It should be one of 'male' or 'female'"
+        }
         // exists: {
         //   errorMessage: "Please select gender",
         // }
-        optional: { options: { nullable: false } },
+        // optional: { options: { nullable: false } },
       },
       country_id: {
         optional: { options: { nullable: false } },
