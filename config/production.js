@@ -11,4 +11,6 @@ module.exports = {
   saltKey: '@$#W@N!)%!@2022',
   apiKey: ')%!@@$#W@N!2022',
   saltRounds: 2,
+  gmail_username: process.env.GMAIL_USERNAME,
+  gmail_password: process.env.GMAIL_PASSWORD
 };

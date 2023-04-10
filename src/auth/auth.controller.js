@@ -10,7 +10,8 @@ import emailService from "../services/common/email.js";
 import { RESPONSE_CODES } from "../../config/constants.js";
 import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
 import { createStripeCustomer, createStripeAccount } from '../services/common/stripe';
-import {sendEmail} from "../helpers/email_service/email"
+// import {sendEmail} from "../helpers/email_service/email"
+import {sendEmail} from "../helpers/email_service/email";
 class AuthController {
   constructor() { }
 
@@ -152,36 +153,7 @@ class AuthController {
       const user = await authService.createUser(userData);
       if (user) {
         const userToken = await authService.getUser({ email: data.email });
-        if (((role && role.name !== "Admin") || !role) && data.device_type != 'web') {
-          // const message = `Please verify your OTP at ${otp}`;
-          // try {
-          //   await twilioService.sendMessage({
-          //     message,
-          //     to: data.phone,
-          //   });
-          // } catch (e) {
-          //   await authService.deleteUser({ _id: user._id });
-          //   return {
-          //     status: RESPONSE_CODES.BAD_REQUEST,
-          //     success: false,
-          //     data: {},
-          //     message: e.message,
-          //   };
-          // }
-          await emailService.sendMail({
-            from: data.email,
-            subject: `Welcome to App`,
-            text: `<b>Hello ${data.first_name}</b><br /><b>OTP</b> : ${otp}<br />This is welcome mail from admin<br /><br />Regards<br />Admin`,
-          });
-        }
-        // if (data.device_type == 'web') {
-        //   await emailService.sendMail({
-        //     from: data.email,
-        //     subject: `Welcome to App`,
-        //     text: `<b>Hello ${data.first_name}</b><br /><b>Password</b> : ${password}<br />This is welcome mail from admin<br /><br />Regards<br />Admin`,
-        //   });
-        // }
-
+        
         const device = {
           device_id: data.device_id,
           device_type: data.device_type,

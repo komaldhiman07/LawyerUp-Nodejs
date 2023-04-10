@@ -153,17 +153,19 @@ class AuthValidator {
         }
       },
       date_of_birth: {
-        in: ["body"],
-        exists: {
-          errorMessage: "Please select date of birth",
-        }
+        optional: { options: { nullable: false } },
+        // in: ["body"],
+        // exists: {
+        //   errorMessage: "Please select date of birth",
+        // }
       },
       gender: {
-        in: ["body"],
-        isIn: {
-          options: [["male", "female", ""]],
-          errorMessage: "Invalid gender. It should be one of 'male' or 'female'"
-        }
+        optional: { options: { nullable: false } },
+        // in: ["body"],
+        // isIn: {
+        //   options: [["male", "female", ""]],
+        //   errorMessage: "Invalid gender. It should be one of 'male' or 'female'"
+        // }
         // exists: {
         //   errorMessage: "Please select gender",
         // }

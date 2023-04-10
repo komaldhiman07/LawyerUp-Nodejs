@@ -50,7 +50,7 @@ const userSchema = mongoose.Schema(
     },
     date_of_birth: {
       type: String,
-      required: true
+      required: false
     },
     password: {
       type: String,

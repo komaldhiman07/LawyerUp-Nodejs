@@ -1,64 +1,46 @@
-// const nodemailer = require('nodemailer');
-const EmailTemplate = require('email-templates');
-const path = require('path');
-const Promise = require('bluebird');
+// const path = require('path');
+// const Promise = require('bluebird');
 
-const CONFIG = process.env; 
 // var sgTransport = require('nodemailer-sendgrid-transport');
-const sendEmailToUser = (data) => {
-    sgMail.setApiKey(CONFIG.SENDGRID_API_KEY);
+import config from 'config';
 
-    const msg = {
-      to: data.to,
-      from: process.env.SENDGRID_EMAIL,
-      subject: data.subject,
-      html: data.html,
-    };
-    console.log("msg : ", msg)
-    sgMail.send(msg);
-  };
+import * as nodemailer from 'nodemailer';
+import * as handlebars from 'handlebars';
+import * as fs from 'fs';
+import * as path from 'path';
 
-function sendEmail(templateName, contexts) {
-    console.log("path ====>>>", path.join(__dirname, 'email_templates', templateName))
-    let template = new EmailTemplate({
-      views: { root: path.join(__dirname, "email_templates", templateName) },
-    });
-    // console.log("Here...", template);
-    return new Promise((resolve, reject) => {
-        Promise.all(contexts.map((context) => {
-            return new Promise((resolve, reject) => {
-                console.log("context : ", context)
-                template.render(context, (err, result) => {
-                    if (err) reject(err);
-                    else resolve({
-                        email: result,
-                        context,
-                    });
-                });
-            });
-        })).then(results => {
-            return Promise.all(results.map((result) => {
-                return new Promise((resolve, reject) => {
-                    sendEmailToUser({
-                        to: result.context.email,
-                        from: '"Sample Title" <noreply@domain.com>',
-                        subject: result.email.subject,
-                        html: result.email.html,
-                        // text: result.email.text,
-                    }).then(status => {
-                        resolve(status);
-                    }).catch(err => {
-                        reject(err);
-                    })
-                });
-            })).then(finalResult => {
-                resolve(finalResult)
-            }).catch(err => {
-                reject(err)
-            })
-        });
+module.exports.sendEmail = async (templateName, contexts) => {
+  return Promise.all(contexts.map((k) => {
+    return new Promise(async (resolve, reject) => {
+      const filePath = path.join(__dirname, `/email_templates/${templateName}/html.hbs`);
+      const source = fs.readFileSync(filePath, 'utf-8').toString();
+      const template = handlebars.compile(source);
+
+      const htmlToSend = template(k);
+      const transporter = nodemailer.createTransport({
+        //FOR GMAIL
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true, // use SSL
+        auth: {
+          user: config.gmail_username,
+          pass: config.gmail_password,
+        },
+      });
+      const mailOptions = {
+        from: '"komaldhiman143@gmail.com" <noreply@gmail.com>',
+        to: k.email,
+        subject: k.subject,
+        html: htmlToSend
+      };
+      try {
+        await transporter.sendMail(mailOptions);
+        resolve({ success: true, message: 'Email sent successfully' })
+      } catch (e) {
+        reject({ success: false, message: e.message })
+      }
     })
+  })
+  )}
 
-}
-
-module.exports = { sendEmail }
+// exports.sendEmail;
