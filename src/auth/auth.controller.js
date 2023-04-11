@@ -365,11 +365,13 @@ class AuthController {
       user.otp = otp;
       // const token = await this.createToken(authObj(user));
       await user.save();
-      await emailService.sendMail({
-        from: user.email,
-        subject: `Forgot Password`,
-        text: `<b>Hello ${user.first_name} ${user.last_name}</b><br />We have recieved a request from you to set password, please use below otp and set your password. <br /><b>OTP</b> : ${otp} <br /><br />Regards<br />LawyerUp Team`,
-      });
+      let emailData = [{
+        email: user.email,
+        otp, 
+        name: `${user.first_name} ${user.last_name}`
+      }]
+      sendEmail("forgot_password", emailData);
+      
       // if (isEmail) {
       //   await emailService.sendMail({
       //     from: data.emailOrUsername,
