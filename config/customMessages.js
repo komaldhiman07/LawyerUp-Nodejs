@@ -43,6 +43,8 @@ exports.CUSTOM_MESSAGES = {
   LOGIN_SUCCESS: "Logged in successfully.",
   INCORRECT_PASSWORD: "Username or password is incorrect",
   INCORRECT_OLD_PASSWORD: "Current password is incorrect.",
+  INVALID_CREDENTIALS: "Invalide credentials.",
+  PASSWORD_VALIDATE_SUCCESS: "Password validated successfully.",
 
   USER_LIST: "User list.",
   USER_DETAILS: "User details.",

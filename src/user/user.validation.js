@@ -15,6 +15,17 @@ class UserValidator {
       },
     };
   }
+/* validate password validator */
+  validatePassword = () => {
+    return {
+      password: {
+        in: ["body"],
+        required: true,
+        errorMessage: "Please enter password.",
+      },
+    };
+  };
+  /* end */
 
   login = () => this.field;
 

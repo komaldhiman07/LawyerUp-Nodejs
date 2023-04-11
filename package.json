@@ -7,7 +7,7 @@
     "prettier-format": "prettier --config .prettierrc 'src/**/*.js' --write --fix",
     "pretest": "eslint --fix --ignore-path .gitignore .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "NODE_ENV=development nodemon ./node_modules/.bin/babel-node index.js",
+    "dev": "NODE_ENV=development nodemon --exec ./node_modules/.bin/babel-node index.js",
     "staging": "NODE_ENV=staging ./node_modules/.bin/babel-node index.js",
     "start": "NODE_ENV=production ./node_modules/.bin/babel-node index.js",
     "migration": "npx sequelize-cli db:migrate",

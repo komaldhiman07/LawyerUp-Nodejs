@@ -130,7 +130,7 @@ class UserRoutes {
     router.get("/stripe-integration/reauth",
       controller.stripeReAuth, (req, res) => [req, res]
     );
-    
+
     router.get("/stripe-integration/return",
       controller.stripeReturn, (req, res) => [req, res]
     );
@@ -145,6 +145,13 @@ class UserRoutes {
 
     router.post("/android-lead-list",
       handler(controller.androidLeadList, (req) => [req])
+    );
+
+    /* validate user password */
+    router.post("/validate-password",
+      checkSchema(userValidation.validatePassword()),
+      handler(controller.validatePassword, (req) => [req])
+    /* end */
     );
 
     return router;
