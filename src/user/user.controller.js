@@ -1,10 +1,12 @@
 import bcrypt from "bcrypt";
 import { matchedData } from "express-validator";
 import jwt from "jsonwebtoken";
+import speakeasy from "speakeasy";
+import QRCode from "qrcode";
 
 import userService from "./user.service.js";
 import twilioService from "../services/common/twilio.js";
-import { RESPONSE_CODES } from "../../config/constants.js";
+import { RESPONSE_CODES, TWO_FACTOR_AUTH_TYPE, DEFAULT } from "../../config/constants.js";
 import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
 import { authObj } from "../services/common/object.service";
 import firebase from "../services/common/firebase.js";
@@ -790,6 +792,56 @@ class UserController {
         message: CUSTOM_MESSAGES.PASSWORD_VALIDATE_SUCCESS,
         data: {},
       };
+    } catch (error) {
+      return {
+        status: RESPONSE_CODES.SERVER_ERROR,
+        success: false,
+        message: error,
+        data: {},
+      };
+    }
+  }
+  /* end */
+
+  /* two factor authorization */
+  twoFactorAuth = async (req) => {
+    const data = matchedData(req);
+    const { user } = req;
+    console.log("user: ", user);
+
+    try {
+      // if (data.type === TWO_FACTOR_AUTH_TYPE.GENERATE) {
+      //   let secretCode = speakeasy.generateSecret({
+      //     name: 'lawyerUp',
+      //     length: 10
+      //   });
+      //   const qrUrl = await QRCode.toDataURL(secretCode.otpauth_url)
+      //   secretCode = secretCode.base32
+      //   await userService.updateUser(
+      //     {
+      //       enabled_2fa: DEFAULT.TRUE,
+      //       secret_2fa: secretCode
+      //     },
+      //     user.data._id ,
+
+      //   );
+      //   return {
+      //     status: RESPONSE_CODES.POST,
+      //     success: true,
+      //     message: CUSTOM_MESSAGES.SECRET_GENERATED_SUCCESS,
+      //     data: { secretCode },
+      //   };
+      // } else {
+      //   const getUser = await userService.getUser({ _id: user.data._id });
+      //   console.log("getUser: ", getUser);
+
+      // }
+      // return {
+      //   status: RESPONSE_CODES.POST,
+      //   success: true,
+      //   message: CUSTOM_MESSAGES.PASSWORD_VALIDATE_SUCCESS,
+      //   data: {},
+      // };
     } catch (error) {
       return {
         status: RESPONSE_CODES.SERVER_ERROR,

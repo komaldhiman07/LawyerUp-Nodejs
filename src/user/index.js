@@ -151,8 +151,16 @@ class UserRoutes {
     router.post("/validate-password",
       checkSchema(userValidation.validatePassword()),
       handler(controller.validatePassword, (req) => [req])
-    /* end */
     );
+    /* end */
+
+    /* two factor authorization */
+    router.post("/two-factor-auth",
+      checkSchema(userValidation.twoFactorAuth()),
+      handler(controller.twoFactorAuth, (req) => [req])
+    );
+    /* end */
+
 
     return router;
   }

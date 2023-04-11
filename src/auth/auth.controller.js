@@ -7,7 +7,7 @@ import authService from "./auth.service.js";
 import { authObj } from "../services/common/object.service";
 import twilioService from "../services/common/twilio.js";
 import emailService from "../services/common/email.js";
-import { RESPONSE_CODES } from "../../config/constants.js";
+import { RESPONSE_CODES, DEFAULT } from "../../config/constants.js";
 import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
 import { createStripeCustomer, createStripeAccount } from '../services/common/stripe';
 // import {sendEmail} from "../helpers/email_service/email"
@@ -130,7 +130,8 @@ class AuthController {
       const salt = await bcrypt.genSalt(10);
       const hash = data.password ? await bcrypt.hash(data.password, salt) : null;
       const otp = this.generateOTP();
-      let userData = { ...data, password: hash, otp, is_otp_verified: false };
+      let userData = { ...data, password: hash, otp, is_otp_verified: false,enabled_2fa: DEFAULT.TRUE,
+        secret_2fa: "" };
       if (role.name === "Admin" || data.device_type == 'web') {
         userData = { ...userData, is_otp_verified: true };
       }

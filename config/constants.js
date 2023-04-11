@@ -8,3 +8,13 @@ export const RESPONSE_CODES = {
   UNAUTHORIZED: 401,
   BAD_REQUEST: 400,
 };
+
+export const TWO_FACTOR_AUTH_TYPE = {
+  GENERATE: "generate",
+  VERIFY: "verity",
+};
+
+export const DEFAULT = {
+  TRUE: 1,
+  FALSE: 0,
+};

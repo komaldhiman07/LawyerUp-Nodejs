@@ -45,6 +45,7 @@ exports.CUSTOM_MESSAGES = {
   INCORRECT_OLD_PASSWORD: "Current password is incorrect.",
   INVALID_CREDENTIALS: "Invalid credentials.",
   PASSWORD_VALIDATE_SUCCESS: "Password validated successfully.",
+  SECRET_GENERATED_SUCCESS: "Secret generated successfully.",
 
   USER_LIST: "User list.",
   USER_DETAILS: "User details.",
