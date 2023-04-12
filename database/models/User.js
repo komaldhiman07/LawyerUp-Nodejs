@@ -121,6 +121,13 @@ const userSchema = mongoose.Schema(
       enum: ["active", "inactive"],
       default: "active",
     },
+    enabled_2fa: {
+      type: Boolean,
+      default: false,
+    },
+    secret_2fa: {
+      type: String,
+    },
     is_deleted: {
       type: Boolean,
       default: false,

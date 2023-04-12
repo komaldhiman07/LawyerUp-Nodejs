@@ -810,38 +810,37 @@ class UserController {
     console.log("user: ", user);
 
     try {
-      // if (data.type === TWO_FACTOR_AUTH_TYPE.GENERATE) {
-      //   let secretCode = speakeasy.generateSecret({
-      //     name: 'lawyerUp',
-      //     length: 10
-      //   });
-      //   const qrUrl = await QRCode.toDataURL(secretCode.otpauth_url)
-      //   secretCode = secretCode.base32
-      //   await userService.updateUser(
-      //     {
-      //       enabled_2fa: DEFAULT.TRUE,
-      //       secret_2fa: secretCode
-      //     },
-      //     user.data._id ,
-
-      //   );
-      //   return {
-      //     status: RESPONSE_CODES.POST,
-      //     success: true,
-      //     message: CUSTOM_MESSAGES.SECRET_GENERATED_SUCCESS,
-      //     data: { secretCode },
-      //   };
-      // } else {
-      //   const getUser = await userService.getUser({ _id: user.data._id });
-      //   console.log("getUser: ", getUser);
-
-      // }
-      // return {
-      //   status: RESPONSE_CODES.POST,
-      //   success: true,
-      //   message: CUSTOM_MESSAGES.PASSWORD_VALIDATE_SUCCESS,
-      //   data: {},
-      // };
+      if (data.type === TWO_FACTOR_AUTH_TYPE.GENERATE) {
+        let secretCode = speakeasy.generateSecret({
+          name: 'lawyerUp',
+          length: 10
+        });
+        const qrUrl = await QRCode.toDataURL(secretCode.otpauth_url)
+        secretCode = secretCode.base32
+        const result = await userService.updateUser(
+          {
+            last_name: "test",
+            enabled_2fa: DEFAULT.TRUE,
+            secret_2fa: secretCode
+          },
+          user.data._id ,
+        );
+        return {
+          status: RESPONSE_CODES.POST,
+          success: true,
+          message: CUSTOM_MESSAGES.SECRET_GENERATED_SUCCESS,
+          data: { secretCode },
+        };
+      } else {
+        const getUser = await userService.getUser({ _id: user.data._id });
+        const verified = speakeasy.totp.verify({ secret: getUser.secret_2fa, encoding: 'base32', token: data.otp });
+        return {
+          status: RESPONSE_CODES.POST,
+          success:verified? true: false,
+          message: verified? CUSTOM_MESSAGES.TWO_FACTOR_VERIFICATION_SUCCESS: CUSTOM_MESSAGES.TWO_FACTOR_VERIFICATION_FAILED,
+          data: verified? {verified}: {},
+        };
+      }
     } catch (error) {
       return {
         status: RESPONSE_CODES.SERVER_ERROR,
