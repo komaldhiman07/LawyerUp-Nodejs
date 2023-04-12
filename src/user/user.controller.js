@@ -811,15 +811,14 @@ class UserController {
 
     try {
       if (data.type === TWO_FACTOR_AUTH_TYPE.GENERATE) {
-        let secretCode = speakeasy.generateSecret({
+        const secretCodeRes = speakeasy.generateSecret({
           name: 'lawyerUp',
           length: 10
         });
-        const qrUrl = await QRCode.toDataURL(secretCode.otpauth_url)
-        secretCode = secretCode.base32
-        const result = await userService.updateUser(
+        const qr_code = await QRCode.toDataURL(secretCode.otpauth_url)
+        const secret_code = secretCodeRes.base32
+        await userService.updateUser(
           {
-            last_name: "test",
             enabled_2fa: DEFAULT.TRUE,
             secret_2fa: secretCode
           },
@@ -828,17 +827,17 @@ class UserController {
         return {
           status: RESPONSE_CODES.POST,
           success: true,
-          message: CUSTOM_MESSAGES.SECRET_GENERATED_SUCCESS,
-          data: { secretCode },
+          message: CUSTOM_MESSAGES.SUCESS,
+          data: { secret_code, qr_code },
         };
       } else {
-        const getUser = await userService.getUser({ _id: user.data._id });
-        const verified = speakeasy.totp.verify({ secret: getUser.secret_2fa, encoding: 'base32', token: data.otp });
+        const userDetail = await userService.getUser({ _id: user.data._id });
+        const verified = speakeasy.totp.verify({ secret: userDetail.secret_2fa, encoding: 'base32', token: data.otp });
         return {
           status: RESPONSE_CODES.POST,
           success:verified? true: false,
           message: verified? CUSTOM_MESSAGES.TWO_FACTOR_VERIFICATION_SUCCESS: CUSTOM_MESSAGES.TWO_FACTOR_VERIFICATION_FAILED,
-          data: verified? {verified}: {},
+          data: {},
         };
       }
     } catch (error) {

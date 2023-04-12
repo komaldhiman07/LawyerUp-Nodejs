@@ -21,7 +21,7 @@ class UserValidator {
       password: {
         in: ["body"],
         exists: {
-          errorMessage: "Please enter password.",
+          errorMessage: "Password is required!",
         }
       },
     };
@@ -34,12 +34,12 @@ class UserValidator {
       type: {
         in: ["body"],
         exists: {
-          errorMessage: "Please enter type.",
+          errorMessage: "Type is required!",
         }
       },
       otp: {
         in: ["body"],
-        errorMessage: "Please enter otp.",
+        errorMessage: "OTP is required!",
       },
     };
   };
@@ -51,7 +51,7 @@ class UserValidator {
     return {
       otp: {
         in: ["body"],
-        errorMessage: "Please enter otp",
+        errorMessage: "OTP is required!",
       },
     };
   };

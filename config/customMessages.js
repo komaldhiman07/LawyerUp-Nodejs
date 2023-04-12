@@ -46,8 +46,8 @@ exports.CUSTOM_MESSAGES = {
   INVALID_CREDENTIALS: "Invalid credentials.",
   PASSWORD_VALIDATE_SUCCESS: "Password validated successfully.",
   SECRET_GENERATED_SUCCESS: "Secret generated successfully.",
-  TWO_FACTOR_VERIFICATION_FAILED: "Two factor verification failed.",
-  TWO_FACTOR_VERIFICATION_SUCCESS: "Two factor verification completed.",
+  TWO_FACTOR_VERIFICATION_FAILED: "Verification failed.",
+  TWO_FACTOR_VERIFICATION_SUCCESS: "OTP verify Successfully.",
 
   USER_LIST: "User list.",
   USER_DETAILS: "User details.",
