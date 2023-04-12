@@ -825,7 +825,7 @@ class UserController {
         await userService.updateUser(
           {
             enabled_2fa: DEFAULT.TRUE,
-            secret_2fa: secretCode
+            secret_2fa: secret_code
           },
           user.data._id ,
         );
