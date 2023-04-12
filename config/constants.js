@@ -11,7 +11,7 @@ export const RESPONSE_CODES = {
 
 export const TWO_FACTOR_AUTH_TYPE = {
   GENERATE: "generate",
-  VERIFY: "verity",
+  VERIFY: "verify",
 };
 
 export const DEFAULT = {

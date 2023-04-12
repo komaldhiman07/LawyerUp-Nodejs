@@ -6,16 +6,23 @@ import QRCode from "qrcode";
 
 import userService from "./user.service.js";
 import twilioService from "../services/common/twilio.js";
-import { RESPONSE_CODES, TWO_FACTOR_AUTH_TYPE, DEFAULT } from "../../config/constants.js";
+import {
+  RESPONSE_CODES,
+  TWO_FACTOR_AUTH_TYPE,
+  DEFAULT,
+} from "../../config/constants.js";
 import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
 import { authObj } from "../services/common/object.service";
 import firebase from "../services/common/firebase.js";
-import emailService from '../services/common/email'
-import { createStripeAccount, createStripeCustomer } from '../services/common/stripe'
+import emailService from "../services/common/email";
+import {
+  createStripeAccount,
+  createStripeCustomer,
+} from "../services/common/stripe";
 let _ = require("lodash");
 
 class UserController {
-  constructor() { }
+  constructor() {}
 
   validateOtp = async (req) => {
     const data = matchedData(req);
@@ -148,14 +155,14 @@ class UserController {
 
     if (user) {
       const token = await this.createToken(authObj(user));
-      const result = authObj(user)
-      result['token'] = token
+      const result = authObj(user);
+      result["token"] = token;
       return {
         status: RESPONSE_CODES.GET,
         success: true,
         data: result,
         message: CUSTOM_MESSAGES.PROFILE_UPDATE_SUCCESS,
-        // token: {token}  
+        // token: {token}
       };
     }
     return {
@@ -277,8 +284,14 @@ class UserController {
     if (data.categoryIds && data.categoryIds.length) {
       query = { ...query, ...{ talent: { $in: data.categoryIds } } };
     }
-    const stateWiseQuery = { ...query, ...{ state_id: req.user.data.state_id._id } };
-    const withoutStateQuery = { ...query, ...{ state_id: { $ne: req.user.data.state_id._id } } };
+    const stateWiseQuery = {
+      ...query,
+      ...{ state_id: req.user.data.state_id._id },
+    };
+    const withoutStateQuery = {
+      ...query,
+      ...{ state_id: { $ne: req.user.data.state_id._id } },
+    };
     const stateWiseclub = await userService.getUsers(stateWiseQuery);
     const withoutStateclub = await userService.getUsers(withoutStateQuery);
     const club = stateWiseclub.concat(withoutStateclub);
@@ -410,7 +423,7 @@ class UserController {
     const queryObj = {
       role_id: "620ca6da33032d8eb3c3b236",
       is_deleted: false,
-      chargesEnabled: [1, 3]
+      chargesEnabled: [1, 3],
     };
     let options = {};
     let expertsList = [];
@@ -421,8 +434,11 @@ class UserController {
       }
     }
     /**Get Expert List for Club */
-    if (req.user.data.role_id && req.user.data.role_id._id == '620ca6f433032d8eb3c3b247') {
-      delete queryObj["talent"]
+    if (
+      req.user.data.role_id &&
+      req.user.data.role_id._id == "620ca6f433032d8eb3c3b247"
+    ) {
+      delete queryObj["talent"];
       queryObj["club"] = req.user.data._id;
     }
     if (req.body.start && req.body.length) {
@@ -433,16 +449,46 @@ class UserController {
     let stateWiseExpertList = [];
     let withoutStateClubExpertList = [];
     if (req.user.data.club && req.user.data.club.length > 0) {
-      const clubWiseQuery = { ...queryObj, ...{ ['club']: req.user.data.club[0]._id } }
-      clubWiseExpertList = await userService.getExpertList(clubWiseQuery, options);
+      const clubWiseQuery = {
+        ...queryObj,
+        ...{ ["club"]: req.user.data.club[0]._id },
+      };
+      clubWiseExpertList = await userService.getExpertList(
+        clubWiseQuery,
+        options
+      );
       // clubWiseExpertList = clubWiseExpertList.map((e) => authObj(e))
     }
-    const stateWiseQuery = req.user.data.club && req.user.data.club.length > 0 ? { ...queryObj, ...{ state_id: req.user.data.state_id._id, ['club']: { $ne: req.user.data.club[0]._id } } } : { ...queryObj, ...{ state_id: req.user.data.state_id._id } }
-    stateWiseExpertList = await userService.getExpertList(stateWiseQuery, options);
+    const stateWiseQuery =
+      req.user.data.club && req.user.data.club.length > 0
+        ? {
+            ...queryObj,
+            ...{
+              state_id: req.user.data.state_id._id,
+              ["club"]: { $ne: req.user.data.club[0]._id },
+            },
+          }
+        : { ...queryObj, ...{ state_id: req.user.data.state_id._id } };
+    stateWiseExpertList = await userService.getExpertList(
+      stateWiseQuery,
+      options
+    );
     // stateWiseExpertList = stateWiseExpertList.map((e) => authObj(e))
 
-    const withoutStateClubQuery = req.user.data.club && req.user.data.club.length > 0 ? { ...queryObj, ...{ state_id: { $ne: req.user.data.state_id._id }, ['club']: { $ne: req.user.data.club[0]._id } } } : { ...queryObj, ...{ state_id: { $ne: req.user.data.state_id._id } } }
-    withoutStateClubExpertList = await userService.getExpertList(withoutStateClubQuery, options);
+    const withoutStateClubQuery =
+      req.user.data.club && req.user.data.club.length > 0
+        ? {
+            ...queryObj,
+            ...{
+              state_id: { $ne: req.user.data.state_id._id },
+              ["club"]: { $ne: req.user.data.club[0]._id },
+            },
+          }
+        : { ...queryObj, ...{ state_id: { $ne: req.user.data.state_id._id } } };
+    withoutStateClubExpertList = await userService.getExpertList(
+      withoutStateClubQuery,
+      options
+    );
     // withoutStateClubExpertList = withoutStateClubExpertList.map((e) => authObj(e))
 
     expertsList = clubWiseExpertList.concat(stateWiseExpertList);
@@ -476,8 +522,11 @@ class UserController {
     let options = {};
     let performersList = [];
     /**Get Expert List for Club */
-    if (req.user.data.role_id && req.user.data.role_id._id == '620ca6f433032d8eb3c3b247') {
-      delete queryObj["talent"]
+    if (
+      req.user.data.role_id &&
+      req.user.data.role_id._id == "620ca6f433032d8eb3c3b247"
+    ) {
+      delete queryObj["talent"];
       queryObj["club"] = req.user.data._id;
     }
     if (req.body.start && req.body.length) {
@@ -530,7 +579,7 @@ class UserController {
   updateUser = async (req) => {
     const data = matchedData(req);
     let userExist = await userService.getUserById(req.params.id);
-    userExist = userExist.length > 0 ? userExist[0] : null
+    userExist = userExist.length > 0 ? userExist[0] : null;
     if (!userExist) {
       return {
         status: RESPONSE_CODES.BAD_REQUEST,
@@ -539,7 +588,10 @@ class UserController {
         message: CUSTOM_MESSAGES.USER_NOT_FOUND,
       };
     }
-    let userEmailExist = await userService.getUser({ email: data.email, is_deleted: false });
+    let userEmailExist = await userService.getUser({
+      email: data.email,
+      is_deleted: false,
+    });
     if (userEmailExist && userExist.email != userEmailExist.email) {
       return {
         status: RESPONSE_CODES.BAD_REQUEST,
@@ -596,9 +648,9 @@ class UserController {
   }
 
   async stripeReturn(req, res) {
-    const { query } = req
-    let URL
-    const user = await userService.getUserById(query.syncId)
+    const { query } = req;
+    let URL;
+    const user = await userService.getUserById(query.syncId);
     if (user) {
       URL = process.env.WEB_URL_LANDING + "thankyou";
       res.writeHead(301, { Location: URL });
@@ -611,7 +663,7 @@ class UserController {
   }
 
   contactUs = async (req) => {
-    const { body } = req
+    const { body } = req;
     await emailService.sendMail({
       from: process.env.PERMAXO_EMAIL,
       subject: `Contact US`,
@@ -622,14 +674,14 @@ class UserController {
       success: true,
       message: CUSTOM_MESSAGES.CONTACT_US,
       data: null,
-    }
-  }
+    };
+  };
 
   androidLead = async (req) => {
-    const { body } = req
+    const { body } = req;
     body.email = body.email.toLowerCase();
     body.created_at = new Date();
-    body.updated_at = new Date()
+    body.updated_at = new Date();
     const isAndroidLead = await userService.getAndroidLeadByEmail(body.email);
     if (isAndroidLead) {
       return {
@@ -637,19 +689,19 @@ class UserController {
         success: false,
         message: CUSTOM_MESSAGES.USER_EMAIL_ALREADY_EXIST,
         data: null,
-      }
+      };
     }
-    await userService.createAndroidLead(body)
+    await userService.createAndroidLead(body);
     return {
       status: RESPONSE_CODES.POST,
       success: true,
       message: CUSTOM_MESSAGES.DELATILS_SAVE,
       data: null,
-    }
-  }
+    };
+  };
 
   androidLeadList = async (req) => {
-    const { body } = req
+    const { body } = req;
     const list = await userService.androidLeadList(body);
     const count = await userService.androidLeadTotalCount();
     return {
@@ -659,8 +711,8 @@ class UserController {
       data: list,
       recordsTotal: count,
       recordsFiltered: count,
-    }
-  }
+    };
+  };
 
   addReview = async (req) => {
     const data = matchedData(req);
@@ -777,7 +829,10 @@ class UserController {
           data: {},
         };
       }
-      const authenticate = await bcrypt.compare(data.password, getUser.password);
+      const authenticate = await bcrypt.compare(
+        data.password,
+        getUser.password
+      );
       if (!authenticate) {
         return {
           status: RESPONSE_CODES.BAD_REQUEST,
@@ -800,7 +855,7 @@ class UserController {
         data: {},
       };
     }
-  }
+  };
   /* end */
 
   /* two factor authorization */
@@ -812,8 +867,8 @@ class UserController {
     try {
       if (data.type === TWO_FACTOR_AUTH_TYPE.GENERATE) {
         const secretCodeRes = speakeasy.generateSecret({
-          name: 'lawyerUp',
-          length: 10
+          name: "lawyerUp",
+          length: 10,
         });
         console.log("secretCodeRes :", secretCodeRes);
         const qr_code = await QRCode.toDataURL(secretCodeRes.otpauth_url);
@@ -822,13 +877,6 @@ class UserController {
         const secret_code = secretCodeRes.base32;
         console.log("secret_code :", secret_code);
 
-        await userService.updateUser(
-          {
-            enabled_2fa: DEFAULT.TRUE,
-            secret_2fa: secret_code
-          },
-          user.data._id ,
-        );
         console.log("User detail updated...");
         return {
           status: RESPONSE_CODES.POST,
@@ -836,21 +884,36 @@ class UserController {
           message: CUSTOM_MESSAGES.SUCESS,
           data: { secret_code, qr_code },
         };
-      } else {
+      } else if (data.type === TWO_FACTOR_AUTH_TYPE.VERIFY) {
         console.log("user id : ", user.data._id);
         console.log("User body data : ", data);
-        const userDetail = await userService.getUser({ _id: user.data._id });
+        // const userDetail = await userService.getUser({ _id: user.data._id });
 
-        console.log("userDetail : ", userDetail)
-        if(userDetail.secret_2fa){
-          const verified = speakeasy.totp.verify({ secret: userDetail.secret_2fa, encoding: 'base32', token: data.otp });
+        if (data.secret_2fa && data.otp) {
+          const verified = await speakeasy.totp.verify({
+            secret: data.secret_2fa,
+            encoding: "base32",
+            token: data.otp,
+          });
+          if (verified) {
+            await userService.updateUser(
+              {
+                enabled_2fa: DEFAULT.TRUE,
+                secret_2fa: data.secret_code,
+              },
+              user.data._id
+            );
+          }
+          console.log("verified :", verified);
           return {
             status: RESPONSE_CODES.POST,
-            success:verified? true: false,
-            message: verified? CUSTOM_MESSAGES.TWO_FACTOR_VERIFICATION_SUCCESS: CUSTOM_MESSAGES.TWO_FACTOR_VERIFICATION_FAILED,
+            success: verified,
+            message: verified
+              ? CUSTOM_MESSAGES.TWO_FACTOR_VERIFICATION_SUCCESS
+              : CUSTOM_MESSAGES.TWO_FACTOR_VERIFICATION_FAILED,
             data: {},
           };
-        }else{
+        } else {
           return {
             status: RESPONSE_CODES.BAD_REQUEST,
             success: false,
@@ -858,7 +921,34 @@ class UserController {
             data: {},
           };
         }
-        
+      } else {
+        //Validate otp after login
+        const userDetail = await userService.getUser({ _id: user.data._id });
+        if (userDetail.secret_2fa && data.otp) {
+          const validate = await speakeasy.totp.verify({
+            secret: userDetail.secret_2fa,
+            encoding: "base32",
+            token: data.otp,
+          });
+          if (validate) {
+            await userService.updateUser(
+              {
+                enabled_2fa: DEFAULT.TRUE,
+                secret_2fa: data.secret_code,
+              },
+              user.data._id
+            );
+          }
+          console.log("validate :", validate);
+          return {
+            status: RESPONSE_CODES.POST,
+            success: validate,
+            message: validate
+              ? CUSTOM_MESSAGES.TWO_FACTOR_VELIDATE_SUCCESS
+              : CUSTOM_MESSAGES.TWO_FACTOR_VELIDATE_FAILED,
+            data: {},
+          };
+        }
       }
     } catch (error) {
       console.log("Catch error : ", error);
@@ -869,7 +959,7 @@ class UserController {
         data: {},
       };
     }
-  }
+  };
   /* end */
 }
 
