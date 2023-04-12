@@ -816,7 +816,7 @@ class UserController {
           length: 10
         });
         console.log("secretCodeRes :", secretCodeRes);
-        const qr_code = await QRCode.toDataURL(secretCode.otpauth_url);
+        const qr_code = await QRCode.toDataURL(secretCodeRes.otpauth_url);
         console.log("qr_code :", qr_code);
 
         const secret_code = secretCodeRes.base32;
