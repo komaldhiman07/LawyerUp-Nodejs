@@ -15,6 +15,35 @@ class UserValidator {
       },
     };
   }
+/* validate password validator */
+  validatePassword = () => {
+    return {
+      password: {
+        in: ["body"],
+        exists: {
+          errorMessage: "Please enter password.",
+        }
+      },
+    };
+  };
+  /* end */
+
+  /* two factor authorization validator */
+  twoFactorAuth = () => {
+    return {
+      type: {
+        in: ["body"],
+        exists: {
+          errorMessage: "Please enter type.",
+        }
+      },
+      otp: {
+        in: ["body"],
+        errorMessage: "Please enter otp.",
+      },
+    };
+  };
+  /* end */
 
   login = () => this.field;
 

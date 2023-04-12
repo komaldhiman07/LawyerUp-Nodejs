@@ -1,10 +1,12 @@
 import bcrypt from "bcrypt";
 import { matchedData } from "express-validator";
 import jwt from "jsonwebtoken";
+import speakeasy from "speakeasy";
+import QRCode from "qrcode";
 
 import userService from "./user.service.js";
 import twilioService from "../services/common/twilio.js";
-import { RESPONSE_CODES } from "../../config/constants.js";
+import { RESPONSE_CODES, TWO_FACTOR_AUTH_TYPE, DEFAULT } from "../../config/constants.js";
 import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
 import { authObj } from "../services/common/object.service";
 import firebase from "../services/common/firebase.js";
@@ -127,7 +129,7 @@ class UserController {
     //     message: CUSTOM_MESSAGES.USER_PHONE_ALREADY_EXIST,
     //   };
     // }
-    
+
     // const stripeUser = await userService.getUser({ _id: req.user.data._id });
     // if (req.user.data.social_key && req.user.data.role_id._id == '620ca6e733032d8eb3c3b239' && !stripeUser.stripe_customer_id) {
     //   const stripeCustomer = await createStripeCustomer(data)
@@ -143,7 +145,7 @@ class UserController {
     // }
     await userService.updateUser(data, req.user.data._id);
     const user = await userService.getUser({ _id: req.user.data._id });
-    
+
     if (user) {
       const token = await this.createToken(authObj(user));
       const result = authObj(user)
@@ -408,7 +410,7 @@ class UserController {
     const queryObj = {
       role_id: "620ca6da33032d8eb3c3b236",
       is_deleted: false,
-      chargesEnabled: [1,3]
+      chargesEnabled: [1, 3]
     };
     let options = {};
     let expertsList = [];
@@ -431,18 +433,18 @@ class UserController {
     let stateWiseExpertList = [];
     let withoutStateClubExpertList = [];
     if (req.user.data.club && req.user.data.club.length > 0) {
-      const clubWiseQuery = { ...queryObj, ...{ ['club'] : req.user.data.club[0]._id } }
+      const clubWiseQuery = { ...queryObj, ...{ ['club']: req.user.data.club[0]._id } }
       clubWiseExpertList = await userService.getExpertList(clubWiseQuery, options);
       // clubWiseExpertList = clubWiseExpertList.map((e) => authObj(e))
     }
     const stateWiseQuery = req.user.data.club && req.user.data.club.length > 0 ? { ...queryObj, ...{ state_id: req.user.data.state_id._id, ['club']: { $ne: req.user.data.club[0]._id } } } : { ...queryObj, ...{ state_id: req.user.data.state_id._id } }
     stateWiseExpertList = await userService.getExpertList(stateWiseQuery, options);
     // stateWiseExpertList = stateWiseExpertList.map((e) => authObj(e))
-    
+
     const withoutStateClubQuery = req.user.data.club && req.user.data.club.length > 0 ? { ...queryObj, ...{ state_id: { $ne: req.user.data.state_id._id }, ['club']: { $ne: req.user.data.club[0]._id } } } : { ...queryObj, ...{ state_id: { $ne: req.user.data.state_id._id } } }
     withoutStateClubExpertList = await userService.getExpertList(withoutStateClubQuery, options);
     // withoutStateClubExpertList = withoutStateClubExpertList.map((e) => authObj(e))
-    
+
     expertsList = clubWiseExpertList.concat(stateWiseExpertList);
     expertsList = expertsList.concat(withoutStateClubExpertList);
     // expertsList = await userService.getExpertList(queryObj, options);
@@ -760,6 +762,95 @@ class UserController {
       message: CUSTOM_MESSAGES.TRANSACTION_FOUND,
     };
   };
+
+  /* validate user password */
+  validatePassword = async (req) => {
+    const data = matchedData(req);
+    const { user } = req;
+    try {
+      const getUser = await userService.getUser({ _id: user.data._id });
+      if (!getUser) {
+        return {
+          status: RESPONSE_CODES.BAD_REQUEST,
+          success: false,
+          message: CUSTOM_MESSAGES.USER_NOT_FOUND,
+          data: {},
+        };
+      }
+      const authenticate = await bcrypt.compare(data.password, getUser.password);
+      if (!authenticate) {
+        return {
+          status: RESPONSE_CODES.BAD_REQUEST,
+          success: false,
+          message: CUSTOM_MESSAGES.INVALID_CREDENTIALS,
+          data: {},
+        };
+      }
+      return {
+        status: RESPONSE_CODES.POST,
+        success: true,
+        message: CUSTOM_MESSAGES.PASSWORD_VALIDATE_SUCCESS,
+        data: {},
+      };
+    } catch (error) {
+      return {
+        status: RESPONSE_CODES.SERVER_ERROR,
+        success: false,
+        message: error,
+        data: {},
+      };
+    }
+  }
+  /* end */
+
+  /* two factor authorization */
+  twoFactorAuth = async (req) => {
+    const data = matchedData(req);
+    const { user } = req;
+    console.log("user: ", user);
+
+    try {
+      if (data.type === TWO_FACTOR_AUTH_TYPE.GENERATE) {
+        let secretCode = speakeasy.generateSecret({
+          name: 'lawyerUp',
+          length: 10
+        });
+        const qrUrl = await QRCode.toDataURL(secretCode.otpauth_url)
+        secretCode = secretCode.base32
+        const result = await userService.updateUser(
+          {
+            last_name: "test",
+            enabled_2fa: DEFAULT.TRUE,
+            secret_2fa: secretCode
+          },
+          user.data._id ,
+        );
+        return {
+          status: RESPONSE_CODES.POST,
+          success: true,
+          message: CUSTOM_MESSAGES.SECRET_GENERATED_SUCCESS,
+          data: { secretCode },
+        };
+      } else {
+        const getUser = await userService.getUser({ _id: user.data._id });
+        const verified = speakeasy.totp.verify({ secret: getUser.secret_2fa, encoding: 'base32', token: data.otp });
+        return {
+          status: RESPONSE_CODES.POST,
+          success:verified? true: false,
+          message: verified? CUSTOM_MESSAGES.TWO_FACTOR_VERIFICATION_SUCCESS: CUSTOM_MESSAGES.TWO_FACTOR_VERIFICATION_FAILED,
+          data: verified? {verified}: {},
+        };
+      }
+    } catch (error) {
+      return {
+        status: RESPONSE_CODES.SERVER_ERROR,
+        success: false,
+        message: error,
+        data: {},
+      };
+    }
+  }
+  /* end */
 }
 
 export default UserController;
