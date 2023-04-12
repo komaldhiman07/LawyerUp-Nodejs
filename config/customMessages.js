@@ -1,4 +1,5 @@
 exports.CUSTOM_MESSAGES = {
+  TWO_FACTOR_NOT_SETUP: '2FA is not setup, please setup it first',
   DELATILS_SAVE: 'Details Saved.',
   DASHBOARD_COUNT: "Dashboard Count",
   SUCESS: "Success." /*** Sucess. ***/,

@@ -815,8 +815,13 @@ class UserController {
           name: 'lawyerUp',
           length: 10
         });
-        const qr_code = await QRCode.toDataURL(secretCode.otpauth_url)
-        const secret_code = secretCodeRes.base32
+        console.log("secretCodeRes :", secretCodeRes);
+        const qr_code = await QRCode.toDataURL(secretCode.otpauth_url);
+        console.log("qr_code :", qr_code);
+
+        const secret_code = secretCodeRes.base32;
+        console.log("secret_code :", secret_code);
+
         await userService.updateUser(
           {
             enabled_2fa: DEFAULT.TRUE,
@@ -824,6 +829,7 @@ class UserController {
           },
           user.data._id ,
         );
+        console.log("User detail updated...");
         return {
           status: RESPONSE_CODES.POST,
           success: true,
@@ -832,19 +838,30 @@ class UserController {
         };
       } else {
         const userDetail = await userService.getUser({ _id: user.data._id });
-        const verified = speakeasy.totp.verify({ secret: userDetail.secret_2fa, encoding: 'base32', token: data.otp });
-        return {
-          status: RESPONSE_CODES.POST,
-          success:verified? true: false,
-          message: verified? CUSTOM_MESSAGES.TWO_FACTOR_VERIFICATION_SUCCESS: CUSTOM_MESSAGES.TWO_FACTOR_VERIFICATION_FAILED,
-          data: {},
-        };
+        if(userDetail.secret_2fa){
+          const verified = speakeasy.totp.verify({ secret: userDetail.secret_2fa, encoding: 'base32', token: data.otp });
+          return {
+            status: RESPONSE_CODES.POST,
+            success:verified? true: false,
+            message: verified? CUSTOM_MESSAGES.TWO_FACTOR_VERIFICATION_SUCCESS: CUSTOM_MESSAGES.TWO_FACTOR_VERIFICATION_FAILED,
+            data: {},
+          };
+        }else{
+          return {
+            status: RESPONSE_CODES.BAD_REQUEST,
+            success: false,
+            message: CUSTOM_MESSAGES.TWO_FACTOR_NOT_SETUP,
+            data: {},
+          };
+        }
+        
       }
     } catch (error) {
+      console.log("Catch error : ", e);
       return {
         status: RESPONSE_CODES.SERVER_ERROR,
         success: false,
-        message: error,
+        message: error.message,
         data: {},
       };
     }
