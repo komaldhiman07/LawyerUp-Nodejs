@@ -837,7 +837,11 @@ class UserController {
           data: { secret_code, qr_code },
         };
       } else {
+        console.log("user id : ", user.data._id);
+        console.log("User body data : ", data);
         const userDetail = await userService.getUser({ _id: user.data._id });
+
+        console.log("userDetail : ", userDetail)
         if(userDetail.secret_2fa){
           const verified = speakeasy.totp.verify({ secret: userDetail.secret_2fa, encoding: 'base32', token: data.otp });
           return {
