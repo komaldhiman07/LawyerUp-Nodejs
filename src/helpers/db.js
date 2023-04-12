@@ -4,6 +4,7 @@ import Country from "../../database/models/Country";
 import State from "../../database/models/State";
 import Language from "../../database/models/Language";
 import Law from "../../database/models/laws";
+import Settings from "../../database/models/Settings";
 import Status from "../../database/models/Status";
 import { Roles } from "../../database/Seed/roles";
 import { States } from "../../database/Seed/states";
