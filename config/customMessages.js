@@ -100,5 +100,12 @@ exports.CUSTOM_MESSAGES = {
   ACCOUNT_DETAILS: 'Account details.',
   CARD_DELETED: 'Card removed successfully.',
   CARD_LIST: 'List of cards.',
-  STATES_FOUND: 'States list loaded successfully'
+  STATES_FOUND: 'States list loaded successfully',
+
+  /* settings messages */
+  SETTINGS_NOT_FOUND: "Settings not found.",
+  DATA_LOADED_SUCCESS: "Data loaded successfully.",
+  SETTINGS_UPDATED_SUCCESS: "Settings updated successfully.",
+  PASSWORD_CHANGE_SUCCESS: "Password changed successfully."
+  /* end */
 };
