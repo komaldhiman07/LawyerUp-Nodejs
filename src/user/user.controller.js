@@ -857,7 +857,7 @@ class UserController {
         
       }
     } catch (error) {
-      console.log("Catch error : ", e);
+      console.log("Catch error : ", error);
       return {
         status: RESPONSE_CODES.SERVER_ERROR,
         success: false,
