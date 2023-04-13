@@ -14,6 +14,7 @@ import UserRoutes from "../src/user/index.js";
 import AuthRoutes from "../src/auth/index.js";
 import StateRoutes from "../src/states/index";
 import SettingsRoutes from "../src/settings/index";
+import ContactUsRoutes from "../src/contactUs/index";
 // import StripeRoutes from "../src/stripe";
 // import DashboarRoutes from "../src/dashboard/index";
 // import CategorySubcategoryRoutes from "../src/categorySubcategory/index.js";
@@ -81,6 +82,7 @@ class Server {
       this.app.use("/user", UserRoutes);
       this.app.use("/auth", AuthRoutes);
       this.app.use("/settings", SettingsRoutes);
+      this.app.use("/contact-us", ContactUsRoutes);
       // this.app.use("/video", AlbumRoutes);
       // this.app.use("/stripe", StripeRoutes);
       // this.app.use("/dashboard", DashboarRoutes);
