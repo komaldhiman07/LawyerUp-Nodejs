@@ -134,7 +134,7 @@ class AuthController {
       const salt = await bcrypt.genSalt(10);
       const hash = data.password ? await bcrypt.hash(data.password, salt) : null;
       const otp = this.generateOTP();
-      let userData = { ...data, password: hash, otp, is_otp_verified: false,
+      let userData = { ...data, password: hash, otp, is_otp_verified: true,
         secret_2fa: "" };
       if (role.name === "Admin" || data.device_type == 'web') {
         userData = { ...userData, is_otp_verified: true };
