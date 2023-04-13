@@ -152,5 +152,6 @@ export const authObj = (data) => ({
   createdAt: data.createdAt || null,
   updatedAt: data.updatedAt || null,
   enabled_2fa: data.enabled_2fa,
+  is_enabled_2fa: data.is_enabled_2fa,
   // secret_2fa: data.secret_2fa,
 });

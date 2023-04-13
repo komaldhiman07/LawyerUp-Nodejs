@@ -23,7 +23,6 @@ const settingSchema = mongoose.Schema(
         required: false,
       },
     },
-
     theme: {
       type: String,
       enum: ["light", "dark"],

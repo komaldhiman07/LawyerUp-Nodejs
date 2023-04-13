@@ -8,7 +8,10 @@ export const RESPONSE_CODES = {
   UNAUTHORIZED: 401,
   BAD_REQUEST: 400,
 };
-
+export const THEME = {
+  LIGHT: "light",
+  DARK: "dark"
+};
 export const TWO_FACTOR_AUTH_TYPE = {
   GENERATE: "generate",
   VERIFY: "verify",

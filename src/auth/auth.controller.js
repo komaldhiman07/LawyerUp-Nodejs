@@ -4,11 +4,13 @@ import jwt from "jsonwebtoken";
 import randomize from 'randomatic';
 
 import authService from "./auth.service.js";
+import settingService from "../settings/settings.service";
 import { authObj } from "../services/common/object.service";
 import twilioService from "../services/common/twilio.js";
 import emailService from "../services/common/email.js";
-import { RESPONSE_CODES, DEFAULT } from "../../config/constants.js";
+import { RESPONSE_CODES, DEFAULT, THEME } from "../../config/constants.js";
 import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
+
 import { createStripeCustomer, createStripeAccount } from '../services/common/stripe';
 // import {sendEmail} from "../helpers/email_service/email"
 import {sendEmail} from "../helpers/email_service/email";
@@ -49,7 +51,9 @@ class AuthController {
           message: CUSTOM_MESSAGES.INCORRECT_PASSWORD,
         };
       }
-      const token = await this.createToken(authObj(user));
+      
+      const setting = await settingService.getSettings({ user_id: user._id })
+      const token = await this.createToken(authObj({...user.toObject(), ...setting.toObject()}));
       if (!user.is_otp_verified) {
         retObj = {
           status: RESPONSE_CODES.BAD_REQUEST,
@@ -176,7 +180,18 @@ class AuthController {
           name: `${user.first_name} ${user.last_name}`
         }]
         sendEmail("signup", emailData);
-
+        // Save default setting for user
+        const defaultSettingObj = {
+          user_id: user._doc._id,
+          notifications: {
+            push: DEFAULT.TRUE,
+            email: DEFAULT.TRUE,
+            sound: DEFAULT.TRUE
+          },
+          theme: THEME.LIGHT,
+          is_enabled_2fa: DEFAULT.TRUE
+        }
+        settingService.createSettings(defaultSettingObj);
       } else {
         retObj = {
           status: RESPONSE_CODES.BAD_REQUEST,
