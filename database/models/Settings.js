@@ -9,7 +9,7 @@ const settingSchema = mongoose.Schema(
       ref: User,
       required: true,
     },
-    notification: {
+    notifications: {
       push: {
         type: Boolean,
         required: false,
