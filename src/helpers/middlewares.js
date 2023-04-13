@@ -3,7 +3,7 @@ import { RESPONSE_CODES } from "../../config/constants";
 import Logger from "./logger";
 import User from "../../database/models/User";
 import { CUSTOM_MESSAGES } from "../../config/customMessages";
-
+import mongoose from "mongoose";
 const authMiddleWare = async (req, res, next) => {
   try {
     const logger = new Logger();
@@ -98,7 +98,8 @@ const authMiddleWare = async (req, res, next) => {
                 message: CUSTOM_MESSAGES.UNAUTHORIZED,
               });
             }
-            const user = await User.findOne({ _id: token.data._id });
+            const user_id = mongoose.Types.ObjectId(token.data._id)
+            const user = await User.findById(user_id);
             if(user){
               token.data.email = user.email;
               req.user = token;

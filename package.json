@@ -63,6 +63,7 @@
     "path": "^0.12.7",
     "qrcode": "^1.5.1",
     "randomatic": "^3.1.1",
+    "randomstring": "^1.2.3",
     "request": "^2.88.0",
     "speakeasy": "^2.0.0",
     "stripe": "^9.10.0",

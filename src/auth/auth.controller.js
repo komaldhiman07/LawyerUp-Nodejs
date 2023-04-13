@@ -53,7 +53,7 @@ class AuthController {
       }
       
       const setting = await settingService.getSettings({ user_id: user._id })
-      const token = await this.createToken(authObj({...user.toObject(), ...setting.toObject()}));
+      const token = await this.createToken(authObj({...user.toObject(), is_enabled_2fa: setting.is_enabled_2fa}));
       if (!user.is_otp_verified) {
         retObj = {
           status: RESPONSE_CODES.BAD_REQUEST,

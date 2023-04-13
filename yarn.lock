@@ -1054,6 +1054,11 @@ array-uniq@^1.0.1:
   resolved "https://registry.npmjs.org/array-uniq/-/array-uniq-1.0.3.tgz"
   integrity sha512-MNha4BWQ6JbwhFhj03YK552f7cb3AzoE8SzeljgChvL1dl3IcvggXVz1DilzySZkCja+CXuZbdW7yATchWn8/Q==
 
+array-uniq@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/array-uniq/-/array-uniq-1.0.2.tgz"
+  integrity sha512-GVYjmpL05al4dNlKJm53mKE4w9OOLiuVHWorsIA3YVz+Hu0hcn6PtE3Ydl0EqU7v+7ABC4mjjWsnLUxbpno+CA==
+
 array-unique@^0.2.1:
   version "0.2.1"
   resolved "https://registry.npmjs.org/array-unique/-/array-unique-0.2.1.tgz"
@@ -6914,6 +6919,19 @@ randomatic@^3.0.0, randomatic@^3.1.1:
     is-number "^4.0.0"
     kind-of "^6.0.0"
     math-random "^1.0.1"
+
+randombytes@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/randombytes/-/randombytes-2.0.3.tgz"
+  integrity sha512-lDVjxQQFoCG1jcrP06LNo2lbWp4QTShEXnhActFBwYuHprllQV6VUpwreApsYqCgD+N1mHoqJ/BI/4eV4R2GYg==
+
+randomstring@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.npmjs.org/randomstring/-/randomstring-1.2.3.tgz"
+  integrity sha512-3dEFySepTzp2CvH6W/ASYGguPPveBuz5MpZ7MuoUkoVehmyNl9+F9c9GFVrz2QPbM9NXTIHGcmJDY/3j4677kQ==
+  dependencies:
+    array-uniq "1.0.2"
+    randombytes "2.0.3"
 
 range-parser@~1.2.1:
   version "1.2.1"

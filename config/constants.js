@@ -8,6 +8,7 @@ export const RESPONSE_CODES = {
   UNAUTHORIZED: 401,
   BAD_REQUEST: 400,
 };
+export const ADMIN_EMAIL = "komaldhiman143@gmail.com";
 export const THEME = {
   LIGHT: "light",
   DARK: "dark"

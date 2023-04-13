@@ -17,6 +17,14 @@ const contactUsSchema = mongoose.Schema(
             type: String,
             default: "",
         },
+        reference_number: {
+            type: String,
+            default: "",
+        }, 
+        status: {
+            type: String,
+            default: "pending",
+        }
     },
     {
         timestamps: true,

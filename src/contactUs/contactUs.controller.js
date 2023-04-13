@@ -1,22 +1,12 @@
-import bcrypt from 'bcrypt';
 import { matchedData } from 'express-validator';
-import jwt from 'jsonwebtoken';
-import speakeasy from 'speakeasy';
-import QRCode from 'qrcode';
-
 import contactUsService from './contactUs.service.js';
-import twilioService from '../services/common/twilio.js';
 import {
   RESPONSE_CODES,
-  TWO_FACTOR_AUTH_TYPE,
-  DEFAULT,
+  ADMIN_EMAIL,
 } from '../../config/constants.js';
 import { CUSTOM_MESSAGES } from '../../config/customMessages.js';
 import { sendEmail } from '../../src/helpers/email_service/email.js';
-import { authObj } from '../services/common/object.service.js';
-import firebase from '../services/common/firebase.js';
-import emailService from '../services/common/email.js';
-
+import randomstring from "randomstring";
 const _ = require('lodash');
 
 class ContactUsController {
@@ -27,8 +17,8 @@ class ContactUsController {
     const data = matchedData(req);
     const { user } = req;
     try {
-      const getUser = await contactUsService.getUser({ _id: user.data._id });
-      if (!getUser) {
+      const userDetail = await contactUsService.getUser({ _id: user.data._id });
+      if (!userDetail) {
         return {
           status: RESPONSE_CODES.BAD_REQUEST,
           success: false,
@@ -36,12 +26,40 @@ class ContactUsController {
           data: {},
         };
       }
-      data.user_id = getUser._id;
-      await contactUsService.addContactUs(data);
+      data.user_id = userDetail._id;
+      const reference_number = randomstring.generate({ length: 3, charset: 'alphabetic', capitalization: 'uppercase' }) + "-" + randomstring.generate({ length: 6, charset: 'numeric' }) + "-" + randomstring.generate({ length: 6, charset: 'alphabetic', capitalization: 'uppercase' });
+      await contactUsService.addContactUs({...data, reference_number});
       let emailData = [{
-        email: getUser.email,
+        email: ADMIN_EMAIL,
+        user_email: userDetail.email,
+        reference_number,
+        name: `${userDetail.first_name} ${userDetail.last_name}`,
+        subject: data.subject,
+        message: data.message,
       }]
-      await sendEmail("signup", emailData);
+      sendEmail("contact_us", emailData)
+      .then((emailRes) => {
+        console.log("emailResponse to Admin :" + JSON.stringify(emailRes));
+      })
+      .catch((e) => {
+        console.log("Error sending email to admin :" + JSON.stringify(e));
+      });
+      // Auto Reply to sender
+      const senderData = [
+        {
+          name: `${userDetail.first_name} ${userDetail.last_name}`,
+          email: userDetail.email,
+          reference_number,
+          subject: "Contact Us Reply",
+        },
+      ];
+      sendEmail("contact_us_reply", senderData)
+        .then((emailRes) => {
+          console.log("emailResponse to sender :" + JSON.stringify(emailRes));
+        })
+        .catch((e) => {
+          console.log("Error sending email to user : " + JSON.stringify(e));
+        });
       return {
         status: RESPONSE_CODES.POST,
         success: true,
