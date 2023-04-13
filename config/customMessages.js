@@ -106,6 +106,10 @@ exports.CUSTOM_MESSAGES = {
   SETTINGS_NOT_FOUND: "Settings not found.",
   DATA_LOADED_SUCCESS: "Data loaded successfully.",
   SETTINGS_UPDATED_SUCCESS: "Settings updated successfully.",
-  PASSWORD_CHANGE_SUCCESS: "Password changed successfully."
+  PASSWORD_CHANGE_SUCCESS: "Password changed successfully.",
+  /* end */
+
+  /* contact us messages */
+  REQUEST_SENT_SUCCESS: "Request sent successfully."
   /* end */
 };
