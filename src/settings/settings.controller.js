@@ -49,12 +49,13 @@ class settingsController {
       const { user } = req;
       try {
         data.user_id =  user.data._id 
-        const response = await settingsService.updateSettings(data,  user.data._id);
+        await settingsService.updateSettings(data,  user.data._id);
+        const setting = await settingsService.getSettings({ user_id: user.data._id });
         return {
           status: RESPONSE_CODES.POST,
           success: true,
           message: CUSTOM_MESSAGES.SETTINGS_UPDATED_SUCCESS,
-          data: {},
+          data: {...setting.toObject()},
         };
       } catch (error) {
         return {

@@ -21,7 +21,7 @@ class SettingsRoutes {
     );
     /* update user settings */
     router.put(
-        "/notification",
+        "/",
       checkSchema(Validator.updateSettings()),
         handler(controller.updateSettings, (req) => [req])
       );
