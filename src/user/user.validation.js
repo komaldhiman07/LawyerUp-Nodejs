@@ -37,6 +37,9 @@ class UserValidator {
           errorMessage: "Type is required!",
         }
       },
+      secret_2fa: {
+        optional: { options: { nullable: false } },
+      },
       otp: {
         in: ["body"],
         errorMessage: "OTP is required!",
