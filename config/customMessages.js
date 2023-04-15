@@ -110,6 +110,14 @@ exports.CUSTOM_MESSAGES = {
   /* end */
 
   /* contact us messages */
-  REQUEST_SENT_SUCCESS: "Request sent successfully."
+  REQUEST_SENT_SUCCESS: "Request sent successfully.",
   /* end */
+
+    /* laws messages */
+    LAW_RAISED_SUCCESS: "Law raised successfully.",
+    LAW_NOT_FOUND: "Law not found.",
+    LAW_FOUND_SUCCESS: "Law found successfully.",
+    LAW_UPDATE_SUCCESS: "Law updated successfully.",
+    LAW_DELETE_SUCCESS: "Law deleted successfully.",
+    /* end */
 };
