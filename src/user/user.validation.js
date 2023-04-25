@@ -117,6 +117,12 @@ class UserValidator {
         optional: { options: { nullable: false } },
       },
       address: { optional: { options: { nullable: false } } },
+      first_name: {
+        optional: { options: { nullable: false } },
+      },
+      last_name: {
+        optional: { options: { nullable: false } },
+      },
     };
     return schema;
   };
