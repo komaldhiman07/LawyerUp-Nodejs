@@ -454,9 +454,6 @@ class AuthController {
     const data = matchedData(req);
     const { user } = await this.getUserByEmailOrUserName(data.emailOrUsername);
     if (user) {
-      if (user.otp === data.otp) {
-        user.is_otp_verified = true;
-        user.otp = "";
         const salt = await bcrypt.genSalt(10);
         const hash = data.password ? await bcrypt.hash(data.password, salt) : null;
         user.password = hash;
@@ -467,14 +464,6 @@ class AuthController {
           data: {},
           message: CUSTOM_MESSAGES.PASSWORD_SET,
         };
-      } else {
-        return {
-          status: RESPONSE_CODES.BAD_REQUEST,
-          success: false,
-          data: {},
-          message: CUSTOM_MESSAGES.OTP_VALIDATE_FAILURE,
-        };
-      }
 
     } else {
       return {
