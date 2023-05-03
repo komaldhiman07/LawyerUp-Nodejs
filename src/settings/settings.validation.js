@@ -35,10 +35,10 @@ class settingsValidator {
         in: ["body"],
           errorMessage: "Notifications are required!",
       },
-      theme: {
-        in: ["body"],
-        errorMessage: "Theme is required!",
-      },
+      // theme: {
+      //   in: ["body"],
+      //   errorMessage: "Theme is required!",
+      // },
       is_enabled_2fa: {
         in: ["body"],
         errorMessage: "Is enable 2fa is required!",

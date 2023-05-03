@@ -13,7 +13,7 @@ import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
 
 import { createStripeCustomer, createStripeAccount } from '../services/common/stripe';
 // import {sendEmail} from "../helpers/email_service/email"
-import {sendEmail} from "../helpers/email_service/email";
+import { sendEmail } from "../helpers/email_service/email";
 class AuthController {
   constructor() { }
 
@@ -51,9 +51,9 @@ class AuthController {
           message: CUSTOM_MESSAGES.INCORRECT_PASSWORD,
         };
       }
-      
+
       const setting = await settingService.getSettings({ user_id: user._id })
-      const token = await this.createToken(authObj({...user.toObject(), is_enabled_2fa: setting.is_enabled_2fa}));
+      const token = await this.createToken(authObj({ ...user.toObject(), is_enabled_2fa: setting.is_enabled_2fa }));
       if (!user.is_otp_verified) {
         retObj = {
           status: RESPONSE_CODES.BAD_REQUEST,
@@ -118,7 +118,6 @@ class AuthController {
           message: CUSTOM_MESSAGES.USER_EMAIL_ALREADY_EXIST,
         };
       }
-
       // let userPhoneExist = data.phone
       //   ? await authService.getUser({ phone: data.phone })
       //   : null;
@@ -131,11 +130,17 @@ class AuthController {
       //   };
       // }
       const role = await authService.getRole({ _id: data.role_id });
+
       const salt = await bcrypt.genSalt(10);
+
       const hash = data.password ? await bcrypt.hash(data.password, salt) : null;
+
       const otp = this.generateOTP();
-      let userData = { ...data, password: hash, otp, is_otp_verified: true,
-        secret_2fa: "" };
+
+      let userData = {
+        ...data, password: hash, otp, is_otp_verified: true,
+        secret_2fa: ""
+      };
       if (role.name === "Admin" || data.device_type == 'web') {
         userData = { ...userData, is_otp_verified: true };
       }
@@ -158,7 +163,7 @@ class AuthController {
       const user = await authService.createUser(userData);
       if (user) {
         const userToken = await authService.getUser({ email: data.email });
-        
+
         const device = {
           device_id: data.device_id,
           device_type: data.device_type,
@@ -176,19 +181,20 @@ class AuthController {
         };
         let emailData = [{
           email: user.email,
-          otp, 
+          otp,
           name: `${user.first_name} ${user.last_name}`
         }]
         sendEmail("signup", emailData);
         // Save default setting for user
         const defaultSettingObj = {
           user_id: user._doc._id,
-          notifications: {
-            push: DEFAULT.TRUE,
-            email: DEFAULT.TRUE,
-            sound: DEFAULT.TRUE
-          },
-          theme: THEME.LIGHT,
+          // notifications: {
+          //   push: DEFAULT.TRUE,
+          //   email: DEFAULT.TRUE,
+          //   sound: DEFAULT.TRUE
+          // },
+          // theme: THEME.LIGHT,
+          notifications: DEFAULT.TRUE,
           is_enabled_2fa: DEFAULT.TRUE
         }
         settingService.createSettings(defaultSettingObj);
@@ -383,11 +389,11 @@ class AuthController {
       await user.save();
       let emailData = [{
         email: user.email,
-        otp, 
+        otp,
         name: `${user.first_name} ${user.last_name}`
       }]
       sendEmail("forgot_password", emailData);
-      
+
       // if (isEmail) {
       //   await emailService.sendMail({
       //     from: data.emailOrUsername,
@@ -454,16 +460,16 @@ class AuthController {
     const data = matchedData(req);
     const { user } = await this.getUserByEmailOrUserName(data.emailOrUsername);
     if (user) {
-        const salt = await bcrypt.genSalt(10);
-        const hash = data.password ? await bcrypt.hash(data.password, salt) : null;
-        user.password = hash;
-        await user.save();
-        return {
-          status: RESPONSE_CODES.POST,
-          success: true,
-          data: {},
-          message: CUSTOM_MESSAGES.PASSWORD_SET,
-        };
+      const salt = await bcrypt.genSalt(10);
+      const hash = data.password ? await bcrypt.hash(data.password, salt) : null;
+      user.password = hash;
+      await user.save();
+      return {
+        status: RESPONSE_CODES.POST,
+        success: true,
+        data: {},
+        message: CUSTOM_MESSAGES.PASSWORD_SET,
+      };
 
     } else {
       return {

@@ -73,6 +73,14 @@ class settingsController {
     const data = matchedData(req);
       const { user } = req;
       try {
+        if (data.old_password === data.new_password) {
+          return {
+            status: RESPONSE_CODES.BAD_REQUEST,
+            success: false,
+            message: CUSTOM_MESSAGES.OLD_NEW_PASSWORD_COMPARISON,
+            data: {},
+          };
+        }
         const getUser = await settingsService.getUser({ _id: user.data._id });
         console.log("getUser: ", getUser);
       if (!getUser) {

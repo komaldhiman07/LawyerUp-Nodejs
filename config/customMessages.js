@@ -31,6 +31,7 @@ exports.CUSTOM_MESSAGES = {
   OTP_VALIDATE_SUCCESS: "OTP validated successfully.",
   OTP_VALIDATE_FAILURE: "Wrong OTP entered",
   USER_ID_REQUIRED: "User ID Required",
+  OLD_NEW_PASSWORD_COMPARISON: "Your new password cannot be same as old password.",
 
   UNAUTHORIZED: "Unauthorized user.",
   VALIDATE_OTP: "Please validate OTP.",
