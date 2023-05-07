@@ -155,9 +155,7 @@ class UserController {
 
     if (user) {
       const token = await this.createToken(authObj(user));
-      console.log("user :", JSON.stringify(user));
       const result = authObj(user);
-      console.log("result user :", JSON.stringify(result));
 
       result["token"] = token;
       return {
