@@ -9,27 +9,31 @@ const settingSchema = mongoose.Schema(
       ref: User,
       required: true,
     },
+    // notifications: {
+    //   push: {
+    //     type: Boolean,
+    //     required: false,
+    //   },
+    //   email: {
+    //     type: Boolean,
+    //     required: false,
+    //   },
+    //   sound: {
+    //     type: Boolean,
+    //     required: false,
+    //   },
+    // },
     notifications: {
-      push: {
-        type: Boolean,
-        required: false,
-      },
-      email: {
-        type: Boolean,
-        required: false,
-      },
-      sound: {
-        type: Boolean,
-        required: false,
-      },
-    },
-    theme: {
-      type: String,
-      enum: ["light", "dark"],
-      default: "light",
-    },
-    is_enabled_2fa: {
       type: Boolean,
+      default: true,
+    },
+    // theme: {
+    //   type: String,
+    //   enum: ["light", "dark"],
+    //   default: "light",
+    // },
+    is_enabled_2fa: {
+      type: Boolean, 
       default: false,
     },
   },
