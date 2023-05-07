@@ -132,6 +132,7 @@ export const authObj = (data) => ({
   username: data.username || null,
   email: data.email || null,
   phone: data.phone || null,
+  date_of_birth: data.date_of_birth || null,
   profile_image: data.profile_image || null,
   is_otp_verified: data.is_otp_verified || null,
   address: data.address || null,
