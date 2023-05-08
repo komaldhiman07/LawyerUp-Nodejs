@@ -70,7 +70,7 @@ exports.CUSTOM_MESSAGES = {
   ALBUM_LIST_FOUND: "List found successfully.",
   ALBUM_FOUND: "Album found.",
   ALBUM_NOT_FOUND: "Album not found.",
-  STAUTS_UPDATED: "Status updated successfully.",
+  STATUS_UPDATED: "Status updated successfully.",
   PRICE_REQUIRED: "Please add price for sharing quote.",
 
   USER_DELETE: "User delete successfully.",

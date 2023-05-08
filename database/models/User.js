@@ -45,7 +45,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: false,
     },
-    profile_pic: {
+    profile_image: {
       type: String,
     },
     date_of_birth: {

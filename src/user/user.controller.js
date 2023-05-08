@@ -107,7 +107,7 @@ class UserController {
       status: 200,
       success: true,
       data: null,
-      message: CUSTOM_MESSAGES.STAUTS_UPDATED,
+      message: CUSTOM_MESSAGES.STATUS_UPDATED,
     };
   };
 

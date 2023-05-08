@@ -17,7 +17,7 @@ class LawsService {
     path: "user_id",
     model: User,
     as: "user_datail",
-    select: ["first_name", "last_name", "email", "profile_pic"]
+    select: ["first_name", "last_name", "email", "profile_image"]
   });
   addRaisedLaw = (data) => RaisedLaws.create(data);
   updateRaisedLaw = (query, data) => RaisedLaws.updateOne(query, data);
