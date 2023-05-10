@@ -117,10 +117,28 @@ class UserValidator {
         optional: { options: { nullable: false } },
       },
       address: { optional: { options: { nullable: false } } },
+      zip_code: {
+        optional: { options: { nullable: false } }
+      },
+      city: {
+        optional: { options: { nullable: false } }
+      },
+      state: {
+        optional: { options: { nullable: false } }
+      },
       first_name: {
         optional: { options: { nullable: false } },
       },
       last_name: {
+        optional: { options: { nullable: false } },
+      },
+      date_of_birth: {
+        optional: { options: { nullable: false } },
+      },
+      phone: {
+        optional: { options: { nullable: false } },
+      },
+      gender: {
         optional: { options: { nullable: false } },
       },
     };

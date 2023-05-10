@@ -137,7 +137,7 @@ export const authObj = (data) => ({
   is_otp_verified: data.is_otp_verified || null,
   address: data.address || null,
   country: getCountryState(data.country_id) || null,
-  state: data.state, //getCountryState(data.state_id) || null,
+  state: data.state || null, //getCountryState(data.state_id) || null,
   city: data.city || null,
   language: getCountryState(data.language) || null,
   gender: data.gender || null,
