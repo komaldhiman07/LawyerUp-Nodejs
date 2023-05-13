@@ -23,7 +23,7 @@ class AuthController {
     const isEmail = emailExpression.test(String(emailOrUsername).toLowerCase());
     let user = null;
     if (isEmail) {
-      user = await authService.getUser({ email: emailOrUsername });
+      user = await authService.getUser({ email: emailOrUsername.toLowerCase() });
     } else {
       user = await authService.getUser({ username: emailOrUsername });
     }
@@ -161,6 +161,7 @@ class AuthController {
       //   userData.stripe_account_id = stripeAccount.id;
       // }
       /** create user */
+      userData.email = userData.email.toLowerCase()
       const user = await authService.createUser(userData);
       if (user) {
         const userToken = await authService.getUser({ email: data.email });
@@ -379,7 +380,7 @@ class AuthController {
     const isEmail = emailExpression.test(String(data.emailOrUsername).toLowerCase());
     let user = null;
     if (isEmail) {
-      user = await authService.getUser({ email: data.emailOrUsername });
+      user = await authService.getUser({ email: data.emailOrUsername.toLowerCase() });
     } else {
       user = await authService.getUser({ username: data.emailOrUsername });
     }
