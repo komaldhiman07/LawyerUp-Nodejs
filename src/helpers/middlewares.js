@@ -13,7 +13,6 @@ const authMiddleWare = async (req, res, next) => {
       "/api-docs",
       "/states",
       "/auth/sign-up",
-      "/auth/social-login",
       "/auth/otp-verification",
       "/auth/set-new-password",
       "/auth/resend-otp",
@@ -21,23 +20,14 @@ const authMiddleWare = async (req, res, next) => {
       "/user/roles",
       "/auth/update-password",
       "/auth/forgot-password",
-      "/auth/social-signup",
-      "/user/upload-profile",
+      // "/user/upload-profile",
       "/user/reset-password",
       "/upload",
       "/admin/signup",
-      "/categorySubcategory/",
-      "/categorySubcategory/common-all",
       "/social-signup",
-      "/video/status",
-      "/user/stripe-integration/reauth",
-      "/stripe/create-transfer",
       "/user/contact-us",
-      "/user/android-lead",
-      "/stripe/update-expert-stripe-status"
     ];
     const { method, headers, originalUrl } = req;
-
     const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
     const logObj = {
       ip,
@@ -51,9 +41,8 @@ const authMiddleWare = async (req, res, next) => {
       (method === "POST" && originalUrl === "/user") ||
       (method === "GET" && originalUrl.includes("?page=")) ||
       (method === "GET" && originalUrl.includes("/api-docs/")) ||
-      (method === "PUT" && originalUrl.includes("/auth/reset-password/")) ||
-      (method === "POST" && originalUrl.includes("/upload")) ||
-      (method === "GET" && originalUrl.includes("/user/stripe-integration/return"))
+      (method === "PUT" && originalUrl.includes("/auth/reset-password/"))
+      // (method === "POST" && originalUrl.includes("/user/upload-profile"))
     ) {
       logger.logInfo("Activity Log: ", logObj);
       // ignoring register URL

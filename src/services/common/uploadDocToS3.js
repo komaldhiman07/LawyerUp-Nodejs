@@ -15,8 +15,9 @@ class UploadDocument {
   uploadFiles = async (req, res) => {
     let response;
     try {
-      const { files, body } = req;
-      response = await uploadDocs(files, body.type);
+      const { files, body, user } = req;
+      console.log("user 0000:", user)
+      response = await uploadDocs(files, body.type, user.data.username);
       return response;
     } catch (error) {
       return {
@@ -63,7 +64,7 @@ class UploadDocument {
 }
 export default new UploadDocument();
 
-const uploadDocs = async (files, type) => {
+const uploadDocs = async (files, type, username) => {
   try {
     const response = {};
     const uploadedFiles = [];
@@ -79,7 +80,7 @@ const uploadDocs = async (files, type) => {
               ? `${process.env.AWS_BUCKET}/${type[0]}`
               : process.env.AWS_BUCKET,
         // 'Bucket': process.env.AWS_BUCKET,
-        Key: `${Date.now()}-${ele.originalname}`,
+        Key: `${Date.now()}-${username}`,
         Body: data,
         contentType: ele.mimetype,
         ACL: "public-read",
@@ -87,7 +88,7 @@ const uploadDocs = async (files, type) => {
       const result = await uploadFileToAWS(params);
       ele.location = result.Location;
       ele.key = result.Key;
-      console.log("********* result : ", result);
+      console.log("S3 file upload result : ", result);
     }
     if (files) {
       if (files.length > 0) {
