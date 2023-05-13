@@ -345,7 +345,7 @@ class AuthController {
   }
   validateOtp = async (req) => {
     const data = matchedData(req);
-    const { user } = await this.getUserByEmailOrUserName(data.emailOrUsername);
+    const { user } = await this.getUserByEmailOrUserName(data.emailOrUsername.toLowerCase());
     if (user) {
       if (user.otp === data.otp) {
         user.is_otp_verified = true;
