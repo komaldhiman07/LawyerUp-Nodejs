@@ -23,7 +23,7 @@ class AuthController {
     const isEmail = emailExpression.test(String(emailOrUsername).toLowerCase());
     let user = null;
     if (isEmail) {
-      user = await authService.getUser({ email: emailOrUsername.toLowerCase() });
+      user = await authService.getUser({ email: emailOrUsername });
     } else {
       user = await authService.getUser({ username: emailOrUsername });
     }
@@ -32,7 +32,7 @@ class AuthController {
   login = async (req) => {
     let retObj = {};
     const data = matchedData(req);
-    let { user, isEmail } = await this.getUserByEmailOrUserName(data.emailOrUsername);
+    let { user, isEmail } = await this.getUserByEmailOrUserName(data.emailOrUsername.toLowerCase());
     if (user) {
       if (isEmail && user.login_type !== "Manual") {
         return {
@@ -109,7 +109,7 @@ class AuthController {
       let retObj = {};
       const data = matchedData(req);
       let userEmailExist = data.email
-        ? await authService.getUser({ email: data.email })
+        ? await authService.getUser({ email: data.email.toLowerCase() })
         : null;
       if (userEmailExist) {
         return {
@@ -162,6 +162,7 @@ class AuthController {
       // }
       /** create user */
       userData.email = userData.email.toLowerCase()
+      userData.username = userData.username.toLowerCase()
       const user = await authService.createUser(userData);
       if (user) {
         const userToken = await authService.getUser({ email: data.email });
@@ -382,7 +383,7 @@ class AuthController {
     if (isEmail) {
       user = await authService.getUser({ email: data.emailOrUsername.toLowerCase() });
     } else {
-      user = await authService.getUser({ username: data.emailOrUsername });
+      user = await authService.getUser({ username: data.emailOrUsername.toLowerCase() });
     }
     if (user) {
       const otp = this.generateOTP();
@@ -425,7 +426,7 @@ class AuthController {
   };
   resendOtp = async (req) => {
     const data = matchedData(req);
-    const { user } = await this.getUserByEmailOrUserName(data.emailOrUsername);
+    const { user } = await this.getUserByEmailOrUserName(data.emailOrUsername.toLowerCase());
     if (user) {
       const otp = this.generateOTP();
       user.otp = otp;
@@ -460,7 +461,7 @@ class AuthController {
   };
   setNewPassword = async (req) => {
     const data = matchedData(req);
-    const { user } = await this.getUserByEmailOrUserName(data.emailOrUsername);
+    const { user } = await this.getUserByEmailOrUserName(data.emailOrUsername.toLowerCase());
     if (user) {
       const salt = await bcrypt.genSalt(10);
       const hash = data.password ? await bcrypt.hash(data.password, salt) : null;
