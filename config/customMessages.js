@@ -121,4 +121,9 @@ exports.CUSTOM_MESSAGES = {
     LAW_UPDATE_SUCCESS: "Law updated successfully.",
     LAW_DELETE_SUCCESS: "Law deleted successfully.",
     /* end */
+
+    /* favourite laws messages */
+    LAW_ALREADY_EXISTS: "Law already exists.",
+    LAW_ADDED_SUCCESS: "Law added successfully."
+    /* end */
 };

@@ -16,6 +16,7 @@ import StateRoutes from "../src/states/index";
 import SettingsRoutes from "../src/settings/index";
 import ContactUsRoutes from "../src/contactUs/index";
 import LawsRoutes from "../src/laws/index";
+import UserFavouriteLawsRoutes from "../src/userFavouriteLaws/index";
 // import StripeRoutes from "../src/stripe";
 // import DashboarRoutes from "../src/dashboard/index";
 // import CategorySubcategoryRoutes from "../src/categorySubcategory/index.js";
@@ -85,6 +86,7 @@ class Server {
       this.app.use("/settings", SettingsRoutes);
       this.app.use("/contact-us", ContactUsRoutes);
       this.app.use("/laws", LawsRoutes);
+      this.app.use("/favourite-law", UserFavouriteLawsRoutes);
       // this.app.use("/video", AlbumRoutes);
       // this.app.use("/stripe", StripeRoutes);
       // this.app.use("/dashboard", DashboarRoutes);
