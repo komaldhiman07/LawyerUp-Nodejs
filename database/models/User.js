@@ -3,6 +3,8 @@ import mongoosePaginate from "mongoose-paginate";
 import Role from "./Role";
 import Language from "./Language";
 import Country from "./Country";
+import UserCategoryLaws from "./userCategoryLaws";
+import Laws from "./laws";
 // import State from "./State";
 
 const userSchema = mongoose.Schema(
@@ -142,5 +144,28 @@ const userSchema = mongoose.Schema(
 );
 
 userSchema.plugin(mongoosePaginate);
+/* post hook to add user's favourite laws as per the city selection */
+userSchema.post('save', async function (doc) {
+  console.log("userdoc", doc);
+  if (doc.city) {
+    /* get all the laws of the selected city */
+    const lawsData = await Laws.findOne({ city: doc.city })
+    if (lawsData.laws && lawsData.laws.length) {
+      let lawArr = [];
+      for (const law of lawsData.laws) {
+        lawArr.push(law._id)
+      }
+      const payload = {
+        user_id: doc._id,
+        name: "default list",
+        city: doc.city,
+        laws: lawArr,
+      }
+      console.log("payload: ", payload);
+      await UserCategoryLaws.create(payload)
+    }
+  }
+});
+/* end */
 const User = mongoose.model("users", userSchema);
 export default User;
