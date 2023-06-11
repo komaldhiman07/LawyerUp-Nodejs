@@ -21,6 +21,14 @@ const lawsSchema = mongoose.Schema({
         type: String,
         required: true,
       },
+      likes: {
+        type: Number,
+        default: 0,
+      },
+      dislikes: {
+        type: Number,
+        default: 0,
+      },
       added_by: {
         type: Schema.Types.ObjectId,
         ref: User,

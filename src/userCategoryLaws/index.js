@@ -29,10 +29,11 @@ class UserCategoryLawsRoutes {
     );
     /* end */
 
-    /* remaining laws */
+    /* law list of a city */
     router.get(
-      "/default-list",
-      handler(controller.defaultList, (req) => [req])
+      "/city-law-list",
+      checkSchema(Validator.cityLawList()),
+      handler(controller.cityLawList, (req) => [req])
     );
     /* end */
 
@@ -71,6 +72,22 @@ class UserCategoryLawsRoutes {
       "/delete-law",
       checkSchema(Validator.addLawtoCategoryLaw()),
       handler(controller.deleteLawFromCategoryLaw, (req) => [req])
+    );
+    /* end */
+
+    /* law list of the city which are not added as favourite */
+    router.post(
+      "/remaining-law-list",
+      checkSchema(Validator.remainingLawList()),
+      handler(controller.remainingLawList, (req) => [req])
+    );
+    /* end */
+
+    /* like/dislike the law of a city */
+    router.post(
+      "/like-dislike-law",
+      checkSchema(Validator.likeDislikeLawOfACity()),
+      handler(controller.likeDislikeLawOfACity, (req) => [req])
     );
     /* end */
 

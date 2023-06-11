@@ -122,8 +122,13 @@ exports.CUSTOM_MESSAGES = {
     LAW_DELETE_SUCCESS: "Law deleted successfully.",
     /* end */
 
-    /* favourite laws messages */
+    /* user category laws messages */
     LAW_ALREADY_EXISTS: "Law already exists.",
-    LAW_ADDED_SUCCESS: "Law added successfully."
+    LAW_ADDED_SUCCESS: "Law added successfully.",
+    LAW_CATEGORY_ADDED_SUCCESS: "Category law added successfully.",
+    CATEGORY_NAME_ALREADY_EXISTS: "Category name is already used.",
+    CATEGORY_NOT_FOUND: "Category law not found.",
+    CATEGORY_LAW_UPDATE_SUCCESS: " Category law updated successfully.",
+
     /* end */
 };

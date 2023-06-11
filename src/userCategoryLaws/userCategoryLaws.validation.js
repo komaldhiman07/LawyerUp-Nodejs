@@ -5,11 +5,11 @@ class UserCategoryLawsValidator {
 
   constructor() {
     this.field = {
-   
+
     };
   }
-/* add category law validator */
-addCategoryLaw = () => {
+  /* add category law validator */
+  addCategoryLaw = () => {
     return {
       city: {
         in: ["body"],
@@ -30,44 +30,95 @@ addCategoryLaw = () => {
   };
   /* end */
 
-/* update category law validator */
-updateCategoryLaw = () => {
-  return {
-    name: {
-      in: ["body"],
-      exists: {
-        errorMessage: "Name is required!",
-      }
-    },
-    color: {
-      in: ["body"],
-      exists: {
-        errorMessage: "Color is required!",
-      }
-    },
+  /* update category law validator */
+  updateCategoryLaw = () => {
+    return {
+      name: {
+        in: ["body"],
+        exists: {
+          errorMessage: "Name is required!",
+        }
+      },
+      color: {
+        in: ["body"],
+        exists: {
+          errorMessage: "Color is required!",
+        }
+      },
+    };
   };
-};
-/* end */
+  /* end */
 
-/* add law to category law validator */
-addLawtoCategoryLaw = () => {
-  return {
-    category_law_id: {
-      in: ["body"],
-      exists: {
-        errorMessage: "Category law id is required!",
-      }
-    },
-    law_id: {
-      in: ["body"],
-      exists: {
-        errorMessage: "Law id is required!",
-      }
-    },
+  /* add law to category law validator */
+  addLawtoCategoryLaw = () => {
+    return {
+      category_law_id: {
+        in: ["body"],
+        exists: {
+          errorMessage: "Category law id is required!",
+        }
+      },
+      law_id: {
+        in: ["body"],
+        exists: {
+          errorMessage: "Law id is required!",
+        }
+      },
+    };
   };
-};
-/* end */
+  /* end */
 
+  /* remaining law list validator */
+  remainingLawList = () => {
+    return {
+      city: {
+        in: ["body"],
+        exists: {
+          errorMessage: "city is required!",
+        }
+      },
+      category_law_id: {
+        in: ["body"],
+        exists: {
+          errorMessage: "Category Law id is required!",
+        }
+      },
+    };
+  };
+  /* end */
+
+  /* law list of a city validator */
+  cityLawList = () => {
+    return {
+      city: {
+        in: ["body"],
+        exists: {
+          errorMessage: "city is required!",
+        }
+      },
+    };
+  };
+  /* end */
+
+    /* like/dilike law of a city validator */
+    likeDislikeLawOfACity = () => {
+      return {
+        city: {
+          in: ["body"],
+          exists: {
+            errorMessage: "city is required!",
+          }
+        },
+        law_id: {
+          in: ["body"],
+          exists: {
+            errorMessage: "city is required!",
+          }
+        },
+      };
+    };
+    /* end */
+  
 }
 
 export default new UserCategoryLawsValidator();

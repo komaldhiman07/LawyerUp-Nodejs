@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { matchedData } from "express-validator";
 
-import UserCategoryLawsService from "./userCategoryLaws.service";
+import UserCategoryLawsService from "./userCategoryLaws.services";
 import {
   RESPONSE_CODES,
   TWO_FACTOR_AUTH_TYPE,
@@ -64,6 +64,11 @@ class UserCategoryLawsController {
           data: {},
         };
       }
+      const cityLawList = await UserCategoryLawsService.getAllCityLaws({ city: categoryLaw.city });
+      const lawDetail = categoryLaw.laws.map(id =>  {
+        return cityLawList.laws.find(obj => obj.id === id);
+      });
+      categoryLaw.laws = lawDetail;
       return {
         status: RESPONSE_CODES.POST,
         success: true,
@@ -250,11 +255,12 @@ class UserCategoryLawsController {
   };
   /* end */
 
-  /* get list of category laws */
-  defaultList = async (req) => {
+  /* laws list of a city */
+  cityLawList = async (req) => {
+    const data = matchedData(req);
     const { user } = req;
     try {
-      const response = await UserCategoryLawsService.getCategoryLawList({ user_id: user.data._id });
+      const response = await UserCategoryLawsService.getAllCityLaws({ city: data.city });
       return {
         status: RESPONSE_CODES.POST,
         success: true,
@@ -262,7 +268,38 @@ class UserCategoryLawsController {
         data: response,
       };
     } catch (error) {
-      console.log('error :>> ', error);
+      return {
+        status: RESPONSE_CODES.SERVER_ERROR,
+        success: false,
+        message: error,
+        data: {},
+      };
+    }
+  };
+  /* end */
+
+  /* law list of the city which are not added as favourite */
+  remainingLawList = async (req) => {
+    const data = matchedData(req);
+    const { user } = req;
+    try {
+      /* get all laws of a city */
+      const cityLaws = await UserCategoryLawsService.getAllCityLaws({ city: data.city });
+      let cityLawsArr = [];
+      if (cityLaws && cityLaws.laws) {
+        for (let law of cityLaws.laws) {
+          cityLawsArr.push(law._id)
+        }
+      }
+      const categoryLaws = await UserCategoryLawsService.getUserCategoryLaw({ _id: data.category_law_id, user_id: user.data._id });
+      const response = cityLawsArr.filter((element) => !categoryLaws.laws.includes(element));
+      return {
+        status: RESPONSE_CODES.GET,
+        success: true,
+        message: CUSTOM_MESSAGES.DATA_LOADED_SUCCESS,
+        data: response,
+      };
+    } catch (error) {
       return {
         status: RESPONSE_CODES.SERVER_ERROR,
         success: false,
