@@ -16,7 +16,7 @@ import StateRoutes from "../src/states/index";
 import SettingsRoutes from "../src/settings/index";
 import ContactUsRoutes from "../src/contactUs/index";
 import LawsRoutes from "../src/laws/index";
-import UserCategoryLawsRoutes from "../src/laws/index";
+import UserCategoryLawsRoutes from "../src/userCategoryLaws";
 // import StripeRoutes from "../src/stripe";
 // import DashboarRoutes from "../src/dashboard/index";
 // import CategorySubcategoryRoutes from "../src/categorySubcategory/index.js";

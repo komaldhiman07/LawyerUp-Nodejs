@@ -146,14 +146,13 @@ const userSchema = mongoose.Schema(
 userSchema.plugin(mongoosePaginate);
 /* post hook to add user's favourite laws as per the city selection */
 userSchema.post('save', async function (doc) {
-  console.log("userdoc", doc);
   if (doc.city) {
     /* get all the laws of the selected city */
     const lawsData = await Laws.findOne({ city: doc.city })
     if (lawsData.laws && lawsData.laws.length) {
       let lawArr = [];
       for (const law of lawsData.laws) {
-        lawArr.push(law._id)
+        lawArr.push(law._id.toString())
       }
       const payload = {
         user_id: doc._id,
@@ -161,7 +160,6 @@ userSchema.post('save', async function (doc) {
         city: doc.city,
         laws: lawArr,
       }
-      console.log("payload: ", payload);
       await UserCategoryLaws.create(payload)
     }
   }
