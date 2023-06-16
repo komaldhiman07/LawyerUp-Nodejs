@@ -1,6 +1,6 @@
 FROM node:alpine
 WORKDIR /usr/src/app
 COPY package.json .
-RUN npm install --only=prod
+RUN yarn install
 COPY . .
 CMD ["npm", "start"]
