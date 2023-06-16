@@ -1,7 +1,7 @@
 import { CUSTOM_MESSAGES } from '../../config/customMessages';
 import { RESPONSE_CODES } from '../../config/constants';
-import moment from 'moment';
-import $ from 'jsrender'
+// import moment from 'moment';
+// import $ from 'jsrender'
 
 
 /** function for check that email is valid or not. */

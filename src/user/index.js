@@ -127,13 +127,13 @@ class UserRoutes {
       handler(controller.updateUser, (req) => [req])
     );
 
-    router.get("/stripe-integration/reauth",
-      controller.stripeReAuth, (req, res) => [req, res]
-    );
+    // router.get("/stripe-integration/reauth",
+    //   controller.stripeReAuth, (req, res) => [req, res]
+    // );
 
-    router.get("/stripe-integration/return",
-      controller.stripeReturn, (req, res) => [req, res]
-    );
+    // router.get("/stripe-integration/return",
+    //   controller.stripeReturn, (req, res) => [req, res]
+    // );
 
     router.post("/contact-us",
       handler(controller.contactUs, (req) => [req])

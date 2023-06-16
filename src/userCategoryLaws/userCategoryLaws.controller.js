@@ -1,16 +1,7 @@
-import bcrypt from "bcrypt";
 import { matchedData } from "express-validator";
-
 import UserCategoryLawsService from "./userCategoryLaws.services";
-import {
-  RESPONSE_CODES,
-  TWO_FACTOR_AUTH_TYPE,
-  DEFAULT,
-} from "../../config/constants.js";
+import { RESPONSE_CODES } from "../../config/constants.js";
 import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
-
-let _ = require("lodash");
-
 class UserCategoryLawsController {
   constructor() { }
 

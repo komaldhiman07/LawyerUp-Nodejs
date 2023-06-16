@@ -5,7 +5,7 @@ import speakeasy from "speakeasy";
 import QRCode from "qrcode";
 
 import userService from "./user.service.js";
-import twilioService from "../services/common/twilio.js";
+// import twilioService from "../services/common/twilio.js";
 import {
   RESPONSE_CODES,
   TWO_FACTOR_AUTH_TYPE,
@@ -15,11 +15,6 @@ import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
 import { authObj } from "../services/common/object.service";
 import firebase from "../services/common/firebase.js";
 import emailService from "../services/common/email";
-import {
-  createStripeAccount,
-  createStripeCustomer,
-} from "../services/common/stripe";
-let _ = require("lodash");
 
 class UserController {
   constructor() {}
@@ -63,10 +58,10 @@ class UserController {
       await user.save();
       const message = `Please verify your OTP at ${otp}`;
       if (user.phone) {
-        await twilioService.sendMessage({
-          message,
-          to: user.phone,
-        });
+        // await twilioService.sendMessage({
+        //   message,
+        //   to: user.phone,
+        // });
       }
       if (user.email) {
         await emailService.sendMail({

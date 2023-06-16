@@ -4,37 +4,7 @@
 // import Device from "../../../database/models/Device";
 // import firebase from "./firebase";
 // /**Function for get All expired Notification */
-// export const expiredAlbums = async () => {
-//   const allAlbums = await Album.find({ status: { $in: [4, 6] }, is_deleted: false }).populate(
-//     [
-//       {
-//         path: "experts",
-//         select: "first_name last_name",
-//       },
-//     ]
-//   );
-//   for (const ele of allAlbums) {
-//     const expertName = `${ele.experts[0].first_name} ${ele.experts[0].last_name}`;
-//     const album_transaction = await Transaction.findOne({
-//       album_id: ele._id,
-//       transaction_status: "captured",
-//     });
-//     if (album_transaction) {
-//       const date1 = new Date(album_transaction.created_at);
-//       const date2 = new Date();
-//       const diffTime = Math.abs(date2 - date1);
-//       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-//       if (diffDays > 7) {
-//         await sendNotificationForExpiredAlbum(
-//           ele._id,
-//           expertName,
-//           album_transaction
-//         );
-//       }
-//     }
-//   }
-//   return;
-// };
+
 // /** Function for send notification for expired album and update album status  */
 // export const sendNotificationForExpiredAlbum = async (
 //   album_id,

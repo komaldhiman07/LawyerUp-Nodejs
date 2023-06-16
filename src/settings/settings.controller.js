@@ -1,14 +1,10 @@
 import bcrypt from "bcrypt";
 import { matchedData } from "express-validator";
-import jwt from "jsonwebtoken";
-
 import settingsService from "./settings.service.js";
 import {
   RESPONSE_CODES,
 } from "../../config/constants.js";
 import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
-
-let _ = require("lodash");
 
 class settingsController {
   constructor() {}

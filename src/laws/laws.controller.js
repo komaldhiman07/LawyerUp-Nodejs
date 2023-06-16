@@ -1,22 +1,15 @@
-import { matchedData } from 'express-validator';
-import randomstring from 'randomstring';
-import lawsService from './laws.service.js';
-import {
-  RESPONSE_CODES,
-  ADMIN_EMAIL,
-} from '../../config/constants.js';
-import { CUSTOM_MESSAGES } from '../../config/customMessages.js';
-import { sendEmail } from '../helpers/email_service/email.js';
-
-const _ = require('lodash');
+import { matchedData } from "express-validator";
+import lawsService from "./laws.service.js";
+import { RESPONSE_CODES } from "../../config/constants.js";
+import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
 
 class LawsController {
-  constructor() { }
+  constructor() {}
 
   /* raise law */
   raiseLaw = async (req) => {
     const data = matchedData(req);
-    console.log('data :>> ', data);
+    console.log("data :>> ", data);
     const { user } = req;
     try {
       data.user_id = user.data._id;
@@ -42,7 +35,10 @@ class LawsController {
   getRaisedLaw = async (req) => {
     const { query, user } = req;
     try {
-      const result = await lawsService.getRaisedLawById({ _id: query.raised_law_id, user_id: user.data._id });
+      const result = await lawsService.getRaisedLawById({
+        _id: query.raised_law_id,
+        user_id: user.data._id,
+      });
       if (!result) {
         return {
           status: RESPONSE_CODES.BAD_REQUEST,
@@ -73,7 +69,10 @@ class LawsController {
     const data = matchedData(req);
     const { query, user } = req;
     try {
-      const raisedLaw = await lawsService.getRaisedLawById({ _id: query.raised_law_id, user_id: user.data._id });
+      const raisedLaw = await lawsService.getRaisedLawById({
+        _id: query.raised_law_id,
+        user_id: user.data._id,
+      });
       if (!raisedLaw) {
         return {
           status: RESPONSE_CODES.BAD_REQUEST,
@@ -82,7 +81,10 @@ class LawsController {
           data: {},
         };
       }
-      await lawsService.updateRaisedLaw({ _id: query.raised_law_id, user_id: user.data._id }, data);
+      await lawsService.updateRaisedLaw(
+        { _id: query.raised_law_id, user_id: user.data._id },
+        data
+      );
       return {
         status: RESPONSE_CODES.POST,
         success: true,
@@ -104,7 +106,10 @@ class LawsController {
   deleteRaisedLaw = async (req) => {
     const { query, user } = req;
     try {
-      const raisedLaw = await lawsService.getRaisedLawById({ _id: query.raised_law_id, user_id: user.data._id });
+      const raisedLaw = await lawsService.getRaisedLawById({
+        _id: query.raised_law_id,
+        user_id: user.data._id,
+      });
       if (!raisedLaw) {
         return {
           status: RESPONSE_CODES.BAD_REQUEST,
@@ -113,7 +118,10 @@ class LawsController {
           data: {},
         };
       }
-      const result = await lawsService.deleteRaisedLaw({ _id: query.raised_law_id, user_id: user.data._id });
+      const result = await lawsService.deleteRaisedLaw({
+        _id: query.raised_law_id,
+        user_id: user.data._id,
+      });
       return {
         status: RESPONSE_CODES.POST,
         success: true,
@@ -136,7 +144,9 @@ class LawsController {
     const data = matchedData(req);
     const { query, user } = req;
     try {
-      const response = await lawsService.getRaisedLawList({user_id: user.data._id });
+      const response = await lawsService.getRaisedLawList({
+        user_id: user.data._id,
+      });
       return {
         status: RESPONSE_CODES.GET,
         success: true,

@@ -1,17 +1,15 @@
 import bcrypt from "bcrypt";
 import { matchedData } from "express-validator";
 import jwt from "jsonwebtoken";
-import randomize from 'randomatic';
+// import randomize from 'randomatic';
 
 import authService from "./auth.service.js";
 import settingService from "../settings/settings.service";
 import { authObj } from "../services/common/object.service";
-import twilioService from "../services/common/twilio.js";
 import emailService from "../services/common/email.js";
-import { RESPONSE_CODES, DEFAULT, THEME } from "../../config/constants.js";
+import { RESPONSE_CODES, DEFAULT } from "../../config/constants.js";
 import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
 
-import { createStripeCustomer, createStripeAccount } from '../services/common/stripe';
 // import {sendEmail} from "../helpers/email_service/email"
 import { sendEmail } from "../helpers/email_service/email";
 class AuthController {
@@ -147,7 +145,7 @@ class AuthController {
       }
       let password = null
       if (data.device_type == 'web') {
-        password = randomize('*', 10);
+        password =  "fhsdfga";//randomize('*', 10);
         userData.password = bcrypt.hashSync(password, salt);
       }
       /** create stripe customer for Performer */
@@ -442,7 +440,7 @@ class AuthController {
         await emailService.sendMail({
           from: user.email,
           subject: `Forgot Password`,
-          text: `<b>Hello ${user.first_name} ${user.last_name}</b><br />We have recieved a request from you to set password, please use below otp and set your password. <br /><b>OTP</b> : ${otp} <br /><br />Regards<br />LawyerUp Team`,
+          text: `<b>Hello ${user.first_name} ${user.last_name}</b><br />We have received a request from you to set password, please use below otp and set your password. <br /><b>OTP</b> : ${otp} <br /><br />Regards<br />LawyerUp Team`,
         });
       }
       return {

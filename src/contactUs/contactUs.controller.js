@@ -7,7 +7,6 @@ import {
 import { CUSTOM_MESSAGES } from '../../config/customMessages.js';
 import { sendEmail } from '../../src/helpers/email_service/email.js';
 import randomstring from "randomstring";
-const _ = require('lodash');
 
 class ContactUsController {
   constructor() { }

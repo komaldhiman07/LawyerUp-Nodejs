@@ -10,17 +10,13 @@ import DB from "../src/helpers/db";
 import swaggerDocument from "../config/swagger.json";
 import authMiddleWare from "../src/helpers/middlewares";
 import UserRoutes from "../src/user/index.js";
-// import AlbumRoutes from "../src/album/index.js";
 import AuthRoutes from "../src/auth/index.js";
 import StateRoutes from "../src/states/index";
 import SettingsRoutes from "../src/settings/index";
 import ContactUsRoutes from "../src/contactUs/index";
 import LawsRoutes from "../src/laws/index";
 import UserCategoryLawsRoutes from "../src/userCategoryLaws";
-// import StripeRoutes from "../src/stripe";
-// import DashboarRoutes from "../src/dashboard/index";
-// import CategorySubcategoryRoutes from "../src/categorySubcategory/index.js";
-import cron from "node-cron";
+// import cron from "node-cron";
 import { expiredAlbums } from "../src/services/common/cronjobs";
 
 const morgan = require("morgan");
@@ -87,16 +83,11 @@ class Server {
       this.app.use("/contact-us", ContactUsRoutes);
       this.app.use("/laws", LawsRoutes);
       this.app.use("/category-law", UserCategoryLawsRoutes);
-      // this.app.use("/video", AlbumRoutes);
-      // this.app.use("/stripe", StripeRoutes);
-      // this.app.use("/dashboard", DashboarRoutes);
-      // this.app.use("/categorySubcategory", CategorySubcategoryRoutes);
       this.app.get("/api-docs", swaggerUi.setup(swaggerDocument));
       /** All Cron Jobs Here */
       /** Cron job for expire the album and send notification */
-      cron.schedule("0 0 * * *", async () => {
-        await expiredAlbums();
-      });
+      // cron.schedule("0 0 * * *", async () => {
+      // });
       return this.app;
     } catch (err) {
       console.log("e : ", err)
