@@ -35,7 +35,7 @@ class UserCategoryLawsService {
   //     }
   //   }
   // ])
-  
+
   // getUserCategoryLaw = (data) => UserCategoryLaws.find(data).populate({
   //   path: "",
   //   model: Laws,
@@ -57,6 +57,10 @@ class UserCategoryLawsService {
 
   /* get all laws of a city */
   getAllCityLaws = (data) => Laws.findOne(data);
+  /* end */
+
+  /* update law of a city */
+  updateCityLaws = (query, data) => Laws.updateOne(query, data);
   /* end */
 
 

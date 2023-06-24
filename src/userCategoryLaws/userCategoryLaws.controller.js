@@ -56,7 +56,7 @@ class UserCategoryLawsController {
         };
       }
       const cityLawList = await UserCategoryLawsService.getAllCityLaws({ city: categoryLaw.city });
-      const lawDetail = categoryLaw.laws.map(id =>  {
+      const lawDetail = categoryLaw.laws.map(id => {
         return cityLawList.laws.find(obj => obj.id === id);
       });
       categoryLaw.laws = lawDetail;
@@ -289,6 +289,49 @@ class UserCategoryLawsController {
         success: true,
         message: CUSTOM_MESSAGES.DATA_LOADED_SUCCESS,
         data: response,
+      };
+    } catch (error) {
+      return {
+        status: RESPONSE_CODES.SERVER_ERROR,
+        success: false,
+        message: error,
+        data: {},
+      };
+    }
+  };
+  /* end */
+
+  /* like dislike law */
+  likeDislikeLawOfACity = async (req) => {
+    const data = matchedData(req);
+    const { user } = req;
+    try {
+      const cityLaws = await UserCategoryLawsService.getAllCityLaws({ _id: data.parent_id });
+      const lawsArr = [];
+      if (cityLaws) {
+        for (let law of cityLaws.laws) {
+          if (law._id.toString() !== data.law_id) {
+            lawsArr.push(law);
+          }
+          if (law._id.toString() === data.law_id) {
+            let lawObj = {};
+            if (data.type === 1) {
+              law.likes = law.likes + 1
+              lawsArr.push(law)
+            } else if (data.type === 0) {
+              law.dislikes = law.dislikes + 1
+              lawsArr.push(law)
+            }
+          }
+        }
+      }
+      await UserCategoryLawsService.updateCityLaws({ _id: data.parent_id }, { laws: lawsArr });
+      const updatedLaw = await UserCategoryLawsService.getAllCityLaws({ _id: data.parent_id });
+      return {
+        status: RESPONSE_CODES.GET,
+        success: true,
+        message: CUSTOM_MESSAGES.DATA_LOADED_SUCCESS,
+        data: updatedLaw,
       };
     } catch (error) {
       return {

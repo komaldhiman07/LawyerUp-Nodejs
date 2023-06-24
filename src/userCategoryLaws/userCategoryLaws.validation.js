@@ -103,16 +103,22 @@ class UserCategoryLawsValidator {
     /* like/dilike law of a city validator */
     likeDislikeLawOfACity = () => {
       return {
-        city: {
+        parent_id: {
           in: ["body"],
           exists: {
-            errorMessage: "city is required!",
+            errorMessage: "Parent id is required!",
           }
         },
         law_id: {
           in: ["body"],
           exists: {
             errorMessage: "city is required!",
+          }
+        },
+        type: {
+          in: ["body"],
+          exists: {
+            errorMessage: "type is required!",
           }
         },
       };
