@@ -5,6 +5,7 @@ import speakeasy from "speakeasy";
 import QRCode from "qrcode";
 
 import userService from "./user.service.js";
+import UploadDocument from "../services/common/uploadDocToS3";
 // import twilioService from "../services/common/twilio.js";
 import {
   RESPONSE_CODES,
@@ -108,6 +109,7 @@ class UserController {
 
   updateProfile = async (req) => {
     const data = matchedData(req);
+    const { user } = req;
     let userNameExist = data.username
       ? await userService.getUser({ username: data.username })
       : null;
@@ -145,12 +147,25 @@ class UserController {
     //   const stripeAccount = await createStripeAccount(data, req.user.data)
     //   data.stripe_account_id = stripeAccount.id;
     // }
-    await userService.updateUser(data, req.user.data._id);
-    const user = await userService.getUser({ _id: req.user.data._id });
+    if(user.data && user.data.profile_image) {
+      let profilePicKey = user.data.profile_image.split(
+        "https://lawyerupapp.s3.amazonaws.com/"
+      )[1];
+      if(profilePicKey){
+        const deleteParam = {
+          Bucket: process.env.AWS_BUCKET,
+          Key: profilePicKey,
+        };
+        const result = await UploadDocument.deleteFileFromAWS(deleteParam);
+      }
 
-    if (user) {
-      const token = await this.createToken(authObj(user));
-      const result = authObj(user);
+    }
+    await userService.updateUser(data, req.user.data._id);
+    const userData = await userService.getUser({ _id: req.user.data._id });
+
+    if (userData) {
+      const token = await this.createToken(authObj(userData));
+      const result = authObj(userData);
 
       result["token"] = token;
       return {
