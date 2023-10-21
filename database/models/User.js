@@ -149,7 +149,7 @@ userSchema.post('save', async function (doc) {
   if (doc.city) {
     /* get all the laws of the selected city */
     const lawsData = await Laws.findOne({ city: doc.city })
-    if (lawsData.laws && lawsData.laws.length) {
+    if (lawsData && lawsData.laws && lawsData.laws.length) {
       let lawArr = [];
       for (const law of lawsData.laws) {
         lawArr.push(law._id.toString())
