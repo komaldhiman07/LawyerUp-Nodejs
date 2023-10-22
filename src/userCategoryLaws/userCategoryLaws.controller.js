@@ -249,7 +249,6 @@ class UserCategoryLawsController {
   /* laws list of a city */
   cityLawList = async (req) => {
     const data = matchedData(req);
-    const { user } = req;
     try {
       const response = await UserCategoryLawsService.getAllCityLaws({ city: data.city });
       return {

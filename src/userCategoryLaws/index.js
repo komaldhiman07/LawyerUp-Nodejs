@@ -1,9 +1,5 @@
 import express from "express";
 import { checkSchema } from "express-validator";
-import multer from "multer";
-import path from "path";
-
-import { authenticate } from "../../authenticate.handler.js";
 import UserCategoryLawsController from "./userCategoryLaws.controller.js";
 import Validator from "./userCategoryLaws.validation.js";
 import { handler } from "../../async.handler";
@@ -30,7 +26,7 @@ class UserCategoryLawsRoutes {
     /* end */
 
     /* law list of a city */
-    router.get(
+    router.post(
       "/city-law-list",
       checkSchema(Validator.cityLawList()),
       handler(controller.cityLawList, (req) => [req])
