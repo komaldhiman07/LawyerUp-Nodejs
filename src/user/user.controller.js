@@ -75,7 +75,7 @@ class UserController {
         status: RESPONSE_CODES.GET,
         success: true,
         data: { otp },
-        message: CUSTOM_MESSAGES.SUCESS,
+        message: CUSTOM_MESSAGES.SUCCESS,
       };
     }
     return {
@@ -204,7 +204,7 @@ class UserController {
       status: RESPONSE_CODES.GET,
       success: true,
       data: roles,
-      message: CUSTOM_MESSAGES.SUCESS,
+      message: CUSTOM_MESSAGES.SUCCESS,
     };
   };
 
@@ -311,7 +311,7 @@ class UserController {
       status: RESPONSE_CODES.GET,
       success: true,
       data: club,
-      message: CUSTOM_MESSAGES.SUCESS,
+      message: CUSTOM_MESSAGES.SUCCESS,
     };
   };
 
@@ -718,7 +718,7 @@ class UserController {
     return {
       status: RESPONSE_CODES.POST,
       success: true,
-      message: CUSTOM_MESSAGES.SUCESS,
+      message: CUSTOM_MESSAGES.SUCCESS,
       data: list,
       recordsTotal: count,
       recordsFiltered: count,
@@ -892,7 +892,7 @@ class UserController {
         return {
           status: RESPONSE_CODES.POST,
           success: true,
-          message: CUSTOM_MESSAGES.SUCESS,
+          message: CUSTOM_MESSAGES.SUCCESS,
           data: { secret_code, qr_code },
         };
       } else if (data.type === TWO_FACTOR_AUTH_TYPE.VERIFY) {
@@ -955,8 +955,8 @@ class UserController {
             status: RESPONSE_CODES.POST,
             success: validate,
             message: validate
-              ? CUSTOM_MESSAGES.TWO_FACTOR_VELIDATE_SUCCESS
-              : CUSTOM_MESSAGES.TWO_FACTOR_VELIDATE_FAILED,
+              ? CUSTOM_MESSAGES.TWO_FACTOR_VALIDATE_SUCCESS
+              : CUSTOM_MESSAGES.TWO_FACTOR_VALIDATE_FAILED,
             data: {},
           };
         }

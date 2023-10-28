@@ -16,10 +16,6 @@ const userCategoryLawsSchema = mongoose.Schema(
             type: String,
             default: "",
         },
-        color: {
-            type: String,
-            default: "",
-        },
         city: {
             type: String,
             required: false

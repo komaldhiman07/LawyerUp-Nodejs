@@ -1,30 +1,13 @@
-import { param } from "express-validator";
-
 class UserCategoryLawsValidator {
-  field;
-
-  constructor() {
-    this.field = {
-
-    };
-  }
+  
   /* add category law validator */
-  addCategoryLaw = () => {
+  createCategory = () => {
     return {
-      city: {
-        in: ["body"],
-        exists: {
-          errorMessage: "City is required!",
-        }
-      },
       name: {
         in: ["body"],
         exists: {
-          errorMessage: "Name is required!",
+          errorMessage: "Category name is required!",
         }
-      },
-      color: {
-        in: ["body"],
       },
     };
   };
@@ -36,21 +19,15 @@ class UserCategoryLawsValidator {
       name: {
         in: ["body"],
         exists: {
-          errorMessage: "Name is required!",
+          errorMessage: "Category name is required!",
         }
-      },
-      color: {
-        in: ["body"],
-        exists: {
-          errorMessage: "Color is required!",
-        }
-      },
+      }
     };
   };
   /* end */
 
   /* add law to category law validator */
-  addLawtoCategoryLaw = () => {
+  addLawToCategoryLaw = () => {
     return {
       category_law_id: {
         in: ["body"],
@@ -63,6 +40,11 @@ class UserCategoryLawsValidator {
         exists: {
           errorMessage: "Law id is required!",
         }
+      },
+      color: {
+        in: ["body"],
+        optional: { options: { nullable: false } },
+        default: "#008000"
       },
     };
   };
@@ -100,25 +82,25 @@ class UserCategoryLawsValidator {
   };
   /* end */
 
-    /* like/dilike law of a city validator */
+    /* like/dislike law of a city validator */
     likeDislikeLawOfACity = () => {
       return {
-        parent_id: {
+        master_law_id: {
           in: ["body"],
           exists: {
-            errorMessage: "Parent id is required!",
+            errorMessage: "master_law_id is required!",
           }
         },
         law_id: {
           in: ["body"],
           exists: {
-            errorMessage: "city is required!",
+            errorMessage: "law_id is required!",
           }
         },
-        type: {
+        action_type: {
           in: ["body"],
           exists: {
-            errorMessage: "type is required!",
+            errorMessage: "action_type is required!",
           }
         },
       };

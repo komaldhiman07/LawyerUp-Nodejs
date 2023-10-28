@@ -15,9 +15,7 @@ import StateRoutes from "../src/states/index";
 import SettingsRoutes from "../src/settings/index";
 import ContactUsRoutes from "../src/contactUs/index";
 import LawsRoutes from "../src/laws/index";
-import UserCategoryLawsRoutes from "../src/userCategoryLaws";
-// import cron from "node-cron";
-import { expiredAlbums } from "../src/services/common/cronjobs";
+import UserCategoryLawsRoutes from "../src/lawsCategories";
 
 const morgan = require("morgan");
 import AWS from 'aws-sdk';
@@ -82,7 +80,7 @@ class Server {
       this.app.use("/settings", SettingsRoutes);
       this.app.use("/contact-us", ContactUsRoutes);
       this.app.use("/laws", LawsRoutes);
-      this.app.use("/category-law", UserCategoryLawsRoutes);
+      this.app.use("/category", UserCategoryLawsRoutes);
       this.app.get("/api-docs", swaggerUi.setup(swaggerDocument));
       /** All Cron Jobs Here */
       /** Cron job for expire the album and send notification */

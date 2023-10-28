@@ -1,7 +1,7 @@
 import UserCategoryLaws from "../../database/models/userCategoryLaws";
 import Laws from "../../database/models/laws";
-
-class UserCategoryLawsService {
+import UserLikedLaws from "../../database/models/UserLikedLaws";
+export class CategoryService {
   constructor() { }
 
   /* add category law */
@@ -63,7 +63,7 @@ class UserCategoryLawsService {
   updateCityLaws = (query, data) => Laws.updateOne(query, data);
   /* end */
 
-
+  getUserLikedLaw = (data) => UserLikedLaws.findOne(data);
+  createUserLikedLaw = (data) => UserLikedLaws.create(data);
+  updateUserLikedLaw = (query, data) => UserLikedLaws.updateOne(query, data);
 }
-
-export default new UserCategoryLawsService();

@@ -178,7 +178,7 @@ class AuthController {
           success: true,
           data: { token },
           // data: { otp, token },
-          message: CUSTOM_MESSAGES.USER_REGISTER_SUCESS,
+          message: CUSTOM_MESSAGES.USER_REGISTER_SUCCESS,
         };
         let emailData = [{
           email: user.email,
@@ -315,7 +315,7 @@ class AuthController {
         status: RESPONSE_CODES.POST,
         success: true,
         data: { token },
-        message: CUSTOM_MESSAGES.USER_REGISTER_SUCESS,
+        message: CUSTOM_MESSAGES.USER_REGISTER_SUCCESS,
       };
     } else {
       retObj = {
@@ -447,7 +447,7 @@ class AuthController {
         status: RESPONSE_CODES.GET,
         success: true,
         data: { otp },
-        message: CUSTOM_MESSAGES.SUCESS,
+        message: CUSTOM_MESSAGES.SUCCESS,
       };
     }
     return {

@@ -1,27 +1,27 @@
 import express from "express";
 import { checkSchema } from "express-validator";
-import UserCategoryLawsController from "./userCategoryLaws.controller.js";
-import Validator from "./userCategoryLaws.validation.js";
-import { handler } from "../../async.handler";
+import {LawsCategoriesController} from "./lawsCategory.controller";
+import Validator from "./lawsCategory.validation.js";
+import { handler } from "../../async.handler.js";
 
 const router = express.Router();
 
-const controller = new UserCategoryLawsController();
+const controller = new LawsCategoriesController();
 
 class UserCategoryLawsRoutes {
   static routes() {
     /* add category law */
     router.post(
-      "/add",
-      checkSchema(Validator.addCategoryLaw()),
-      handler(controller.addCategoryLaw, (req) => [req])
+      "/create",
+      checkSchema(Validator.createCategory()),
+      handler(controller.addCategory, (req) => [req])
     );
     /* end */
 
-    /* list of the category laws of a user */
+    /* list of categories */
     router.get(
       "/list",
-      handler(controller.categoryLawList, (req) => [req])
+      handler(controller.listCategories, (req) => [req])
     );
     /* end */
 
@@ -35,21 +35,21 @@ class UserCategoryLawsRoutes {
 
     /* get category law by category law id */
     router.get(
-      "/:category_law_id",
+      "/:category_id",
       handler(controller.getCategoryLaw, (req) => [req])
     );
     /* end */
 
     /* delete category law by category law id */
     router.delete(
-      "/:category_law_id",
+      "/:category_id",
       handler(controller.deleteCategoryLaw, (req) => [req])
     );
     /* end */
 
     /* update category law by category law id */
     router.put(
-      "/:category_law_id",
+      "/:category_id",
       checkSchema(Validator.updateCategoryLaw()),
       handler(controller.updateCategoryLaw, (req) => [req])
     );
@@ -58,20 +58,20 @@ class UserCategoryLawsRoutes {
     /* add law to the category law */
     router.post(
       "/add-law",
-      checkSchema(Validator.addLawtoCategoryLaw()),
-      handler(controller.addLawtoCategoryLaw, (req) => [req])
+      checkSchema(Validator.addLawToCategoryLaw()),
+      handler(controller.addLawToCategoryLaw, (req) => [req])
     );
     /* end */
 
     /* delete law from the category law */
     router.post(
       "/delete-law",
-      checkSchema(Validator.addLawtoCategoryLaw()),
+      checkSchema(Validator.addLawToCategoryLaw()),
       handler(controller.deleteLawFromCategoryLaw, (req) => [req])
     );
     /* end */
 
-    /* law list of the city which are not added as favourite */
+    /* law list of the city which are not added as favorite */
     router.post(
       "/remaining-law-list",
       checkSchema(Validator.remainingLawList()),
