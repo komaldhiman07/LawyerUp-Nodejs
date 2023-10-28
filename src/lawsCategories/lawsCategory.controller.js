@@ -140,9 +140,9 @@ export class LawsCategoriesController {
       }
       const isCategoryNameExists = await this.service.getUserCategoryLaw({
         name: data.name,
-        user_id: user.data._id,
+        user_id: { $ne: user.data._id },
       });
-      if (isCategoryNameExists) {
+      if (isCategoryNameExists && isCategoryNameExists.user_id) {
         return {
           status: RESPONSE_CODES.BAD_REQUEST,
           success: false,
