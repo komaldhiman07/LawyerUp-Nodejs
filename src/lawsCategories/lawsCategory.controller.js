@@ -174,10 +174,9 @@ export class LawsCategoriesController {
   /* add law to category law by category law id */
   addLawToCategoryLaw = async (req) => {
     const data = matchedData(req);
-    const { params, user } = req;
     try {
       const categoryLaw = await this.service.getUserCategoryLaw({
-        _id: data.category_law_id,
+        _id: data.category_id,
       });
       if (!categoryLaw) {
         return {
@@ -193,7 +192,7 @@ export class LawsCategoriesController {
         laws: lawArr,
       };
       const response = await this.service.updateUserCategoryLaw(
-        { _id: data.category_law_id },
+        { _id: data.category_id },
         payload
       );
       return {

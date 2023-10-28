@@ -57,7 +57,7 @@ class UserCategoryLawsRoutes {
 
     /* add law to the category law */
     router.post(
-      "law/add",
+      "/law/add",
       checkSchema(Validator.addLawToCategoryLaw()),
       handler(controller.addLawToCategoryLaw, (req) => [req])
     );
@@ -65,7 +65,7 @@ class UserCategoryLawsRoutes {
 
     /* delete law from the category law */
     router.delete(
-      "law/delete",
+      "/law/delete",
       checkSchema(Validator.addLawToCategoryLaw()),
       handler(controller.deleteLawFromCategoryLaw, (req) => [req])
     );

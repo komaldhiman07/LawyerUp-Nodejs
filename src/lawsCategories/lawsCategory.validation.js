@@ -29,7 +29,7 @@ class UserCategoryLawsValidator {
   /* add law to category law validator */
   addLawToCategoryLaw = () => {
     return {
-      category_law_id: {
+      category_id: {
         in: ["body"],
         exists: {
           errorMessage: "Category law id is required!",
