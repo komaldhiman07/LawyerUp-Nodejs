@@ -43,7 +43,7 @@ class UserCategoryLawsRoutes {
     /* delete category law by category law id */
     router.delete(
       "/:category_id",
-      handler(controller.deleteCategoryLaw, (req) => [req])
+      handler(controller.deleteCategory, (req) => [req])
     );
     /* end */
 
@@ -66,8 +66,8 @@ class UserCategoryLawsRoutes {
     /* delete law from the category law */
     router.delete(
       "/law/delete",
-      checkSchema(Validator.addLawToCategoryLaw()),
-      handler(controller.deleteLawFromCategoryLaw, (req) => [req])
+      checkSchema(Validator.deleteCategoryLaw()),
+      handler(controller.deleteLawFromCategory, (req) => [req])
     );
     /* end */
 

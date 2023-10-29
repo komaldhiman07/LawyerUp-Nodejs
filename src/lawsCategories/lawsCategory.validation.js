@@ -68,6 +68,24 @@ class UserCategoryLawsValidator {
   };
   /* end */
 
+  
+  deleteCategoryLaw = () => {
+    return {
+      category_id: {
+        in: ["body"],
+        exists: {
+          errorMessage: "category_id is required!",
+        },
+      },
+      law_id: {
+        in: ["body"],
+        exists: {
+          errorMessage: "law_id is required!",
+        },
+      },
+    };
+  };
+
   /* remaining law list validator */
   remainingLawList = () => {
     return {

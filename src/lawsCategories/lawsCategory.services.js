@@ -52,7 +52,7 @@ export class CategoryService {
   /* end */
 
   /* get category law list */
-  getCategoryLawList = (data) => UserCategoryLaws.find(data);
+  getCategoryLawList = (data) => UserCategoryLaws.find(data).sort({'_id': -1});
   /* end */
 
   /* get all laws of a city */

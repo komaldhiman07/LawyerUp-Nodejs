@@ -90,7 +90,7 @@ export class LawsCategoriesController {
   /* end */
 
   /* delete category law by category law id */
-  deleteCategoryLaw = async (req) => {
+  deleteCategory = async (req) => {
     const { params } = req;
     try {
       const categoryLaw = await this.service.getUserCategoryLaw({
@@ -100,17 +100,17 @@ export class LawsCategoriesController {
         return {
           status: RESPONSE_CODES.BAD_REQUEST,
           success: false,
-          message: CUSTOM_MESSAGES.LAW_NOT_FOUND,
+          message: CUSTOM_MESSAGES.CATEGORY_NOT_FOUND,
           data: {},
         };
       }
       const response = await this.service.deleteUserCategoryLaw({
-        _id: params.category_law_id,
+        _id: params.category_id,
       });
       return {
         status: RESPONSE_CODES.GET,
         success: true,
-        message: CUSTOM_MESSAGES.LAW_DELETE_SUCCESS,
+        message: CUSTOM_MESSAGES.CATEGORY_DELETED,
         data: response,
       };
     } catch (error) {
@@ -223,12 +223,12 @@ export class LawsCategoriesController {
   /* end */
 
   /* delete law from category law by category law id */
-  deleteLawFromCategoryLaw = async (req) => {
+  deleteLawFromCategory = async (req) => {
     const data = matchedData(req);
     const { params, user } = req;
     try {
       const categoryLaw = await this.service.getUserCategoryLaw({
-        _id: data.category_law_id,
+        _id: data.category_id,
       });
       if (!categoryLaw) {
         return {
@@ -239,12 +239,12 @@ export class LawsCategoriesController {
         };
       }
       const lawArr = [...categoryLaw.laws];
-      const newArray = lawArr.filter((element) => element !== data.law_id);
+      const newArray = lawArr.filter((element) => element.law_id !== data.law_id);
       const payload = {
         laws: newArray,
       };
       const response = await this.service.updateUserCategoryLaw(
-        { _id: data.category_law_id },
+        { _id: data.category_id },
         payload
       );
       return {
