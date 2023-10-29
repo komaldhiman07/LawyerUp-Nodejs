@@ -68,15 +68,28 @@ export class LawsCategoriesController {
       const cityLawList = await this.service.getAllCityLaws({
         city: categoryLaw.city,
       });
-      const lawDetail = categoryLaw.laws.map((id) => {
-        return cityLawList.laws.find((obj) => obj.id === id);
-      });
-      categoryLaw.laws = lawDetail;
+      const laws = [];
+      for(let i=0; i< categoryLaw.laws.length; i++){
+        const law = categoryLaw.laws[i];
+        const data = cityLawList.laws.find((obj) => obj._id.toString() === law.law_id)
+        laws.push(data);
+      }
+      console.log("categoryLaw :", categoryLaw);
+      console.log("laws : ", laws);
+      const categoryPayload = {
+        name: categoryLaw.name,
+        city: categoryLaw.city,
+        state: categoryLaw.state,
+        user_id: categoryLaw.user_id,
+        _id: categoryLaw._id,
+        active: categoryLaw.active,
+        laws
+      }
       return {
         status: RESPONSE_CODES.GET,
         success: true,
         message: CUSTOM_MESSAGES.DATA_LOADED_SUCCESS,
-        data: categoryLaw,
+        data: categoryPayload,
       };
     } catch (error) {
       return {
