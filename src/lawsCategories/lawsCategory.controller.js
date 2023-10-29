@@ -2,6 +2,7 @@ import { matchedData } from "express-validator";
 import { CategoryService } from "./lawsCategory.services";
 import { RESPONSE_CODES } from "../../config/constants.js";
 import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
+import mongoose from 'mongoose';
 export class LawsCategoriesController {
   constructor() {
     this.service = new CategoryService();
@@ -16,6 +17,7 @@ export class LawsCategoriesController {
       const categoryLaw = await this.service.getUserCategoryLaw({
         city: data.city,
         name: data.name,
+        state: data.state,
         user_id: user.data._id,
       });
       if (categoryLaw) {
