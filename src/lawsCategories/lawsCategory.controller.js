@@ -316,6 +316,7 @@ export class LawsCategoriesController {
     try {
       /* get all laws of a city */
       const cityLaws = await this.service.getAllCityLaws({ city: data.city });
+      console.log("city : ", cityLaws)
       let cityLawsArr = [];
       if (cityLaws && cityLaws.laws) {
         for (let law of cityLaws.laws) {
@@ -326,8 +327,9 @@ export class LawsCategoriesController {
         _id: data.category_id,
         user_id: user.data._id,
       });
-      const response = cityLawsArr.filter(
-        (law_id) => !categoryLaws.laws.some((data) => data.law_id === law_id)
+      console.log("categoryLaws : ", categoryLaws)
+      const response = cityLaws.laws.filter(
+        (law) => !categoryLaws.laws.some((data) => data.law_id === law._id.toString()) 
       );
       return {
         status: RESPONSE_CODES.GET,

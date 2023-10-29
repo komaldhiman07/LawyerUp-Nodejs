@@ -65,7 +65,7 @@ class UserCategoryLawsValidator {
           errorMessage: "city is required!",
         },
       },
-      category_law_id: {
+      category_id: {
         in: ["body"],
         exists: {
           errorMessage: "Category Law id is required!",
