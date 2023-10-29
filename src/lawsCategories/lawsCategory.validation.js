@@ -1,5 +1,4 @@
 class UserCategoryLawsValidator {
-  
   /* add category law validator */
   createCategory = () => {
     return {
@@ -7,7 +6,7 @@ class UserCategoryLawsValidator {
         in: ["body"],
         exists: {
           errorMessage: "Category name is required!",
-        }
+        },
       },
     };
   };
@@ -20,8 +19,8 @@ class UserCategoryLawsValidator {
         in: ["body"],
         exists: {
           errorMessage: "Category name is required!",
-        }
-      }
+        },
+      },
     };
   };
   /* end */
@@ -32,20 +31,27 @@ class UserCategoryLawsValidator {
       category_id: {
         in: ["body"],
         exists: {
-          errorMessage: "Category law id is required!",
-        }
+          errorMessage: "category_id is required!",
+        },
       },
-      law_id: {
-        in: ["body"],
-        exists: {
-          errorMessage: "Law id is required!",
-        }
-      },
-      color: {
-        in: ["body"],
-        optional: { options: { nullable: false } },
-        default: "#008000"
-      },
+      laws: 
+        {
+          optional: { options: { 
+          law_id: {
+            in: ["body"],
+            required: true,
+            exists: {
+              errorMessage: "law_id is required!",
+            },
+          },
+          color: {
+            in: ["body"],
+            optional: { options: { nullable: false } },
+            default: "#008000",
+          },
+          nullable: false, isArray: true } },
+        },
+      
     };
   };
   /* end */
@@ -57,13 +63,13 @@ class UserCategoryLawsValidator {
         in: ["body"],
         exists: {
           errorMessage: "city is required!",
-        }
+        },
       },
       category_law_id: {
         in: ["body"],
         exists: {
           errorMessage: "Category Law id is required!",
-        }
+        },
       },
     };
   };
@@ -76,37 +82,36 @@ class UserCategoryLawsValidator {
         in: ["body"],
         exists: {
           errorMessage: "city is required!",
-        }
+        },
       },
     };
   };
   /* end */
 
-    /* like/dislike law of a city validator */
-    likeDislikeLawOfACity = () => {
-      return {
-        master_law_id: {
-          in: ["body"],
-          exists: {
-            errorMessage: "master_law_id is required!",
-          }
+  /* like/dislike law of a city validator */
+  likeDislikeLawOfACity = () => {
+    return {
+      master_law_id: {
+        in: ["body"],
+        exists: {
+          errorMessage: "master_law_id is required!",
         },
-        law_id: {
-          in: ["body"],
-          exists: {
-            errorMessage: "law_id is required!",
-          }
+      },
+      law_id: {
+        in: ["body"],
+        exists: {
+          errorMessage: "law_id is required!",
         },
-        action_type: {
-          in: ["body"],
-          exists: {
-            errorMessage: "action_type is required!",
-          }
+      },
+      action_type: {
+        in: ["body"],
+        exists: {
+          errorMessage: "action_type is required!",
         },
-      };
+      },
     };
-    /* end */
-  
+  };
+  /* end */
 }
 
 export default new UserCategoryLawsValidator();

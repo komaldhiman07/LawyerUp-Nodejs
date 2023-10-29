@@ -71,7 +71,7 @@ export class LawsCategoriesController {
       });
       categoryLaw.laws = lawDetail;
       return {
-        status: RESPONSE_CODES.POST,
+        status: RESPONSE_CODES.GET,
         success: true,
         message: CUSTOM_MESSAGES.DATA_LOADED_SUCCESS,
         data: categoryLaw,
@@ -106,7 +106,7 @@ export class LawsCategoriesController {
         _id: params.category_law_id,
       });
       return {
-        status: RESPONSE_CODES.POST,
+        status: RESPONSE_CODES.GET,
         success: true,
         message: CUSTOM_MESSAGES.LAW_DELETE_SUCCESS,
         data: response,
@@ -187,13 +187,20 @@ export class LawsCategoriesController {
         };
       }
       const lawArr = [...categoryLaw.laws];
-      lawArr.push(data.law_id);
-      const payload = {
-        laws: lawArr,
-      };
+      console.log("lawArr : ", lawArr);
+      for (let i = 0; i < data.laws.length; i++) {
+        const law_id = data.laws[i].law_id;
+        const found = lawArr.some((data) => data.law_id === law_id);
+        if (!found) {
+          console.log("Not found : ", law_id);
+          lawArr.push({ law_id, color: data.laws[i].color });
+        }
+      }
       const response = await this.service.updateUserCategoryLaw(
         { _id: data.category_id },
-        payload
+        {
+          laws: lawArr,
+        }
       );
       return {
         status: RESPONSE_CODES.POST,
@@ -202,6 +209,7 @@ export class LawsCategoriesController {
         data: response,
       };
     } catch (error) {
+      console.log("Error : ", error);
       return {
         status: RESPONSE_CODES.SERVER_ERROR,
         success: false,
@@ -285,7 +293,7 @@ export class LawsCategoriesController {
     try {
       const response = await this.service.getAllCityLaws({ city: data.city });
       return {
-        status: RESPONSE_CODES.POST,
+        status: RESPONSE_CODES.GET,
         success: true,
         message: CUSTOM_MESSAGES.DATA_LOADED_SUCCESS,
         data: response,
@@ -315,11 +323,11 @@ export class LawsCategoriesController {
         }
       }
       const categoryLaws = await this.service.getUserCategoryLaw({
-        _id: data.category_law_id,
+        _id: data.category_id,
         user_id: user.data._id,
       });
       const response = cityLawsArr.filter(
-        (element) => !categoryLaws.laws.includes(element)
+        (law_id) => !categoryLaws.laws.some((data) => data.law_id === law_id)
       );
       return {
         status: RESPONSE_CODES.GET,
@@ -372,7 +380,7 @@ export class LawsCategoriesController {
                 law.dislikes = law.dislikes ? law.dislikes - 1 : law.dislikes;
                 userLikeObj.is_dislike = false;
                 userLikeObj.is_like = true;
-              }else{
+              } else {
                 userLikeObj.is_like = true;
                 userLikeObj.is_dislike = false;
               }
@@ -390,15 +398,18 @@ export class LawsCategoriesController {
                 law.likes = law.likes ? law.likes - 1 : law.likes;
                 userLikeObj.is_like = false;
                 userLikeObj.is_dislike = true;
-              }else{
+              } else {
                 userLikeObj.is_dislike = true;
                 userLikeObj.is_like = false;
               }
               law.dislikes = law.dislikes + 1;
             }
-            if(userLikedDetail){
-              await this.service.updateUserLikedLaw({_id: userLikedDetail._id}, userLikeObj);
-            }else{
+            if (userLikedDetail) {
+              await this.service.updateUserLikedLaw(
+                { _id: userLikedDetail._id },
+                userLikeObj
+              );
+            } else {
               await this.service.createUserLikedLaw(userLikeObj);
             }
             lawsArr.push(law);
@@ -430,7 +441,7 @@ export class LawsCategoriesController {
         data: updatedLaw,
       };
     } catch (error) {
-      console.log("Error : ", error)
+      console.log("Error : ", error);
       return {
         status: RESPONSE_CODES.SERVER_ERROR,
         success: false,
