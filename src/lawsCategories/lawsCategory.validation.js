@@ -5,7 +5,19 @@ class UserCategoryLawsValidator {
       name: {
         in: ["body"],
         exists: {
-          errorMessage: "Category name is required!",
+          errorMessage: "category name is required!",
+        },
+      },
+      city: {
+        in: ["body"],
+        exists: {
+          errorMessage: "city is required!",
+        },
+      },
+      state: {
+        in: ["body"],
+        exists: {
+          errorMessage: "state is required!",
         },
       },
     };
