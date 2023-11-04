@@ -1,5 +1,5 @@
 import { matchedData } from "express-validator";
-import lawsService from "./laws.service.js";
+import raiseLawService from "./raisedLaw.service.js";
 import { RESPONSE_CODES } from "../../config/constants.js";
 import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
 
@@ -9,11 +9,10 @@ class LawsController {
   /* raise law */
   raiseLaw = async (req) => {
     const data = matchedData(req);
-    console.log("data :>> ", data);
     const { user } = req;
     try {
       data.user_id = user.data._id;
-      const result = await lawsService.addRaisedLaw(data);
+      const result = await raiseLawService.addRaisedLaw(data);
       return {
         status: RESPONSE_CODES.POST,
         success: true,
@@ -35,7 +34,7 @@ class LawsController {
   getRaisedLaw = async (req) => {
     const { query, user } = req;
     try {
-      const result = await lawsService.getRaisedLawById({
+      const result = await raiseLawService.getRaisedLawById({
         _id: query.raised_law_id,
         user_id: user.data._id,
       });
@@ -69,7 +68,7 @@ class LawsController {
     const data = matchedData(req);
     const { query, user } = req;
     try {
-      const raisedLaw = await lawsService.getRaisedLawById({
+      const raisedLaw = await raiseLawService.getRaisedLawById({
         _id: query.raised_law_id,
         user_id: user.data._id,
       });
@@ -81,7 +80,7 @@ class LawsController {
           data: {},
         };
       }
-      await lawsService.updateRaisedLaw(
+      await raiseLawService.updateRaisedLaw(
         { _id: query.raised_law_id, user_id: user.data._id },
         data
       );
@@ -106,7 +105,7 @@ class LawsController {
   deleteRaisedLaw = async (req) => {
     const { query, user } = req;
     try {
-      const raisedLaw = await lawsService.getRaisedLawById({
+      const raisedLaw = await raiseLawService.getRaisedLawById({
         _id: query.raised_law_id,
         user_id: user.data._id,
       });
@@ -118,7 +117,7 @@ class LawsController {
           data: {},
         };
       }
-      const result = await lawsService.deleteRaisedLaw({
+      const result = await raiseLawService.deleteRaisedLaw({
         _id: query.raised_law_id,
         user_id: user.data._id,
       });
@@ -141,10 +140,9 @@ class LawsController {
 
   /* get raised law list */
   getRaisedLawList = async (req) => {
-    const data = matchedData(req);
     const { query, user } = req;
     try {
-      const response = await lawsService.getRaisedLawList({
+      const response = await raiseLawService.getRaisedLawList({
         user_id: user.data._id,
       });
       return {
@@ -163,6 +161,101 @@ class LawsController {
     }
   };
   /* end */
+
+  generateLawReport = async (req) => {
+    const data = matchedData(req);
+    console.log("data :", data);
+    const { source, destination } = data;
+    try {
+      const sourceCityData = await raiseLawService.getCityLaws({
+        city: source.city,
+        state: source.state,
+      });
+      //console.log("sourceCityData :", sourceCityData);
+      const destinationCityData = await raiseLawService.getCityLaws({
+        city: destination.city,
+        state: destination.state,
+      });
+      const response = await this.compareLawsByQnA(
+        sourceCityData,
+        destinationCityData
+      );
+      return {
+        status: RESPONSE_CODES.GET,
+        success: true,
+        message: CUSTOM_MESSAGES.DATA_LOADED_SUCCESS,
+        data: response,
+      };
+    } catch (e) {
+      console.log("e : ", e);
+      return {
+        status: RESPONSE_CODES.SERVER_ERROR,
+        success: false,
+        message: e,
+        data: {},
+      };
+    }
+  };
+
+  async compareLawsByQnA(city1Data, city2Data) {
+    const diff = [];
+    if(!city1Data && !city2Data){
+      return diff;
+    }
+    if(city1Data && !city2Data){
+      city1Data.laws.forEach((city1) => {
+        diff.push({
+          title: city1.title,
+          cities: [
+            {
+              city: city1Data.city,
+              state: city1Data.state,
+              result: city1.description,
+            },
+          ],
+        });
+      })
+      return diff;
+    }
+    if(!city1Data && city2Data){
+      city2Data.laws.forEach((city2) => {
+        diff.push({
+          title: city2.title,
+          cities: [
+            {
+              city: city2Data.city,
+              state: city2Data.state,
+              result: city2.description,
+            },
+          ],
+        });
+      })
+      return diff;
+    }
+    city1Data.laws.forEach((city1) => {
+      const city2 = city2Data.laws.find((item) => item.title === city1.title);
+      // Prepare and return the structured response
+      const cities = [
+        {
+          city: city1Data.city,
+          state: city1Data.state,
+          result: city1.description,
+        },
+      ];
+      if(city2){
+        cities.push({
+          city: city2Data.city,
+          state: city2Data.state,
+          result: city2.description,
+        });
+      }
+      diff.push({
+        title: city1.title,
+        cities,
+      });
+    });
+    return diff;
+  }
 }
 
 export default LawsController;

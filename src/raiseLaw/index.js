@@ -2,9 +2,9 @@
 import express from 'express';
 import { checkSchema } from 'express-validator';
 
-import LawsController from './laws.controller.js';
-import Validator from './laws.validation.js';
-import { handler } from '../../async.handler';
+import LawsController from './raisedLaw.controller.js';
+import Validator from './raisedLaw.validation.js';
+import { handler } from '../../async.handler.js';
 
 const router = express.Router();
 
@@ -43,6 +43,12 @@ class LawsRoutes {
       '/list',
       handler(controller.getRaisedLawList, (req) => [req]),
     );
+
+    router.post(
+      '/report',
+      checkSchema(Validator.report()),
+      handler(controller.generateLawReport, (req) => [req])
+    )
 
 
     return router;

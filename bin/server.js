@@ -14,7 +14,7 @@ import AuthRoutes from "../src/auth/index.js";
 import StateRoutes from "../src/states/index";
 import SettingsRoutes from "../src/settings/index";
 import ContactUsRoutes from "../src/contactUs/index";
-import LawsRoutes from "../src/laws/index";
+import LawsRoutes from "../src/raiseLaw/index";
 import UserCategoryLawsRoutes from "../src/lawsCategories";
 
 const morgan = require("morgan");

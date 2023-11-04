@@ -38,6 +38,20 @@ class LawsValidator {
     },
   });
   /* end */
+
+report = () => ({
+  source: {
+    in: ['body'],
+    exists: true,
+    errorMessage: 'Source is required!',
+  },
+  destination: {
+    in: ['body'],
+    exists: true,
+    errorMessage: 'Destination is required!',
+  },
+});
+/* end */
 }
 
 export default new LawsValidator();
