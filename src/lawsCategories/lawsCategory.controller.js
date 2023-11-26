@@ -68,6 +68,14 @@ export class LawsCategoriesController {
       const cityLawList = await this.service.getAllCityLaws({
         city: categoryLaw.city,
       });
+      if(!cityLawList){
+        return {
+          status: RESPONSE_CODES.BAD_REQUEST,
+          success: false,
+          message: CUSTOM_MESSAGES.CITY_NOT_FOUND,
+          data: null,
+        };
+      }
       const laws = [];
       for(let i=0; i< categoryLaw.laws.length; i++){
         const law = categoryLaw.laws[i];
@@ -311,7 +319,7 @@ export class LawsCategoriesController {
         status: RESPONSE_CODES.GET,
         success: true,
         message: CUSTOM_MESSAGES.DATA_LOADED_SUCCESS,
-        data: response,
+        data: response
       };
     } catch (error) {
       return {
@@ -331,7 +339,14 @@ export class LawsCategoriesController {
     try {
       /* get all laws of a city */
       const cityLaws = await this.service.getAllCityLaws({ city: data.city });
-      console.log("city : ", cityLaws)
+      if(!cityLaws){
+        return {
+          status: RESPONSE_CODES.BAD_REQUEST,
+          success: false,
+          message: CUSTOM_MESSAGES.CITY_NOT_FOUND,
+          data: null,
+        };
+      }
       let cityLawsArr = [];
       if (cityLaws && cityLaws.laws) {
         for (let law of cityLaws.laws) {
@@ -342,7 +357,6 @@ export class LawsCategoriesController {
         _id: data.category_id,
         user_id: user.data._id,
       });
-      console.log("categoryLaws : ", categoryLaws)
       const response = cityLaws.laws.filter(
         (law) => !categoryLaws.laws.some((data) => data.law_id === law._id.toString()) 
       );
@@ -369,7 +383,7 @@ export class LawsCategoriesController {
     const { user } = req;
     const { action_type, master_law_id, law_id } = data;
     try {
-      const cityLaws = await this.service.getAllCityLaws({
+      const cityLaws = await this.service.getCityLaws({
         _id: master_law_id,
       });
       const lawsArr = [];

@@ -2,6 +2,7 @@ exports.CUSTOM_MESSAGES = {
   TWO_FACTOR_NOT_SETUP: '2FA is not setup, please setup it first',
   DASHBOARD_COUNT: "Dashboard Count",
   SUCCESS: "Success." /*** Sucess. ***/,
+  CITY_NOT_FOUND: "City laws not found",
 
   CATEGORY_EXISTS: "Category already exist.",
   SUBCATEGORY_EXISTS: "Subcategory already exist.",

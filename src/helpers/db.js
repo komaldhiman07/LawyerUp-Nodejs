@@ -48,16 +48,19 @@ export default class DB {
   }
 
   async runSeed() {
-    await Role.deleteMany({});
-    await Role.insertMany(Roles);
-    await Country.deleteMany({});
-    await Country.insertMany(Countries);
-    await State.deleteMany({});
-    await State.insertMany(States);
-    await Language.deleteMany({});
-    await Language.insertMany(Languages);
-    await Law.insertMany(Laws)
-    // await Status.deleteMany({});
-    // await Status.insertMany(Statuses);
+    const roleList = await Role.find();
+    if(!roleList.length){
+      await Role.deleteMany({});
+      await Role.insertMany(Roles);
+      await Country.deleteMany({});
+      await Country.insertMany(Countries);
+      await State.deleteMany({});
+      await State.insertMany(States);
+      await Language.deleteMany({});
+      await Language.insertMany(Languages);
+      await Law.insertMany(Laws)
+      // await Status.deleteMany({});
+      // await Status.insertMany(Statuses);
+    }
   }
 }

@@ -196,7 +196,7 @@ class AuthController {
           // },
           // theme: THEME.LIGHT,
           notifications: DEFAULT.TRUE,
-          is_enabled_2fa: DEFAULT.TRUE
+          is_enabled_2fa: DEFAULT.FALSE
         }
         settingService.createSettings(defaultSettingObj);
       } else {
