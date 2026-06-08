@@ -145,6 +145,49 @@ class UserValidator {
     return schema;
   };
 
+  locationUpdate = () => {
+    return {
+      latitude: {
+        in: ["body"],
+        exists: {
+          errorMessage: "Latitude is required!",
+        },
+      },
+      longitude: {
+        in: ["body"],
+        exists: {
+          errorMessage: "Longitude is required!",
+        },
+      },
+      state: {
+        optional: { options: { nullable: false } },
+      },
+      city: {
+        optional: { options: { nullable: false } },
+      },
+      force_update: {
+        optional: { options: { nullable: false } },
+      },
+    };
+  };
+
+  locationLawsDiff = () => {
+    return {
+      source_state: {
+        optional: { options: { nullable: false } },
+      },
+      source_city: {
+        optional: { options: { nullable: false } },
+      },
+      destination_state: {
+        optional: { options: { nullable: false } },
+      },
+      destination_city: {
+        optional: { options: { nullable: false } },
+      },
+    };
+  };
+
   getClubs = () => {
     return {
       categoryIds: {

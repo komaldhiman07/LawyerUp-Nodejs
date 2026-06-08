@@ -58,8 +58,17 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    // SEC-07: otp kept for backwards compatibility with existing flow;
+    // new fields hash it and enforce a 10-minute expiry via TTL
     otp: {
       type: String,
+    },
+    otp_hash: {
+      type: String,
+      select: false,       // never returned in queries by default
+    },
+    otp_expires_at: {
+      type: Date,
     },
     is_otp_verified: {
       type: Boolean,
@@ -104,6 +113,60 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false
     },
+    current_location: {
+      lat: {
+        type: Number,
+        required: false,
+      },
+      lng: {
+        type: Number,
+        required: false,
+      },
+      state: {
+        type: String,
+        required: false,
+      },
+      city: {
+        type: String,
+        required: false,
+      },
+      updated_at: {
+        type: Date,
+        required: false,
+      },
+    },
+    previous_location: {
+      state: {
+        type: String,
+        required: false,
+      },
+      city: {
+        type: String,
+        required: false,
+      },
+      changed_at: {
+        type: Date,
+        required: false,
+      },
+    },
+    location_meta: {
+      last_processed_at: {
+        type: Date,
+        required: false,
+      },
+      last_state_change_at: {
+        type: Date,
+        required: false,
+      },
+      last_notified_state: {
+        type: String,
+        required: false,
+      },
+      last_notified_at: {
+        type: Date,
+        required: false,
+      },
+    },
     is_receive_notification: {
       type: Boolean,
       default: false
@@ -140,13 +203,24 @@ const userSchema = mongoose.Schema(
   },
   {
     timestamps: true,
+    // SC-02: User writes (account creation, status changes) must survive failover
+    writeConcern: { w: 'majority', j: true },
   }
 );
+
+// P-07 / I-01: Indexes for admin user list, dashboard stats, login, and filters
+userSchema.index({ email: 1 }, { unique: true, sparse: true });
+userSchema.index({ username: 1 }, { unique: true, sparse: true });
+userSchema.index({ role_id: 1, is_deleted: 1, status: 1 });
+userSchema.index({ state: 1, status: 1 });
 
 userSchema.plugin(mongoosePaginate);
 /* post hook to add user's favourite laws as per the city selection */
 userSchema.post('save', async function (doc) {
-  if (doc.city) {
+  // S-03: Only run when city was actually changed — prevents duplicate
+  // UserCategoryLaws records on every unrelated save (password change, status, etc.)
+  if (!this.isModified('city') || !doc.city) return;
+  {
     /* get all the laws of the selected city */
     const lawsData = await Laws.findOne({ city: doc.city })
     if (lawsData && lawsData.laws && lawsData.laws.length) {

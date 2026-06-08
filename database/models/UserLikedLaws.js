@@ -24,6 +24,9 @@ const userLikedLawsSchema = mongoose.Schema({
   }
 });
 
+// I-01: Compound unique index — prevents duplicate like entries and speeds up lookups
+userLikedLawsSchema.index({ user_id: 1, law_id: 1 }, { unique: true });
+
 userLikedLawsSchema.plugin(mongoosePaginate);
 const UserLikedLaws = mongoose.model("userLikedLaws", userLikedLawsSchema);
 export default UserLikedLaws;

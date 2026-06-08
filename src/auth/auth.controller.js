@@ -7,8 +7,9 @@ import authService from "./auth.service.js";
 import settingService from "../settings/settings.service";
 import { authObj } from "../services/common/object.service";
 import emailService from "../services/common/email.js";
-import { RESPONSE_CODES, DEFAULT } from "../../config/constants.js";
+import { RESPONSE_CODES, DEFAULT, ROLE_IDS } from "../../config/constants.js";
 import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
+import AdminAuditLog from "../../database/models/AdminAuditLog";
 
 // import {sendEmail} from "../helpers/email_service/email"
 import { sendEmail } from "../helpers/email_service/email";
@@ -42,6 +43,18 @@ class AuthController {
       }
       const authenticate = await bcrypt.compare(data.password, user.password);
       if (!authenticate) {
+        // SEC-06: Log failed login attempt for admin accounts
+        if (user.role_id && user.role_id._id && user.role_id._id.toString() === ROLE_IDS.ADMIN) {
+          AdminAuditLog.create({
+            event: 'login_failed',
+            user_id: user._id,
+            email: data.emailOrUsername,
+            ip_address: req.ip,
+            user_agent: req.headers['user-agent'],
+            success: false,
+            note: 'Incorrect password',
+          }).catch(console.error);
+        }
         return {
           status: RESPONSE_CODES.BAD_REQUEST,
           success: false,
@@ -61,20 +74,22 @@ class AuthController {
           message: CUSTOM_MESSAGES.VALIDATE_OTP,
         };
       } else {
-        const device = await authService.getDevice({
-          user_id: user._id,
-          device_id: data.device_id,
-        });
-        const devicePayload = {
-          device_id: data.device_id,
-          device_type: data.device_type,
-          device_token: data.device_token,
-          user_id: user._id,
-        };
-        if (!device) {
-          await authService.createDevice(devicePayload);
-        } else {
-          await authService.updateDevice({ user_id: user._id, device_id: data.device_id }, devicePayload)
+        if (data.device_token) {
+          const device = await authService.getDevice({
+            user_id: user._id,
+            device_id: data.device_id,
+          });
+          const devicePayload = {
+            device_id: data.device_id,
+            device_type: data.device_type,
+            device_token: data.device_token,
+            user_id: user._id,
+          };
+          if (!device) {
+            await authService.createDevice(devicePayload);
+          } else {
+            await authService.updateDevice({ user_id: user._id, device_id: data.device_id }, devicePayload);
+          }
         }
         // if (user.role_id._id == '620ca6e733032d8eb3c3b239' && !user.stripe_customer_id) {
         //   const stripeCustomer = await createStripeCustomer(user)
@@ -90,8 +105,28 @@ class AuthController {
           data: { token },
           message: CUSTOM_MESSAGES.LOGIN_SUCCESS,
         };
+        // SEC-06: Log successful admin login
+        if (user.role_id && user.role_id._id && user.role_id._id.toString() === ROLE_IDS.ADMIN) {
+          AdminAuditLog.create({
+            event: 'login_success',
+            user_id: user._id,
+            email: data.emailOrUsername,
+            ip_address: req.ip,
+            user_agent: req.headers['user-agent'],
+            success: true,
+          }).catch(console.error);
+        }
       }
     } else {
+      // SEC-06: Log failed login when user not found at all
+      AdminAuditLog.create({
+        event: 'login_failed',
+        email: data.emailOrUsername,
+        ip_address: req.ip,
+        user_agent: req.headers['user-agent'],
+        success: false,
+        note: 'User not found',
+      }).catch(console.error);
       retObj = {
         status: RESPONSE_CODES.BAD_REQUEST,
         success: false,
@@ -165,13 +200,14 @@ class AuthController {
       if (user) {
         const userToken = await authService.getUser({ email: data.email });
 
-        const device = {
-          device_id: data.device_id,
-          device_type: data.device_type,
-          device_token: data.device_token,
-          user_id: user._doc._id,
-        };
-        await authService.createDevice(device);
+        if (data.device_token) {
+          await authService.createDevice({
+            device_id: data.device_id,
+            device_type: data.device_type,
+            device_token: data.device_token,
+            user_id: user._doc._id,
+          });
+        }
         const token = await this.createToken(authObj(userToken));
         retObj = {
           status: RESPONSE_CODES.POST,
@@ -224,14 +260,13 @@ class AuthController {
         user_id: userExist._id,
         device_id: data.device_id,
       });
-      if (!device) {
-        const device = {
+      if (!device && data.device_token) {
+        await authService.createDevice({
           device_id: data.device_id,
           device_type: data.device_type,
           device_token: data.device_token,
           user_id: userExist._id,
-        };
-        await authService.createDevice(device);
+        });
       }
       return {
         status: RESPONSE_CODES.POST,
@@ -260,14 +295,13 @@ class AuthController {
         user_id: userExist._id,
         device_id: data.device_id,
       });
-      if (!device) {
-        const device = {
+      if (!device && data.device_token) {
+        await authService.createDevice({
           device_id: data.device_id,
           device_type: data.device_type,
           device_token: data.device_token,
           user_id: userExist._id,
-        };
-        await authService.createDevice(device);
+        });
       }
       return {
         status: RESPONSE_CODES.POST,
@@ -304,13 +338,14 @@ class AuthController {
     if (user) {
       const userToken = await authService.getUser({ _id: user._doc._id });
       const token = await this.createToken(authObj(userToken));
-      const device = {
-        device_id: data.device_id,
-        device_type: data.device_type,
-        device_token: data.device_token,
-        user_id: user._doc._id,
-      };
-      await authService.createDevice(device);
+      if (data.device_token) {
+        await authService.createDevice({
+          device_id: data.device_id,
+          device_type: data.device_type,
+          device_token: data.device_token,
+          user_id: user._doc._id,
+        });
+      }
       retObj = {
         status: RESPONSE_CODES.POST,
         success: true,

@@ -49,6 +49,28 @@ class UserRoutes {
       handler(controller.updateProfile, (req) => [req])
     );
 
+    router.post(
+      "/location/update",
+      checkSchema(Validator.locationUpdate()),
+      handler(controller.updateUserLocation, (req) => [req])
+    );
+
+    router.get(
+      "/location/laws/current",
+      handler(controller.getCurrentLocationLaws, (req) => [req])
+    );
+
+    router.get(
+      "/location/laws/diff",
+      checkSchema(Validator.locationLawsDiff()),
+      handler(controller.getLocationLawsDiff, (req) => [req])
+    );
+
+    router.get(
+      "/location/geocode/health",
+      handler(controller.reverseGeocodeHealth, (req) => [req])
+    );
+
     router.put(
       "/update-status/:id",
       checkSchema(Validator.updateStatus()),

@@ -33,6 +33,14 @@ class UserCategoryLawsValidator {
           errorMessage: "Category name is required!",
         },
       },
+      state: {
+        in: ["body"],
+        optional: { options: { nullable: true } },
+      },
+      city: {
+        in: ["body"],
+        optional: { options: { nullable: true } },
+      },
     };
   };
   /* end */

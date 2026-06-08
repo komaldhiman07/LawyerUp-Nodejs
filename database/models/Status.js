@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import mongoosePaginate from "mongoose-paginate";
 
 const statusSchema = mongoose.Schema({
   value: {
@@ -16,6 +15,5 @@ const statusSchema = mongoose.Schema({
   },
 });
 
-statusSchema.plugin(mongoosePaginate);
 const Status = mongoose.model("status", statusSchema);
 export default Status;

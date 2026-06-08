@@ -11,4 +11,8 @@ logs/
 # config/db.js
 database/config/config.js
 .env
-.env.example/
+.env.*
+!.env.example
+
+# Firebase service account (contains private key — never commit)
+config/*firebase-adminsdk*.json

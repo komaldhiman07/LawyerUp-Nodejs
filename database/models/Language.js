@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import mongoosePaginate from "mongoose-paginate";
 
 const languageSchema = mongoose.Schema({
   name: {
@@ -23,6 +22,5 @@ const languageSchema = mongoose.Schema({
   },
 });
 
-languageSchema.plugin(mongoosePaginate);
 const Language = mongoose.model("languages", languageSchema);
 export default Language;

@@ -9,7 +9,7 @@ export class CategoryService {
   /* end */
 
   /* get category law by city and law id */
-  getUserCategoryLaw = (data) => UserCategoryLaws.findOne(data);
+  getUserCategoryLaw = (data) => UserCategoryLaws.findOne(data).lean();
   // getUserCategoryLaw = (data) => UserCategoryLaws.aggregate([
   //   {
   //     $match: {
@@ -53,11 +53,11 @@ export class CategoryService {
   /* end */
 
   /* get category law list */
-  getCategoryLawList = (data) => UserCategoryLaws.find(data).sort({ _id: -1 });
+  getCategoryLawList = (data) => UserCategoryLaws.find(data).sort({ _id: -1 }).lean();
   /* end */
 
   /* get all laws of a city */
-  getCityLaws = (data) => Laws.findOne(data);
+  getCityLaws = (data) => Laws.findOne(data).lean();
   getAllCityLaws = async (data) => {
     const result = await Laws.aggregate([
       {
@@ -158,7 +158,7 @@ export class CategoryService {
   updateCityLaws = (query, data) => Laws.updateOne(query, data);
   /* end */
 
-  getUserLikedLaw = (data) => UserLikedLaws.findOne(data);
+  getUserLikedLaw = (data) => UserLikedLaws.findOne(data).lean();
   createUserLikedLaw = (data) => UserLikedLaws.create(data);
   updateUserLikedLaw = (query, data) => UserLikedLaws.updateOne(query, data);
 }

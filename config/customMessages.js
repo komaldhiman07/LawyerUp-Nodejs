@@ -39,6 +39,13 @@ exports.CUSTOM_MESSAGES = {
   UPLOAD_DOCUMENT_ERROR: "Some error occurred while uploading file.",
   FILE_UPLOADED: "File uploaded successfully.",
   OTP_SUCCESS: "Otp sent successfully.",
+  LOCATION_UPDATED_SUCCESS: "Location updated successfully.",
+  LOCATION_UPDATE_THROTTLED: "Location update skipped due to throttle interval.",
+  LOCATION_TRACKING_DISABLED: "Location tracking is disabled for this user.",
+  STATE_REQUIRED_FOR_LOCATION: "State is required to process location.",
+  LOCATION_RESOLVE_FAILED: "Unable to resolve state from location coordinates.",
+  REVERSE_GEOCODE_HEALTHY: "Reverse geocode service is reachable.",
+  REVERSE_GEOCODE_UNHEALTHY: "Reverse geocode service check failed.",
   PASSWORD_SET: "Password updated successfully.",
   LOGIN_SUCCESS: "Logged in successfully.",
   INCORRECT_PASSWORD: "Username or password is incorrect",
@@ -52,6 +59,8 @@ exports.CUSTOM_MESSAGES = {
   TWO_FACTOR_VALIDATE_FAILED: "Wrong OTP",
   ALREADY_LIKED: "You already liked this law",
   ALREADY_DISLIKED: "You already disliked this law",
+  LAW_PUBLISHED_SUCCESS: "Law published successfully.",
+  LAW_REPEALED_SUCCESS: "Law repealed successfully.",
 
 
   USER_LIST: "User list.",

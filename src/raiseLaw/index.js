@@ -48,8 +48,13 @@ class LawsRoutes {
       '/report',
       checkSchema(Validator.report()),
       handler(controller.generateLawReport, (req) => [req])
-    )
+    );
 
+    /* list active state laws for app users — GET /laws/state-laws?state_code=CA&law_key=marijuana */
+    router.get(
+      '/state-laws',
+      handler(controller.getStateLaws, (req) => [req])
+    );
 
     return router;
   }

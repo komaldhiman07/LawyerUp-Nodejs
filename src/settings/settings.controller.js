@@ -13,14 +13,9 @@ class settingsController {
   getSettings = async (req) => {
     const { user } = req;
     try {
-      const response = await settingsService.getSettings({ user_id: user.data._id });
+      let response = await settingsService.getSettings({ user_id: user.data._id });
       if (!response) {
-        return {
-          status: RESPONSE_CODES.BAD_REQUEST,
-          success: false,
-          message: CUSTOM_MESSAGES.SETTINGS_NOT_FOUND,
-          data: {},
-        };
+        response = await settingsService.createSettings({ user_id: user.data._id });
       }
       return {
         status: RESPONSE_CODES.GET,

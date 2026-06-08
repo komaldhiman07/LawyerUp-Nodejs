@@ -1,0 +1,191 @@
+{
+  "info": {
+    "_postman_id": "5f3ddf4d-b7fe-4f73-bcc1-5b14d8a8a25a",
+    "name": "Lawyer Backend - Location Tracking APIs",
+    "description": "Collection for location tracking and law-difference APIs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Update Foreground Location",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"latitude\": 37.7749,\n  \"longitude\": -122.4194,\n  \"state\": \"California\",\n  \"city\": \"San Francisco\",\n  \"force_update\": false\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/user/location/update",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "user",
+            "location",
+            "update"
+          ]
+        },
+        "description": "Updates user location, detects state transition, and triggers law-difference notifications."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Current Location Laws",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/user/location/laws/current",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "user",
+            "location",
+            "laws",
+            "current"
+          ]
+        },
+        "description": "Returns law data for the user's current resolved state/city."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Law Differences (Auto from user history)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/user/location/laws/diff",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "user",
+            "location",
+            "laws",
+            "diff"
+          ]
+        },
+        "description": "Compares laws from previous and current location using server-side fallback values."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Law Differences (Explicit source/destination)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/user/location/laws/diff?source_state=Nevada&source_city=Las%20Vegas&destination_state=California&destination_city=San%20Francisco",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "user",
+            "location",
+            "laws",
+            "diff"
+          ],
+          "query": [
+            {
+              "key": "source_state",
+              "value": "Nevada"
+            },
+            {
+              "key": "source_city",
+              "value": "Las Vegas"
+            },
+            {
+              "key": "destination_state",
+              "value": "California"
+            },
+            {
+              "key": "destination_city",
+              "value": "San Francisco"
+            }
+          ]
+        },
+        "description": "Compares laws using explicit source/destination query parameters."
+      },
+      "response": []
+    },
+    {
+      "name": "Reverse Geocode Health",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/user/location/geocode/health?latitude=40.7128&longitude=-74.0060",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "user",
+            "location",
+            "geocode",
+            "health"
+          ],
+          "query": [
+            {
+              "key": "latitude",
+              "value": "40.7128"
+            },
+            {
+              "key": "longitude",
+              "value": "-74.0060"
+            }
+          ]
+        },
+        "description": "Checks if backend can reach reverse geocoding provider."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "auth_token",
+      "value": "PASTE_VALID_TOKEN_HERE"
+    }
+  ]
+}

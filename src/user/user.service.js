@@ -7,20 +7,20 @@ import Rating from "../../database/models/Rating";
 import Device from "../../database/models/Device";
 import Notification from "../../database/models/Notification";
 import Transaction from "../../database/models/Transaction";
+import Laws from "../../database/models/laws";
 
 class UserService {
   constructor() {}
 
   getNotification = (data, populate) =>
-    Notification.find(data).sort({ created_at: -1 }).populate(populate);
+    Notification.find(data).sort({ created_at: -1 }).populate(populate).lean();
 
   getTransaction = (data, populate) =>
-    Transaction.find(data).sort({ created_at: -1 }).populate(populate);
+    Transaction.find(data).sort({ created_at: -1 }).populate(populate).lean();
 
-  addNotification = (data) => {
-    Notification.insertMany(data);
-  };
+  addNotification = (data) => Notification.insertMany(data);
 
+  // Note: returns a full Mongoose document (not lean) because callers use .save()
   getUser = (data) =>
     User.findOne(data).populate([
       {
@@ -47,7 +47,7 @@ class UserService {
 
   updateUser = (data, id) => User.findOneAndUpdate({ _id: { $eq: id } }, data);
 
-  getRoles = (data) => Role.find(data);
+  getRoles = (data) => Role.find(data).lean();
 
   getUsers = (data) =>
     User.find(data)
@@ -71,6 +71,7 @@ class UserService {
         model: Language,
         select: "name",
       })
+      .lean()
 
   getUserList = (filter, options) =>
     User.find(filter)
@@ -96,7 +97,8 @@ class UserService {
       })
       .sort({ createdAt: "desc" })
       .skip(options.skip)
-      .limit(options.limit);
+      .limit(options.limit)
+      .lean();
 
   getTotalUserNumber = (query) => User.countDocuments(query);
 
@@ -122,6 +124,7 @@ class UserService {
         model: Language,
         select: "name",
       })
+      .lean()
 
   activeInactiveUser = (filter, data) =>
     User.findOneAndUpdate(filter, { status: data }, { new: true });
@@ -131,9 +134,15 @@ class UserService {
 
   addRating = (data) => Rating.create(data);
 
-  getRatings = (data) => Rating.find(data);
+  getRatings = (data) => Rating.find(data).lean();
 
-  getDevices = (data) => Device.find(data);
+  getDevices = (data) => Device.find(data).lean();
+
+  getLawByStateAndCity = (state, city) =>
+    Laws.findOne({ state, city }).lean();
+
+  getLawByState = (state) =>
+    Laws.findOne({ state }).lean();
 
 }
 

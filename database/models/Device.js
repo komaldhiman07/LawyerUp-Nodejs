@@ -30,6 +30,10 @@ const deviceSchema = mongoose.Schema({
   },
 });
 
+// P-02: Index for notifyAffectedUsers() device token lookup
+deviceSchema.index({ user_id: 1, is_deleted: 1 });
+deviceSchema.index({ device_token: 1 }, { sparse: true });
+
 deviceSchema.plugin(mongoosePaginate);
 const Device = mongoose.model("device", deviceSchema);
 export default Device;

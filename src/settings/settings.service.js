@@ -12,7 +12,11 @@ import Settings from "../../database/models/Settings";
 class SettingsController {
   constructor() {}
 
-  updateSettings = (data, id) => Settings.findOneAndUpdate({ user_id: { $eq: id } }, data);
+  updateSettings = (data, id) => Settings.findOneAndUpdate(
+    { user_id: { $eq: id } },
+    data,
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  );
 
   getSettings = (data) => Settings.findOne(data);
 

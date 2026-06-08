@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import mongoosePaginate from "mongoose-paginate";
 
 const countrySchema = mongoose.Schema({
   name: {
@@ -23,6 +22,5 @@ const countrySchema = mongoose.Schema({
   },
 });
 
-countrySchema.plugin(mongoosePaginate);
 const Country = mongoose.model("country", countrySchema);
 export default Country;

@@ -1,0 +1,6 @@
+state_code,law_key,title,summary,details,penalty,status,effective_from,effective_to,category_tags,is_active
+California,Seatbelt Front,Front Seat Belt Requirement,All front-seat passengers must wear seat belts,California requires seat belts for all front-seat occupants while vehicle is moving,Fine up to $162,enabled,2022/01/01,,driving,sure
+ZZ,open_container_vehicle,Open Container in Vehicle,No open alcohol container in passenger area,New York prohibits open alcohol containers in passenger compartments,Fine up to $150,active,2020-03-15,2019-03-14,alcohol|driving,true
+TX,,Texting While Driving Ban,Texting is prohibited while driving,Texas law prohibits reading or sending text messages while operating a motor vehicle,Fine up to $200,active,2017-09-01,,driving|mobile-use,true
+CA,seatbelt_front,Front Seat Belt Requirement,All front-seat passengers must wear seat belts,California requires seat belts for all front-seat occupants while vehicle is moving,Fine up to $162,active,2022-01-01,,driving|safety|vehicles,true
+CA,seatbelt_front,Front Seat Belt Requirement Duplicate,All front-seat passengers must wear seat belts,Duplicate key row in same file for QA,Fine up to $162,active,2022-01-01,,driving|safety|vehicles,true

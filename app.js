@@ -43,8 +43,51 @@ class Application {
   }
 }
 
+// SEC-01 / SEC-05: Fail fast if critical environment variables are missing or weak
+function validateEnv() {
+  const errors = [];
+  if (!process.env.MONGO_DB_URI) {
+    errors.push('MONGO_DB_URI is not set');
+  }
+  if (!process.env.PRIVATE_JWT_SECRET) {
+    errors.push('PRIVATE_JWT_SECRET is not set');
+  } else if (process.env.PRIVATE_JWT_SECRET.length < 32) {
+    errors.push('PRIVATE_JWT_SECRET must be at least 32 characters');
+  }
+  if (process.env.NODE_ENV === 'production') {
+    if (process.env.MONGO_DB_URI && !process.env.MONGO_DB_URI.includes('@')) {
+      errors.push(
+        'MONGO_DB_URI has no credentials — MongoDB authentication is required in production. ' +
+        'Run scripts/setup-mongodb-auth.sh and update MONGO_DB_URI.'
+      );
+    }
+  }
+  if (errors.length) {
+    console.error('\n[STARTUP ERROR] Invalid environment configuration:');
+    errors.forEach(e => console.error(`  ✗ ${e}`));
+    console.error('\nSee .env.example for required values.\n');
+    process.exit(1);
+  }
+}
+
 const app = new Application();
 (async () => {
   process.setMaxListeners(0);
+  validateEnv();
   await app.initApp();
 })();
+
+// R-02: Graceful shutdown — close MongoDB connection cleanly on process termination
+const shutdown = async (signal) => {
+  console.log(`Received ${signal}, shutting down gracefully...`);
+  try {
+    const mongoose = await import("mongoose");
+    await mongoose.default.connection.close();
+    console.log("MongoDB connection closed.");
+  } catch (err) {
+    console.error("Error closing MongoDB connection:", err.message);
+  }
+  process.exit(0);
+};
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT',  () => shutdown('SIGINT'));

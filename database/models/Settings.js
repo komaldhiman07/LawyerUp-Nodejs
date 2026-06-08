@@ -42,6 +42,9 @@ const settingSchema = mongoose.Schema(
   }
 );
 
+// I-01: One settings doc per user — unique index speeds lookups and prevents duplicates
+settingSchema.index({ user_id: 1 }, { unique: true });
+
 settingSchema.plugin(mongoosePaginate);
 const Settings = mongoose.model("settings", settingSchema);
 export default Settings;

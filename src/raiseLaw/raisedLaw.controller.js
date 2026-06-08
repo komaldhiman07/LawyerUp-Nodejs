@@ -2,6 +2,7 @@ import { matchedData } from "express-validator";
 import raiseLawService from "./raisedLaw.service.js";
 import { RESPONSE_CODES } from "../../config/constants.js";
 import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
+import StateLaw from "../../database/models/StateLaw.js";
 
 class LawsController {
   constructor() {}
@@ -157,6 +158,38 @@ class LawsController {
         success: false,
         message: error,
         data: {},
+      };
+    }
+  };
+  /* end */
+
+  /* list active state laws — user-facing read-only endpoint */
+  getStateLaws = async (req) => {
+    const { query } = req;
+    try {
+      const filter = { status: 'active', is_deleted: false };
+      if (query.state_code) filter.state_code = query.state_code.trim().toUpperCase();
+      if (query.law_key)    filter.law_key    = query.law_key.trim().toLowerCase();
+      if (query.q)          filter.$text      = { $search: query.q.trim() };
+
+      const laws = await StateLaw
+        .find(filter)
+        .select('state_code law_key title summary details penalty_text effective_from published_at version')
+        .sort({ state_code: 1, law_key: 1 })
+        .lean();
+
+      return {
+        status: RESPONSE_CODES.GET,
+        success: true,
+        message: CUSTOM_MESSAGES.DATA_LOADED_SUCCESS,
+        data: laws,
+      };
+    } catch (error) {
+      return {
+        status: RESPONSE_CODES.SERVER_ERROR,
+        success: false,
+        message: error,
+        data: [],
       };
     }
   };

@@ -54,6 +54,10 @@ const lawsSchema = mongoose.Schema({
   ],
 });
 
+// I-01 / P-05: Indexes for city law lookups and the getAllCityLaws aggregation pipeline
+lawsSchema.index({ state: 1, city: 1 });
+lawsSchema.index({ city: 1 });
+
 lawsSchema.plugin(mongoosePaginate);
 const Law = mongoose.model("laws", lawsSchema);
 export default Law;

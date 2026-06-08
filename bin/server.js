@@ -1,4 +1,5 @@
 /* eslint-disable no-useless-catch */
+import mongoose from "mongoose";
 import express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
@@ -16,9 +17,55 @@ import SettingsRoutes from "../src/settings/index";
 import ContactUsRoutes from "../src/contactUs/index";
 import LawsRoutes from "../src/raiseLaw/index";
 import UserCategoryLawsRoutes from "../src/lawsCategories";
+import AdminLawsRoutes from "../src/adminLaws";
+import NotificationRoutes from "../src/notification/index.js";
 
 const morgan = require("morgan");
 import AWS from 'aws-sdk';
+
+// ── API request / response logger ──────────────────────────────────────────
+const SENSITIVE_KEYS = new Set(['password', 'token', 'access_token', 'refresh_token', 'otp']);
+
+function maskBody(obj) {
+  if (!obj || typeof obj !== 'object') return obj;
+  return Object.fromEntries(
+    Object.entries(obj).map(([k, v]) => [k, SENSITIVE_KEYS.has(k) ? '***' : v])
+  );
+}
+
+function truncate(str, max = 800) {
+  return str.length > max ? str.slice(0, max) + ' … (truncated)' : str;
+}
+
+const apiLogger = (req, res, next) => {
+  const start = Date.now();
+  const { method, url, body } = req;
+
+  const safeBody = maskBody(body);
+  const hasBody = safeBody && Object.keys(safeBody).length > 0;
+
+  process.stdout.write(
+    `\n➡  ${method} ${url}` +
+    (hasBody ? `\n   Body: ${truncate(JSON.stringify(safeBody, null, 2))}` : '') +
+    '\n'
+  );
+
+  // Intercept res.json to capture response body
+  const originalJson = res.json.bind(res);
+  res.json = (data) => {
+    const ms = Date.now() - start;
+    const icon = res.statusCode < 400 ? '🟢' : '🔴';
+    const preview = truncate(JSON.stringify(data, null, 2));
+    process.stdout.write(
+      `⬅  ${icon} ${res.statusCode} ${method} ${url} [${ms}ms]\n` +
+      `   Body: ${preview}\n`
+    );
+    return originalJson(data);
+  };
+
+  next();
+};
+// ───────────────────────────────────────────────────────────────────────────
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -46,6 +93,7 @@ class Server {
       this.app.set("view engine", "ejs");
       this.app.use(express.static(path.join(__dirname, "../", "public")));
       this.app.use(morgan("tiny"));
+      this.app.use(apiLogger);
 
       this.app.use(
         cors({
@@ -81,6 +129,8 @@ class Server {
       this.app.use("/contact-us", ContactUsRoutes);
       this.app.use("/laws", LawsRoutes);
       this.app.use("/category", UserCategoryLawsRoutes);
+      this.app.use("/admin/laws", AdminLawsRoutes);
+      this.app.use("/notification", NotificationRoutes);
       this.app.get("/api-docs", swaggerUi.setup(swaggerDocument));
       /** All Cron Jobs Here */
       /** Cron job for expire the album and send notification */
@@ -95,11 +145,30 @@ class Server {
 
   async healthCheckRoute() {
     try {
-      this.app.get("/", (req, res) => {
-        res.json({
-          status: "HEALTHY",
-          msg: "This works perfectly fine",
-        });
+      this.app.get("/", async (_req, res) => {
+        // M-02: Real MongoDB ping — returns 503 if DB is unreachable
+        const dbState = mongoose.connection.readyState;
+        if (dbState !== 1) {
+          return res.status(503).json({
+            status: "UNHEALTHY",
+            db: "disconnected",
+            uptime: process.uptime(),
+          });
+        }
+        try {
+          await mongoose.connection.db.admin().ping();
+          res.json({
+            status: "HEALTHY",
+            db: "connected",
+            uptime: process.uptime(),
+          });
+        } catch (_err) {
+          res.status(503).json({
+            status: "UNHEALTHY",
+            db: "ping_failed",
+            uptime: process.uptime(),
+          });
+        }
       });
     } catch (err) {
       throw err;

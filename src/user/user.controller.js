@@ -5,10 +5,12 @@ import speakeasy from "speakeasy";
 import QRCode from "qrcode";
 
 import userService from "./user.service.js";
+import User from "../../database/models/User";
 import UploadDocument from "../services/common/uploadDocToS3";
 // import twilioService from "../services/common/twilio.js";
 import {
   RESPONSE_CODES,
+  ROLE_IDS,
   TWO_FACTOR_AUTH_TYPE,
   DEFAULT,
 } from "../../config/constants.js";
@@ -16,32 +18,151 @@ import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
 import { authObj } from "../services/common/object.service";
 import firebase from "../services/common/firebase.js";
 import emailService from "../services/common/email";
+import reverseGeocodeService from "../services/common/reverseGeocode";
 
 class UserController {
   constructor() {}
 
+  normalizeLocationValue = (value) => {
+    if (!value || typeof value !== "string") {
+      return "";
+    }
+    return value.trim();
+  };
+
+  getBestLawMatch = async (state, city) => {
+    if (!state) {
+      return null;
+    }
+    if (city) {
+      const cityLaw = await userService.getLawByStateAndCity(state, city);
+      if (cityLaw) {
+        return cityLaw;
+      }
+    }
+    return userService.getLawByState(state);
+  };
+
+  compareLawsByQnA = async (sourceLaw, destinationLaw) => {
+    const diff = [];
+    if (!sourceLaw && !destinationLaw) {
+      return diff;
+    }
+    if (sourceLaw && !destinationLaw) {
+      sourceLaw.laws.forEach((law) => {
+        diff.push({
+          title: law.title,
+          cities: [
+            {
+              city: sourceLaw.city,
+              state: sourceLaw.state,
+              result: law.description,
+            },
+          ],
+        });
+      });
+      return diff;
+    }
+    if (!sourceLaw && destinationLaw) {
+      destinationLaw.laws.forEach((law) => {
+        diff.push({
+          title: law.title,
+          cities: [
+            {
+              city: destinationLaw.city,
+              state: destinationLaw.state,
+              result: law.description,
+            },
+          ],
+        });
+      });
+      return diff;
+    }
+    sourceLaw.laws.forEach((source) => {
+      const destination = destinationLaw.laws.find(
+        (law) => law.title === source.title
+      );
+      const cities = [
+        {
+          city: sourceLaw.city,
+          state: sourceLaw.state,
+          result: source.description,
+        },
+      ];
+      if (destination) {
+        cities.push({
+          city: destinationLaw.city,
+          state: destinationLaw.state,
+          result: destination.description,
+        });
+      }
+      diff.push({
+        title: source.title,
+        cities,
+      });
+    });
+    return diff;
+  };
+
+  sendStateChangeNotification = async (
+    user,
+    sourceLaw,
+    destinationLaw,
+    diffCount
+  ) => {
+    const currentState = destinationLaw ? destinationLaw.state : user.state;
+    const homeState    = sourceLaw     ? sourceLaw.state     : "";
+    const title   = `Entered ${currentState}`;
+    const body    = `${diffCount} law${diffCount === 1 ? "" : "s"} in your categories differ from ${homeState || "your home state"}. Tap to compare.`;
+
+    const notificationObj = {
+      title,
+      body,
+      message:       body,          // backward-compat alias
+      type:          "travelEntry",
+      sender_id:     null,          // system notification
+      receiver_id:   user._id,
+      is_read:       false,
+      current_state: currentState,
+      home_state:    homeState,
+      law_title:     "",
+      law_key:       "",
+      change_type:   "",
+      created_at:    new Date(),
+    };
+    await userService.addNotification([notificationObj]);
+
+    const devices = await userService.getDevices({
+      user_id: user._id,
+      is_deleted: false,
+    });
+    const registrationToken = devices.map((device) => device.device_token);
+    if (registrationToken.length) {
+      try {
+        await firebase.sendNotification({
+          registrationToken,
+          title,
+          message: body,
+          payload: {
+            type:          "travelEntry",
+            current_state: currentState,
+            home_state:    homeState,
+            law_title:     "",
+            law_key:       "",
+            change_type:   "",
+          },
+        });
+      } catch (error) {
+        console.log("state change push notification error:", error);
+      }
+    }
+  };
+
   validateOtp = async (req) => {
     const data = matchedData(req);
-    const user = await userService.getUser({ _id: req.user.data._id });
-    if (user) {
-      if (user.otp === data.otp) {
-        user.is_otp_verified = true;
-        await user.save();
-        return {
-          status: RESPONSE_CODES.POST,
-          success: true,
-          data: {},
-          message: CUSTOM_MESSAGES.OTP_VALIDATE_SUCCESS,
-        };
-      } else {
-        return {
-          status: RESPONSE_CODES.BAD_REQUEST,
-          success: false,
-          data: {},
-          message: CUSTOM_MESSAGES.OTP_VALIDATE_FAILURE,
-        };
-      }
-    } else {
+    // SEC-07: Fetch raw user with otp_hash field (excluded by default via select:false)
+    const user = await User.findOne({ _id: req.user.data._id }).select('+otp_hash +otp_expires_at');
+    if (!user) {
       return {
         status: RESPONSE_CODES.BAD_REQUEST,
         success: false,
@@ -49,14 +170,54 @@ class UserController {
         message: CUSTOM_MESSAGES.USER_NOT_FOUND,
       };
     }
+    // Check expiry first
+    if (user.otp_expires_at && user.otp_expires_at < new Date()) {
+      return {
+        status: RESPONSE_CODES.BAD_REQUEST,
+        success: false,
+        data: {},
+        message: CUSTOM_MESSAGES.OTP_VALIDATE_FAILURE,
+      };
+    }
+    // Verify against hash if present, fall back to plaintext otp for legacy records
+    const otpString = String(data.otp);
+    const isValid = user.otp_hash
+      ? await bcrypt.compare(otpString, user.otp_hash)
+      : user.otp === otpString;
+    if (isValid) {
+      await userService.updateUser(
+        { is_otp_verified: true, otp: null, otp_hash: null, otp_expires_at: null },
+        user._id
+      );
+      return {
+        status: RESPONSE_CODES.POST,
+        success: true,
+        data: {},
+        message: CUSTOM_MESSAGES.OTP_VALIDATE_SUCCESS,
+      };
+    }
+    return {
+      status: RESPONSE_CODES.BAD_REQUEST,
+      success: false,
+      data: {},
+      message: CUSTOM_MESSAGES.OTP_VALIDATE_FAILURE,
+    };
   };
 
   resendOtp = async (req) => {
     const user = await userService.getUser({ email: req.user.data.email });
     if (user) {
       const otp = this.generateOTP();
-      user.otp = otp;
-      await user.save();
+      // SEC-07: Hash OTP before storage; expire in 10 minutes
+      const otpHash = await bcrypt.hash(String(otp), 8);
+      await userService.updateUser(
+        {
+          otp:            String(otp),   // kept for legacy email display only
+          otp_hash:       otpHash,
+          otp_expires_at: new Date(Date.now() + 10 * 60 * 1000),
+        },
+        user._id
+      );
       const message = `Please verify your OTP at ${otp}`;
       if (user.phone) {
         // await twilioService.sendMessage({
@@ -94,6 +255,289 @@ class UserController {
       data: authObj(user),
       message: "User success",
     };
+  };
+
+  updateUserLocation = async (req) => {
+    const data = matchedData(req);
+    const user = await userService.getUser({ _id: req.user.data._id });
+    if (!user) {
+      return {
+        status: RESPONSE_CODES.BAD_REQUEST,
+        success: false,
+        data: {},
+        message: CUSTOM_MESSAGES.USER_NOT_FOUND,
+      };
+    }
+    if (!user.is_enable_location) {
+      return {
+        status: RESPONSE_CODES.BAD_REQUEST,
+        success: false,
+        data: {},
+        message: CUSTOM_MESSAGES.LOCATION_TRACKING_DISABLED,
+      };
+    }
+    const minUpdateSeconds = parseInt(
+      process.env.LOCATION_MIN_UPDATE_SECONDS || "30",
+      10
+    );
+    const currentLocation = user.current_location || {};
+    const now = new Date();
+    const lastUpdatedAt = currentLocation.updated_at
+      ? new Date(currentLocation.updated_at)
+      : null;
+    const elapsedSeconds = lastUpdatedAt
+      ? Math.floor((now.getTime() - lastUpdatedAt.getTime()) / 1000)
+      : minUpdateSeconds;
+    if (!data.force_update && elapsedSeconds < minUpdateSeconds) {
+      return {
+        status: RESPONSE_CODES.GET,
+        success: true,
+        data: {
+          throttled: true,
+          next_allowed_in_seconds: minUpdateSeconds - elapsedSeconds,
+        },
+        message: CUSTOM_MESSAGES.LOCATION_UPDATE_THROTTLED,
+      };
+    }
+    const incomingLat = parseFloat(data.latitude);
+    const incomingLng = parseFloat(data.longitude);
+    let incomingState = this.normalizeLocationValue(data.state || user.state);
+    let incomingCity = this.normalizeLocationValue(data.city || user.city);
+    if (!incomingState) {
+      try {
+        const locationDetail = await reverseGeocodeService.reverseLookup({
+          latitude: incomingLat,
+          longitude: incomingLng,
+        });
+        incomingState = this.normalizeLocationValue(locationDetail.state);
+        if (!incomingCity) {
+          incomingCity = this.normalizeLocationValue(locationDetail.city);
+        }
+      } catch (error) {
+        console.log("reverse geocode error:", error.message || error);
+      }
+    }
+    if (!incomingState) {
+      return {
+        status: RESPONSE_CODES.BAD_REQUEST,
+        success: false,
+        data: {},
+        message: CUSTOM_MESSAGES.LOCATION_RESOLVE_FAILED,
+      };
+    }
+    const previousState = this.normalizeLocationValue(
+      (currentLocation && currentLocation.state) || user.state
+    );
+    const previousCity = this.normalizeLocationValue(
+      (currentLocation && currentLocation.city) || user.city
+    );
+    const isStateChanged =
+      previousState &&
+      previousState.toLowerCase() !== incomingState.toLowerCase();
+    const payload = {
+      state: incomingState,
+      city: incomingCity || null,
+      current_location: {
+        lat: incomingLat,
+        lng: incomingLng,
+        state: incomingState,
+        city: incomingCity || null,
+        updated_at: now,
+      },
+      location_meta: {
+        ...(user.location_meta || {}),
+        last_processed_at: now,
+      },
+    };
+    if (isStateChanged) {
+      payload.previous_location = {
+        state: previousState,
+        city: previousCity || null,
+        changed_at: now,
+      };
+      payload.location_meta.last_state_change_at = now;
+    }
+    await userService.updateUser(payload, user._id);
+    let lawDiff = [];
+    if (isStateChanged) {
+      const sourceLaw = await this.getBestLawMatch(previousState, previousCity);
+      const destinationLaw = await this.getBestLawMatch(incomingState, incomingCity);
+      lawDiff = await this.compareLawsByQnA(sourceLaw, destinationLaw);
+      if (lawDiff.length) {
+        await this.sendStateChangeNotification(
+          user,
+          sourceLaw,
+          destinationLaw,
+          lawDiff.length
+        );
+        await userService.updateUser(
+          {
+            location_meta: {
+              ...(user.location_meta || {}),
+              last_processed_at: now,
+              last_state_change_at: now,
+              last_notified_state: incomingState,
+              last_notified_at: now,
+            },
+          },
+          user._id
+        );
+      }
+    }
+    const updatedUser = await userService.getUser({ _id: user._id });
+    return {
+      status: RESPONSE_CODES.POST,
+      success: true,
+      data: {
+        current_location: updatedUser.current_location || null,
+        previous_location: updatedUser.previous_location || null,
+        is_state_changed: isStateChanged,
+        laws_difference_count: lawDiff.length,
+      },
+      message: CUSTOM_MESSAGES.LOCATION_UPDATED_SUCCESS,
+    };
+  };
+
+  getCurrentLocationLaws = async (req) => {
+    const user = await userService.getUser({ _id: req.user.data._id });
+    if (!user) {
+      return {
+        status: RESPONSE_CODES.BAD_REQUEST,
+        success: false,
+        data: {},
+        message: CUSTOM_MESSAGES.USER_NOT_FOUND,
+      };
+    }
+    const location = user.current_location || {};
+    const state = this.normalizeLocationValue(location.state || user.state);
+    const city = this.normalizeLocationValue(location.city || user.city);
+    if (!state) {
+      return {
+        status: RESPONSE_CODES.BAD_REQUEST,
+        success: false,
+        data: {},
+        message: CUSTOM_MESSAGES.STATE_REQUIRED_FOR_LOCATION,
+      };
+    }
+    const lawData = await this.getBestLawMatch(state, city);
+    if (!lawData) {
+      return {
+        status: RESPONSE_CODES.BAD_REQUEST,
+        success: false,
+        data: {},
+        message: CUSTOM_MESSAGES.CITY_NOT_FOUND,
+      };
+    }
+    return {
+      status: RESPONSE_CODES.GET,
+      success: true,
+      data: lawData,
+      message: CUSTOM_MESSAGES.DATA_LOADED_SUCCESS,
+    };
+  };
+
+  getLocationLawsDiff = async (req) => {
+    const data = matchedData(req);
+    const user = await userService.getUser({ _id: req.user.data._id });
+    if (!user) {
+      return {
+        status: RESPONSE_CODES.BAD_REQUEST,
+        success: false,
+        data: {},
+        message: CUSTOM_MESSAGES.USER_NOT_FOUND,
+      };
+    }
+    const sourceState = this.normalizeLocationValue(
+      data.source_state ||
+        (user.previous_location && user.previous_location.state) ||
+        ""
+    );
+    const sourceCity = this.normalizeLocationValue(
+      data.source_city || (user.previous_location && user.previous_location.city)
+    );
+    const destinationState = this.normalizeLocationValue(
+      data.destination_state ||
+        (user.current_location && user.current_location.state) ||
+        user.state ||
+        ""
+    );
+    const destinationCity = this.normalizeLocationValue(
+      data.destination_city ||
+        (user.current_location && user.current_location.city) ||
+        user.city
+    );
+    if (!destinationState) {
+      return {
+        status: RESPONSE_CODES.BAD_REQUEST,
+        success: false,
+        data: {},
+        message: CUSTOM_MESSAGES.STATE_REQUIRED_FOR_LOCATION,
+      };
+    }
+    const sourceLaw = sourceState
+      ? await this.getBestLawMatch(sourceState, sourceCity)
+      : null;
+    const destinationLaw = await this.getBestLawMatch(
+      destinationState,
+      destinationCity
+    );
+    const diff = await this.compareLawsByQnA(sourceLaw, destinationLaw);
+    return {
+      status: RESPONSE_CODES.GET,
+      success: true,
+      data: {
+        source: {
+          state: sourceState || null,
+          city: sourceCity || null,
+        },
+        destination: {
+          state: destinationState,
+          city: destinationCity || null,
+        },
+        total_differences: diff.length,
+        laws: diff,
+      },
+      message: CUSTOM_MESSAGES.DATA_LOADED_SUCCESS,
+    };
+  };
+
+  reverseGeocodeHealth = async (req) => {
+    const latitude = parseFloat(req.query.latitude || "37.7749");
+    const longitude = parseFloat(req.query.longitude || "-122.4194");
+    try {
+      const geocode = await reverseGeocodeService.reverseLookup({
+        latitude,
+        longitude,
+      });
+      return {
+        status: RESPONSE_CODES.GET,
+        success: true,
+        data: {
+          service_url:
+            process.env.REVERSE_GEOCODE_URL ||
+            "https://nominatim.openstreetmap.org/reverse",
+          input: { latitude, longitude },
+          output: {
+            state: geocode.state || null,
+            city: geocode.city || null,
+            country_code: geocode.country_code || null,
+          },
+        },
+        message: CUSTOM_MESSAGES.REVERSE_GEOCODE_HEALTHY,
+      };
+    } catch (error) {
+      return {
+        status: RESPONSE_CODES.SERVER_ERROR,
+        success: false,
+        data: {
+          service_url:
+            process.env.REVERSE_GEOCODE_URL ||
+            "https://nominatim.openstreetmap.org/reverse",
+          input: { latitude, longitude },
+        },
+        message: `${CUSTOM_MESSAGES.REVERSE_GEOCODE_UNHEALTHY} ${error.message || ""}`.trim(),
+      };
+    }
   };
 
   updateStatus = async (req) => {
@@ -197,7 +641,7 @@ class UserController {
 
   getRoles = async () => {
     const roles = await userService.getRoles(
-      { name: { $ne: "Admin" }, is_deleted: { $ne: true } },
+      { name: { $ne: "Admin" }, is_deleted: false },
       { options: "name" }
     );
     return {
@@ -322,7 +766,7 @@ class UserController {
     const role_id = req.body.role_id ? req.body.role_id.trim() : "";
     const searchValue = req.body.search ? req.body.search.value.trim() : "";
 
-    if (role_id && role_id == "620504e9f47dd88dfc51e183") {
+    if (role_id && role_id == ROLE_IDS.ADMIN) {
       return {
         status: RESPONSE_CODES.POST,
         success: false,
@@ -340,13 +784,13 @@ class UserController {
       query.is_deleted = false;
     }
 
-    if (role_id && role_id != "620504e9f47dd88dfc51e183") {
+    if (role_id && role_id != ROLE_IDS.ADMIN) {
       filter = {
         ...query,
         role_id: role_id,
       };
     } else {
-      query.role_id = { $ne: "620504e9f47dd88dfc51e183" };
+      query.role_id = { $ne: ROLE_IDS.ADMIN };
       filter = query;
     }
 
@@ -432,7 +876,7 @@ class UserController {
 
   getExpertList = async (req) => {
     const queryObj = {
-      role_id: "620ca6da33032d8eb3c3b236",
+      role_id: ROLE_IDS.USER,
       is_deleted: false,
       chargesEnabled: [1, 3],
     };
@@ -676,7 +1120,7 @@ class UserController {
   contactUs = async (req) => {
     const { body } = req;
     await emailService.sendMail({
-      from: process.env.PERMAXO_EMAIL,
+      from: process.env.LAWYER_UP_HELP_EMAIL,
       subject: `Contact US`,
       text: `<b>Name : ${body.name}</b><br /><b>Email</b> : ${body.email}<br /><br /><b>Message</b> : ${body.message}`,
     });
@@ -798,7 +1242,7 @@ class UserController {
 
   getTransaction = async (req) => {
     let where = {};
-    if (req.user.data.role_id._id === "620ca6da33032d8eb3c3b236") {
+    if (req.user.data.role_id._id === ROLE_IDS.USER) {
       where = { expert_id: req.user.data._id };
     } else {
       where = { performer_id: req.user.data._id };

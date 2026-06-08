@@ -21,18 +21,25 @@ const userCategoryLawsSchema = mongoose.Schema(
         type: String,
         required: false,
       },
-    laws: [
-      {
-        law_id: {
-          type: String,
-          required: true,
+    laws: {
+      type: [
+        {
+          law_id: {
+            type: String,
+            required: true,
+          },
+          color: {
+            type: String,
+            required: false,
+          },
         },
-        color: {
-          type: String,
-          required: false,
-        },
+      ],
+      // S-02: Cap at 50 laws per category to prevent unbounded document growth
+      validate: {
+        validator: function (v) { return v.length <= 50; },
+        message: 'A category cannot track more than 50 laws.',
       },
-    ],
+    },
     active: {
       type: Boolean,
       default: true,
@@ -42,6 +49,11 @@ const userCategoryLawsSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
+// P-01: Indexes for notifyAffectedUsers() — state+active lookup and user_id lookup
+userCategoryLawsSchema.index({ user_id: 1 });
+userCategoryLawsSchema.index({ state: 1, active: 1 });
+userCategoryLawsSchema.index({ state: 1, active: 1, user_id: 1 });
 
 userCategoryLawsSchema.plugin(mongoosePaginate);
 const UserCategoryLaws = mongoose.model(

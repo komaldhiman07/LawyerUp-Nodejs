@@ -35,6 +35,9 @@ const raisedLawsSchema = mongoose.Schema(
     }
 );
 
+// I-01: Index for fetching a user's raised laws
+raisedLawsSchema.index({ user_id: 1, createdAt: -1 });
+
 raisedLawsSchema.plugin(mongoosePaginate);
 const Settings = mongoose.model("raisedLaws", raisedLawsSchema);
 export default Settings;

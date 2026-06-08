@@ -112,10 +112,11 @@ export class LawsCategoriesController {
 
   /* delete category law by category law id */
   deleteCategory = async (req) => {
-    const { params } = req;
+    const { params, user } = req;
     try {
       const categoryLaw = await this.service.getUserCategoryLaw({
         _id: params.category_id,
+        user_id: user.data._id,
       });
       if (!categoryLaw) {
         return {
@@ -127,6 +128,7 @@ export class LawsCategoriesController {
       }
       const response = await this.service.deleteUserCategoryLaw({
         _id: params.category_id,
+        user_id: user.data._id,
       });
       return {
         status: RESPONSE_CODES.GET,
@@ -152,6 +154,7 @@ export class LawsCategoriesController {
     try {
       const categoryLaw = await this.service.getUserCategoryLaw({
         _id: params.category_id,
+        user_id: user.data._id,
       });
       if (!categoryLaw) {
         return {
@@ -161,15 +164,28 @@ export class LawsCategoriesController {
           data: {},
         };
       }
-      const isCategoryNameExists = await this.service.getUserCategoryLaw({
+      // Check for name duplicate within the same user's other categories
+      const duplicate = await this.service.getUserCategoryLaw({
         name: data.name,
-        user_id: { $ne: user.data._id },
+        user_id: user.data._id,
+        _id: { $ne: new mongoose.Types.ObjectId(params.category_id) },
       });
-      if (isCategoryNameExists && isCategoryNameExists.user_id) {
+      if (duplicate) {
         return {
           status: RESPONSE_CODES.BAD_REQUEST,
           success: false,
           message: CUSTOM_MESSAGES.CATEGORY_NAME_ALREADY_EXISTS,
+          data: {},
+        };
+      }
+      // Block state/city change when the category already has laws
+      const stateChanging = data.state && data.state !== categoryLaw.state;
+      const cityChanging = data.city && data.city !== categoryLaw.city;
+      if ((stateChanging || cityChanging) && categoryLaw.laws.length > 0) {
+        return {
+          status: RESPONSE_CODES.BAD_REQUEST,
+          success: false,
+          message: "Remove all laws from this category before changing its state or city.",
           data: {},
         };
       }
