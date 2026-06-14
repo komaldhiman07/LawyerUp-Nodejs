@@ -63,9 +63,7 @@ class AuthController {
         };
       }
 
-      const setting = await settingService.getSettings({ user_id: user._id })
-      const is_enabled_2fa = setting ? setting.is_enabled_2fa : false;
-      const token = await this.createToken(authObj({ ...user.toObject(), is_enabled_2fa }));
+      const token = await this.createToken(authObj({ ...user.toObject() }));
       if (!user.is_otp_verified) {
         retObj = {
           status: RESPONSE_CODES.BAD_REQUEST,
@@ -173,7 +171,6 @@ class AuthController {
 
       let userData = {
         ...data, password: hash, otp, is_otp_verified: true,
-        secret_2fa: ""
       };
       if (role.name === "Admin" || data.device_type == 'web') {
         userData = { ...userData, is_otp_verified: true };
@@ -232,7 +229,6 @@ class AuthController {
           // },
           // theme: THEME.LIGHT,
           notifications: DEFAULT.TRUE,
-          is_enabled_2fa: DEFAULT.FALSE
         }
         settingService.createSettings(defaultSettingObj);
       } else {

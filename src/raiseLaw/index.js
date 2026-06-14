@@ -50,6 +50,18 @@ class LawsRoutes {
       handler(controller.generateLawReport, (req) => [req])
     );
 
+    /* aggregate category stats — GET /laws/state-laws/stats (declare before /state-laws) */
+    router.get(
+      '/state-laws/stats',
+      handler(controller.getStateLawStats, (req) => [req])
+    );
+
+    /* law change detail — GET /laws/state-laws/change-detail?state_code=CA&law_key=marijuana */
+    router.get(
+      '/state-laws/change-detail',
+      handler(controller.getStateLawChangeDetail, (req) => [req])
+    );
+
     /* list active state laws for app users — GET /laws/state-laws?state_code=CA&law_key=marijuana */
     router.get(
       '/state-laws',

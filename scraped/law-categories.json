@@ -1,0 +1,187 @@
+{
+  "source": "en.wikipedia.org (MediaWiki API: title search + category tree)",
+  "fetched_at": "2026-06-10T18:36:52.875Z",
+  "filter": "legal-looking topics only",
+  "total_topics_found": 1073,
+  "legal_looking": 17,
+  "high_confidence": 7,
+  "count": 17,
+  "categories": [
+    {
+      "category": "Abortion",
+      "confidence": "high",
+      "example_page": "Abortion law in the United States by state",
+      "url": "https://en.wikipedia.org/wiki/Abortion_law_in_the_United_States_by_state",
+      "looks_legal": true,
+      "sources": [
+        "title-search",
+        "category-tree"
+      ]
+    },
+    {
+      "category": "Alcohol",
+      "confidence": "high",
+      "example_page": "Category:Alcohol law in the United States by state",
+      "url": "https://en.wikipedia.org/wiki/Category%3AAlcohol_law_in_the_United_States_by_state",
+      "looks_legal": true,
+      "sources": [
+        "title-search",
+        "category-tree"
+      ]
+    },
+    {
+      "category": "Bank regulation",
+      "confidence": "high",
+      "example_page": "Category:Bank regulation in the United States by state",
+      "url": "https://en.wikipedia.org/wiki/Category%3ABank_regulation_in_the_United_States_by_state",
+      "looks_legal": true,
+      "sources": [
+        "title-search",
+        "category-tree"
+      ]
+    },
+    {
+      "category": "Cannabis",
+      "confidence": "high",
+      "example_page": "Category:Cannabis in the United States by state",
+      "url": "https://en.wikipedia.org/wiki/Category%3ACannabis_in_the_United_States_by_state",
+      "looks_legal": true,
+      "sources": [
+        "title-search",
+        "category-tree"
+      ]
+    },
+    {
+      "category": "Gun",
+      "confidence": "high",
+      "example_page": "Gun laws in the United States by state",
+      "url": "https://en.wikipedia.org/wiki/Gun_laws_in_the_United_States_by_state",
+      "looks_legal": true,
+      "sources": [
+        "title-search",
+        "category-tree"
+      ]
+    },
+    {
+      "category": "Labor",
+      "confidence": "high",
+      "example_page": "Category:United States labor law by state",
+      "url": "https://en.wikipedia.org/wiki/Category%3AUnited_States_labor_law_by_state",
+      "looks_legal": true,
+      "sources": [
+        "category-tree"
+      ]
+    },
+    {
+      "category": "LGBTQ rights",
+      "confidence": "high",
+      "example_page": "Category:LGBTQ rights in the United States by state or territory",
+      "url": "https://en.wikipedia.org/wiki/Category%3ALGBTQ_rights_in_the_United_States_by_state_or_territory",
+      "looks_legal": true,
+      "sources": [
+        "title-search",
+        "category-tree"
+      ]
+    },
+    {
+      "category": "Capital punishment",
+      "confidence": "medium",
+      "example_page": "Category:Capital punishment in the United States by state or territory",
+      "url": "https://en.wikipedia.org/wiki/Category%3ACapital_punishment_in_the_United_States_by_state_or_territory",
+      "looks_legal": true,
+      "sources": [
+        "title-search"
+      ]
+    },
+    {
+      "category": "Casinos",
+      "confidence": "medium",
+      "example_page": "Category:Casinos in the United States by state",
+      "url": "https://en.wikipedia.org/wiki/Category%3ACasinos_in_the_United_States_by_state",
+      "looks_legal": true,
+      "sources": [
+        "title-search"
+      ]
+    },
+    {
+      "category": "Cousin marriage",
+      "confidence": "medium",
+      "example_page": "Cousin marriage law in the United States",
+      "url": "https://en.wikipedia.org/wiki/Cousin_marriage_law_in_the_United_States",
+      "looks_legal": true,
+      "sources": [
+        "title-search"
+      ]
+    },
+    {
+      "category": "Gambling",
+      "confidence": "medium",
+      "example_page": "Category:Gambling in the United States by state",
+      "url": "https://en.wikipedia.org/wiki/Category%3AGambling_in_the_United_States_by_state",
+      "looks_legal": true,
+      "sources": [
+        "title-search"
+      ]
+    },
+    {
+      "category": "LGBT rights",
+      "confidence": "medium",
+      "example_page": "Category:LGBT rights in the United States by state",
+      "url": "https://en.wikipedia.org/wiki/Category%3ALGBT_rights_in_the_United_States_by_state",
+      "looks_legal": true,
+      "sources": [
+        "title-search"
+      ]
+    },
+    {
+      "category": "LGBTQ",
+      "confidence": "medium",
+      "example_page": "Category:LGBTQ in the United States by state or territory",
+      "url": "https://en.wikipedia.org/wiki/Category%3ALGBTQ_in_the_United_States_by_state_or_territory",
+      "looks_legal": true,
+      "sources": [
+        "title-search"
+      ]
+    },
+    {
+      "category": "Marriage",
+      "confidence": "medium",
+      "example_page": "Category:Marriage in the United States by state",
+      "url": "https://en.wikipedia.org/wiki/Category%3AMarriage_in_the_United_States_by_state",
+      "looks_legal": true,
+      "sources": [
+        "title-search"
+      ]
+    },
+    {
+      "category": "Prostitution",
+      "confidence": "medium",
+      "example_page": "Category:Prostitution in the United States by state",
+      "url": "https://en.wikipedia.org/wiki/Category%3AProstitution_in_the_United_States_by_state",
+      "looks_legal": true,
+      "sources": [
+        "title-search"
+      ]
+    },
+    {
+      "category": "Real estate",
+      "confidence": "medium",
+      "example_page": "Category:Real estate in the United States by state or territory",
+      "url": "https://en.wikipedia.org/wiki/Category%3AReal_estate_in_the_United_States_by_state_or_territory",
+      "looks_legal": true,
+      "sources": [
+        "title-search"
+      ]
+    },
+    {
+      "category": "Same-sex marriage",
+      "confidence": "medium",
+      "example_page": "Same-sex marriage law in the United States by state",
+      "url": "https://en.wikipedia.org/wiki/Same-sex_marriage_law_in_the_United_States_by_state",
+      "looks_legal": true,
+      "sources": [
+        "title-search"
+      ]
+    }
+  ]
+}

@@ -308,6 +308,271 @@ export class LawsCategoriesController {
       const response = await this.service.getCategoryLawList({
         user_id: user.data._id,
       });
+
+      // Annotate each category with how many tracked state laws have changed
+      // since the user last saw them — the visible "tracking" payoff.
+      const allIds = [];
+      for (const cat of response) {
+        for (const sl of cat.state_laws || []) allIds.push(sl.law_id);
+      }
+      let versionById = {};
+      if (allIds.length) {
+        const current = await this.service.getStateLawsByIds(allIds);
+        versionById = current.reduce((acc, l) => {
+          acc[l._id.toString()] = l.version;
+          return acc;
+        }, {});
+      }
+      const annotated = response.map((cat) => {
+        const updatesCount = (cat.state_laws || []).filter((sl) => {
+          const v = versionById[sl.law_id];
+          return v !== undefined && v > (sl.last_seen_version || 1);
+        }).length;
+        return {
+          ...cat,
+          tracked_count: (cat.state_laws || []).length,
+          updates_count: updatesCount,
+        };
+      });
+
+      return {
+        status: RESPONSE_CODES.POST,
+        success: true,
+        message: CUSTOM_MESSAGES.DATA_LOADED_SUCCESS,
+        data: annotated,
+      };
+    } catch (error) {
+      console.log("error :>> ", error);
+      return {
+        status: RESPONSE_CODES.SERVER_ERROR,
+        success: false,
+        message: error,
+        data: {},
+      };
+    }
+  };
+  /* end */
+
+  /* add StateLaw record(s) to a category's tracked list */
+  addStateLawToCategory = async (req) => {
+    const data = matchedData(req);
+    const { user } = req;
+    try {
+      const category = await this.service.getUserCategoryLaw({
+        _id: data.category_id,
+        user_id: user.data._id,
+      });
+      if (!category) {
+        return {
+          status: RESPONSE_CODES.BAD_REQUEST,
+          success: false,
+          message: CUSTOM_MESSAGES.CATEGORY_NOT_FOUND,
+          data: {},
+        };
+      }
+      const incoming = Array.isArray(data.laws) ? data.laws : [];
+      const ids = incoming.map((l) => l.law_id);
+      const current = await this.service.getStateLawsByIds(ids);
+      const byId = current.reduce((acc, l) => {
+        acc[l._id.toString()] = l;
+        return acc;
+      }, {});
+
+      const existing = [...(category.state_laws || [])];
+      for (const item of incoming) {
+        const law = byId[item.law_id];
+        if (!law) continue; // skip unknown/deleted laws
+        if (existing.some((e) => e.law_id === item.law_id)) continue; // dedupe
+        existing.push({
+          law_id: item.law_id,
+          state_code: law.state_code,
+          law_key: law.law_key,
+          color: item.color || "#3482CB",
+          last_seen_version: law.version,
+          last_seen_summary: law.summary || "",
+          last_seen_legality: this.service.classifyLegality(law.law_key, law.summary),
+          added_at: new Date(),
+        });
+      }
+
+      const response = await this.service.updateUserCategoryLaw(
+        { _id: data.category_id },
+        { state_laws: existing }
+      );
+      return {
+        status: RESPONSE_CODES.POST,
+        success: true,
+        message: CUSTOM_MESSAGES.LAW_ADDED_SUCCESS,
+        data: response,
+      };
+    } catch (error) {
+      console.log("Error :", error);
+      return {
+        status: RESPONSE_CODES.SERVER_ERROR,
+        success: false,
+        message: error,
+        data: {},
+      };
+    }
+  };
+  /* end */
+
+  /* list a category's tracked state laws, hydrated with current data + change status */
+  getTrackedStateLaws = async (req) => {
+    const { params, user } = req;
+    try {
+      const category = await this.service.getUserCategoryLaw({
+        _id: params.category_id,
+        user_id: user.data._id,
+      });
+      if (!category) {
+        return {
+          status: RESPONSE_CODES.BAD_REQUEST,
+          success: false,
+          message: CUSTOM_MESSAGES.CATEGORY_NOT_FOUND,
+          data: {},
+        };
+      }
+      const tracked = category.state_laws || [];
+      const current = await this.service.getStateLawsByIds(
+        tracked.map((t) => t.law_id)
+      );
+      const byId = current.reduce((acc, l) => {
+        acc[l._id.toString()] = l;
+        return acc;
+      }, {});
+
+      const laws = tracked.map((t) => {
+        const law = byId[t.law_id];
+        if (!law) {
+          // The law was removed upstream — surface as repealed/unavailable.
+          return {
+            law_id: t.law_id,
+            state_code: t.state_code,
+            law_key: t.law_key,
+            color: t.color,
+            available: false,
+            updated: false,
+          };
+        }
+        const updated = (law.version || 1) > (t.last_seen_version || 1);
+        return {
+          law_id: t.law_id,
+          state_code: law.state_code,
+          law_key: law.law_key,
+          color: t.color,
+          title: law.title,
+          summary: law.summary,
+          details: law.details,
+          penalty_text: law.penalty_text,
+          effective_from: law.effective_from,
+          updatedAt: law.updatedAt,
+          version: law.version,
+          legality: this.service.classifyLegality(law.law_key, law.summary),
+          available: true,
+          updated,
+          diff: updated
+            ? { from: t.last_seen_summary, to: law.summary }
+            : null,
+        };
+      });
+
+      return {
+        status: RESPONSE_CODES.GET,
+        success: true,
+        message: CUSTOM_MESSAGES.DATA_LOADED_SUCCESS,
+        data: {
+          _id: category._id,
+          name: category.name,
+          state: category.state,
+          updates_count: laws.filter((l) => l.updated).length,
+          laws,
+        },
+      };
+    } catch (error) {
+      return {
+        status: RESPONSE_CODES.SERVER_ERROR,
+        success: false,
+        message: error,
+        data: {},
+      };
+    }
+  };
+  /* end */
+
+  /* remove a tracked state law from a category */
+  removeStateLawFromCategory = async (req) => {
+    const data = matchedData(req);
+    const { user } = req;
+    try {
+      const category = await this.service.getUserCategoryLaw({
+        _id: data.category_id,
+        user_id: user.data._id,
+      });
+      if (!category) {
+        return {
+          status: RESPONSE_CODES.BAD_REQUEST,
+          success: false,
+          message: CUSTOM_MESSAGES.CATEGORY_NOT_FOUND,
+          data: {},
+        };
+      }
+      const next = (category.state_laws || []).filter(
+        (e) => e.law_id !== data.law_id
+      );
+      const response = await this.service.updateUserCategoryLaw(
+        { _id: data.category_id },
+        { state_laws: next }
+      );
+      return {
+        status: RESPONSE_CODES.POST,
+        success: true,
+        message: CUSTOM_MESSAGES.LAW_DELETE_SUCCESS,
+        data: response,
+      };
+    } catch (error) {
+      return {
+        status: RESPONSE_CODES.SERVER_ERROR,
+        success: false,
+        message: error,
+        data: {},
+      };
+    }
+  };
+  /* end */
+
+  /* acknowledge an update — snapshot the current version so the badge clears */
+  markStateLawSeen = async (req) => {
+    const data = matchedData(req);
+    const { user } = req;
+    try {
+      const category = await this.service.getUserCategoryLaw({
+        _id: data.category_id,
+        user_id: user.data._id,
+      });
+      if (!category) {
+        return {
+          status: RESPONSE_CODES.BAD_REQUEST,
+          success: false,
+          message: CUSTOM_MESSAGES.CATEGORY_NOT_FOUND,
+          data: {},
+        };
+      }
+      const current = await this.service.getStateLawsByIds([data.law_id]);
+      const law = current[0];
+      const next = (category.state_laws || []).map((e) => {
+        if (e.law_id !== data.law_id || !law) return e;
+        return {
+          ...e,
+          last_seen_version: law.version,
+          last_seen_summary: law.summary || "",
+          last_seen_legality: this.service.classifyLegality(law.law_key, law.summary),
+        };
+      });
+      const response = await this.service.updateUserCategoryLaw(
+        { _id: data.category_id },
+        { state_laws: next }
+      );
       return {
         status: RESPONSE_CODES.POST,
         success: true,
@@ -315,7 +580,6 @@ export class LawsCategoriesController {
         data: response,
       };
     } catch (error) {
-      console.log("error :>> ", error);
       return {
         status: RESPONSE_CODES.SERVER_ERROR,
         success: false,

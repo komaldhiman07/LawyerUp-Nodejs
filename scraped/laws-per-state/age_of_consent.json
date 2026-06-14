@@ -1,0 +1,476 @@
+{
+  "category": "age_of_consent",
+  "title": "Age of consent in the United States",
+  "source": "en.wikipedia.org",
+  "source_url": "https://en.wikipedia.org/wiki/Age_of_consent_in_the_United_States",
+  "fetched_at": "2026-06-10T19:21:45.874Z",
+  "columns": [
+    "State/territory",
+    "By age",
+    "By authority",
+    "Unrestricted",
+    "Ref."
+  ],
+  "state_count": 51,
+  "rows": [
+    {
+      "state": "Alabama",
+      "state_code": "AL",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "16",
+        "Unrestricted": "19"
+      }
+    },
+    {
+      "state": "Alaska",
+      "state_code": "AK",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "16",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Arizona",
+      "state_code": "AZ",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "—N/a",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Arkansas",
+      "state_code": "AR",
+      "columns": {
+        "By age": "14",
+        "By authority": "16",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "California",
+      "state_code": "CA",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "—N/a",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Colorado",
+      "state_code": "CO",
+      "columns": {
+        "By age": "14",
+        "By authority": "—N/a",
+        "Unrestricted": "17"
+      }
+    },
+    {
+      "state": "Connecticut",
+      "state_code": "CT",
+      "columns": {
+        "By age": "13",
+        "By authority": "16",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Delaware",
+      "state_code": "DE",
+      "columns": {
+        "By age": "16",
+        "By authority": "—N/a",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Florida",
+      "state_code": "FL",
+      "columns": {
+        "By age": "16",
+        "By authority": "—N/a",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Georgia",
+      "state_code": "GA",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "—N/a",
+        "Unrestricted": "16"
+      }
+    },
+    {
+      "state": "Hawaii",
+      "state_code": "HI",
+      "columns": {
+        "By age": "14",
+        "By authority": "—N/a",
+        "Unrestricted": "16"
+      }
+    },
+    {
+      "state": "Idaho",
+      "state_code": "ID",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "—N/a",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Illinois",
+      "state_code": "IL",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "17",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Indiana",
+      "state_code": "IN",
+      "columns": {
+        "By age": "14",
+        "By authority": "—N/a",
+        "Unrestricted": "16"
+      }
+    },
+    {
+      "state": "Iowa",
+      "state_code": "IA",
+      "columns": {
+        "By age": "14",
+        "By authority": "16",
+        "Unrestricted": "—N/a"
+      }
+    },
+    {
+      "state": "Kansas",
+      "state_code": "KS",
+      "columns": {
+        "By age": "14",
+        "By authority": "—N/a",
+        "Unrestricted": "16"
+      }
+    },
+    {
+      "state": "Kentucky",
+      "state_code": "KY",
+      "columns": {
+        "By age": "16",
+        "By authority": "—N/a",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Louisiana",
+      "state_code": "LA",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "—N/a",
+        "Unrestricted": "17"
+      }
+    },
+    {
+      "state": "Maine",
+      "state_code": "ME",
+      "columns": {
+        "By age": "14",
+        "By authority": "—N/a",
+        "Unrestricted": "16"
+      }
+    },
+    {
+      "state": "Maryland",
+      "state_code": "MD",
+      "columns": {
+        "By age": "14",
+        "By authority": "16",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Massachusetts",
+      "state_code": "MA",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "—N/a",
+        "Unrestricted": "16"
+      }
+    },
+    {
+      "state": "Michigan",
+      "state_code": "MI",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "16",
+        "Unrestricted": "—N/a"
+      }
+    },
+    {
+      "state": "Minnesota",
+      "state_code": "MN",
+      "columns": {
+        "By age": "13",
+        "By authority": "16",
+        "Unrestricted": "—N/a"
+      }
+    },
+    {
+      "state": "Mississippi",
+      "state_code": "MS",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "—N/a",
+        "Unrestricted": "16"
+      }
+    },
+    {
+      "state": "Missouri",
+      "state_code": "MO",
+      "columns": {
+        "By age": "14",
+        "By authority": "—N/a",
+        "Unrestricted": "17"
+      }
+    },
+    {
+      "state": "Montana",
+      "state_code": "MT",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "—N/a",
+        "Unrestricted": "16"
+      }
+    },
+    {
+      "state": "Nebraska",
+      "state_code": "NE",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "—N/a",
+        "Unrestricted": "16"
+      }
+    },
+    {
+      "state": "Nevada",
+      "state_code": "NV",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "—N/a",
+        "Unrestricted": "16"
+      }
+    },
+    {
+      "state": "New Hampshire",
+      "state_code": "NH",
+      "columns": {
+        "By age": "13",
+        "By authority": "16",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "New Jersey",
+      "state_code": "NJ",
+      "columns": {
+        "By age": "13",
+        "By authority": "16",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "New Mexico",
+      "state_code": "NM",
+      "columns": {
+        "By age": "13",
+        "By authority": "16",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "New York",
+      "state_code": "NY",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "—N/a",
+        "Unrestricted": "17"
+      }
+    },
+    {
+      "state": "North Carolina",
+      "state_code": "NC",
+      "columns": {
+        "By age": "13",
+        "By authority": "—N/a",
+        "Unrestricted": "16"
+      }
+    },
+    {
+      "state": "North Dakota",
+      "state_code": "ND",
+      "columns": {
+        "By age": "15",
+        "By authority": "—N/a",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Ohio",
+      "state_code": "OH",
+      "columns": {
+        "By age": "13",
+        "By authority": "16",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Oklahoma",
+      "state_code": "OK",
+      "columns": {
+        "By age": "16",
+        "By authority": "18",
+        "Unrestricted": "20"
+      }
+    },
+    {
+      "state": "Oregon",
+      "state_code": "OR",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "—N/a",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Pennsylvania",
+      "state_code": "PA",
+      "columns": {
+        "By age": "13",
+        "By authority": "16",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Rhode Island",
+      "state_code": "RI",
+      "columns": {
+        "By age": "14",
+        "By authority": "—N/a",
+        "Unrestricted": "16"
+      }
+    },
+    {
+      "state": "South Carolina",
+      "state_code": "SC",
+      "columns": {
+        "By age": "14",
+        "By authority": "—N/a",
+        "Unrestricted": "16"
+      }
+    },
+    {
+      "state": "South Dakota",
+      "state_code": "SD",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "—N/a",
+        "Unrestricted": "16"
+      }
+    },
+    {
+      "state": "Tennessee",
+      "state_code": "TN",
+      "columns": {
+        "By age": "13",
+        "By authority": "—N/a",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Texas",
+      "state_code": "TX",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "17",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Utah",
+      "state_code": "UT",
+      "columns": {
+        "By age": "16",
+        "By authority": "—N/a",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Vermont",
+      "state_code": "VT",
+      "columns": {
+        "By age": "15",
+        "By authority": "16",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Virginia",
+      "state_code": "VA",
+      "columns": {
+        "By age": "15",
+        "By authority": "—N/a",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "Washington",
+      "state_code": "WA",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "16",
+        "Unrestricted": "21"
+      }
+    },
+    {
+      "state": "District of Columbia",
+      "state_code": "DC",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "16",
+        "Unrestricted": "18"
+      }
+    },
+    {
+      "state": "West Virginia",
+      "state_code": "WV",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "—N/a",
+        "Unrestricted": "16"
+      }
+    },
+    {
+      "state": "Wisconsin",
+      "state_code": "WI",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "18",
+        "Unrestricted": "—N/a"
+      }
+    },
+    {
+      "state": "Wyoming",
+      "state_code": "WY",
+      "columns": {
+        "By age": "—N/a",
+        "By authority": "—N/a",
+        "Unrestricted": "17"
+      }
+    }
+  ]
+}

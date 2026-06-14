@@ -21,6 +21,16 @@ class ContactUsRoutes {
     );
     /* end */
 
+    /* admin inbox — list + status update (guarded in controller) */
+    router.get(
+      '/admin/list',
+      handler(controller.adminList, (req) => [req]),
+    );
+    router.put(
+      '/:id/status',
+      handler(controller.updateStatus, (req) => [req]),
+    );
+
     return router;
   }
 }

@@ -19,7 +19,19 @@ const notificationSchema = mongoose.Schema({
   type: {
     type: String,
     required: true,
-    enum: ['lawUpdate', 'lawNew', 'lawRepeal', 'travelEntry'],
+    enum: [
+      // law changes
+      'lawUpdate', 'lawNew', 'lawRepeal', 'penaltyChange', 'effectiveSoon', 'pendingChange',
+      // location & travel
+      'travelEntry', 'travelRisk', 'reciprocityChange', 'tripReminder',
+      // watchlist / awareness / digest / account
+      'categoryAlert', 'knowYourRights', 'deadlineReminder', 'seasonalAlert',
+      'weeklyDigest', 'securityAlert',
+      // user contributions (raise-a-law moderation outcome)
+      'suggestionUpdate',
+      // support (contact-us request resolved)
+      'contactReply',
+    ],
     default: 'lawUpdate',
   },
 
@@ -69,6 +81,49 @@ const notificationSchema = mongoose.Schema({
     required: false,
     enum: ['updated', 'published', 'repealed', null, ''],
     default: '',
+  },
+
+  // ── extensible fields (Phase 1: notification expansion) ────────────────────
+  // Visual + push urgency. Drives accent styling and sound.
+  priority: {
+    type: String,
+    enum: ['low', 'normal', 'high', 'urgent'],
+    default: 'normal',
+  },
+  // The single relevant state (generalises current/home_state for non-travel types).
+  state_code: {
+    type: String,
+    default: '',
+  },
+  // For effectiveSoon / deadlineReminder — when the change takes effect.
+  effective_date: {
+    type: Date,
+    required: false,
+  },
+  // Auto-hide time-sensitive notifications after this moment.
+  expires_at: {
+    type: Date,
+    required: false,
+  },
+  // Where tapping the notification should navigate in the app.
+  deep_link: {
+    route: { type: String, default: '' },
+    args:  { type: Schema.Types.Mixed, default: {} },
+  },
+  // Optional call-to-action button label, e.g. "Compare states", "View law".
+  cta_label: {
+    type: String,
+    default: '',
+  },
+  // Batches notifications together (e.g. into a weekly digest).
+  group_key: {
+    type: String,
+    default: '',
+  },
+  // Flexible per-type payload, e.g. { from: "misdemeanor", to: "felony" }.
+  data: {
+    type: Schema.Types.Mixed,
+    default: {},
   },
 
   // ── timestamps ────────────────────────────────────────────────────────────

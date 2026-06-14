@@ -40,6 +40,27 @@ const userCategoryLawsSchema = mongoose.Schema(
         message: 'A category cannot track more than 50 laws.',
       },
     },
+    // Tracked StateLaw records — the versioned system that powers "get updates".
+    // Each entry snapshots what the user last saw so we can detect changes + diff.
+    state_laws: {
+      type: [
+        {
+          law_id:             { type: String, required: true }, // StateLaw _id (stable)
+          state_code:         { type: String, required: true },
+          law_key:            { type: String, required: true },
+          color:              { type: String, required: false },
+          last_seen_version:  { type: Number, default: 1 },
+          last_seen_summary:  { type: String, default: "" },
+          last_seen_legality: { type: String, default: "info" },
+          added_at:           { type: Date,   default: Date.now },
+        },
+      ],
+      default: [],
+      validate: {
+        validator: function (v) { return v.length <= 50; },
+        message: 'A category cannot track more than 50 laws.',
+      },
+    },
     active: {
       type: Boolean,
       default: true,

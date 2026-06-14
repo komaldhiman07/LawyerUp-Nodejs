@@ -49,6 +49,13 @@ class UserRoutes {
       handler(controller.updateProfile, (req) => [req])
     );
 
+    /* update home state/city only — no image side effects */
+    router.post(
+      "/update-home-state",
+      checkSchema(Validator.profile()),
+      handler(controller.updateHomeState, (req) => [req])
+    );
+
     router.post(
       "/location/update",
       checkSchema(Validator.locationUpdate()),
@@ -173,13 +180,6 @@ class UserRoutes {
     router.post("/validate-password",
       checkSchema(userValidation.validatePassword()),
       handler(controller.validatePassword, (req) => [req])
-    );
-    /* end */
-
-    /* two factor authorization */
-    router.post("/two-factor-auth",
-      checkSchema(userValidation.twoFactorAuth()),
-      handler(controller.twoFactorAuth, (req) => [req])
     );
     /* end */
 

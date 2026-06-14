@@ -30,11 +30,36 @@ class LawsValidator {
     },
     is_all_states: {
       in: ['body'],
-      errorMessage: 'Is all states is required!',
+      optional: true,
     },
     states: {
       in: ['body'],
-      errorMessage: 'States are required!',
+      optional: true,
+    },
+    // ── Structured suggestion fields (all optional) ──────────────────────
+    type: {
+      in: ['body'],
+      optional: true,
+      isIn: {
+        options: [['missing', 'error', 'update']],
+        errorMessage: 'Type must be missing, error, or update',
+      },
+    },
+    state_code: {
+      in: ['body'],
+      optional: true,
+    },
+    law_key: {
+      in: ['body'],
+      optional: true,
+    },
+    source_url: {
+      in: ['body'],
+      optional: true,
+    },
+    linked_law_id: {
+      in: ['body'],
+      optional: true,
     },
   });
   /* end */

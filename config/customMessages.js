@@ -1,5 +1,4 @@
 exports.CUSTOM_MESSAGES = {
-  TWO_FACTOR_NOT_SETUP: '2FA is not setup, please setup it first',
   DASHBOARD_COUNT: "Dashboard Count",
   SUCCESS: "Success." /*** Sucess. ***/,
   CITY_NOT_FOUND: "City laws not found",
@@ -53,10 +52,6 @@ exports.CUSTOM_MESSAGES = {
   INVALID_CREDENTIALS: "Invalid credentials.",
   PASSWORD_VALIDATE_SUCCESS: "Password validated successfully.",
   SECRET_GENERATED_SUCCESS: "Secret generated successfully.",
-  TWO_FACTOR_VERIFICATION_FAILED: "Verification failed.",
-  TWO_FACTOR_VERIFICATION_SUCCESS: "OTP verify Successfully.",
-  TWO_FACTOR_VALIDATE_SUCCESS: "Validated successfully",
-  TWO_FACTOR_VALIDATE_FAILED: "Wrong OTP",
   ALREADY_LIKED: "You already liked this law",
   ALREADY_DISLIKED: "You already disliked this law",
   LAW_PUBLISHED_SUCCESS: "Law published successfully.",

@@ -19,6 +19,10 @@ import LawsRoutes from "../src/raiseLaw/index";
 import UserCategoryLawsRoutes from "../src/lawsCategories";
 import AdminLawsRoutes from "../src/adminLaws";
 import NotificationRoutes from "../src/notification/index.js";
+import TripRoutes from "../src/trips/index.js";
+import FaqRoutes from "../src/faq/index.js";
+import { startTripReminderJob } from "../src/jobs/tripReminders.js";
+import { startLawIngestionJob } from "../src/jobs/lawIngestion.js";
 
 const morgan = require("morgan");
 import AWS from 'aws-sdk';
@@ -131,11 +135,15 @@ class Server {
       this.app.use("/category", UserCategoryLawsRoutes);
       this.app.use("/admin/laws", AdminLawsRoutes);
       this.app.use("/notification", NotificationRoutes);
+      this.app.use("/trip", TripRoutes);
+      this.app.use("/faq", FaqRoutes);
       this.app.get("/api-docs", swaggerUi.setup(swaggerDocument));
       /** All Cron Jobs Here */
-      /** Cron job for expire the album and send notification */
-      // cron.schedule("0 0 * * *", async () => {
-      // });
+      // Daily trip-reminder job (5/3/1/0 days before travel).
+      startTripReminderJob();
+      // Daily law-ingestion job (gated by LAW_INGEST_ENABLED) — scrapes/researches
+      // law changes into draft StateLaws for admin review.
+      startLawIngestionJob();
       return this.app;
     } catch (err) {
       console.log("e : ", err)

@@ -1,0 +1,458 @@
+{
+  "category": "minimum_wage",
+  "title": "Minimum wage in the United States",
+  "source": "en.wikipedia.org",
+  "source_url": "https://en.wikipedia.org/wiki/Minimum_wage_in_the_United_States",
+  "fetched_at": "2026-06-10T19:21:43.740Z",
+  "columns": [
+    "State",
+    "Min. wage / ($/h)",
+    "Tipped / ($/h)",
+    "Youth/training / ($/h)",
+    "Automatic indexed adjustment",
+    "Notes"
+  ],
+  "state_count": 50,
+  "rows": [
+    {
+      "state": "Alabama",
+      "state_code": "AL",
+      "columns": {
+        "Min. wage / ($/h)": "None"
+      }
+    },
+    {
+      "state": "Alaska",
+      "state_code": "AK",
+      "columns": {
+        "Min. wage / ($/h)": "$13.00",
+        "Tipped / ($/h)": "$13.00",
+        "Notes": "Subsequent increases are scheduled as follows: $14.00 on July 1, 2026 $15.00 on July 1, 2027 Adjusted annually based on the U.S. Consumer Price Index, beginning on January 1, 2028"
+      }
+    },
+    {
+      "state": "Arizona",
+      "state_code": "AZ",
+      "columns": {
+        "Min. wage / ($/h)": "$15.15",
+        "Tipped / ($/h)": "$12.15"
+      }
+    },
+    {
+      "state": "Arkansas",
+      "state_code": "AR",
+      "columns": {
+        "Min. wage / ($/h)": "$11.00",
+        "Tipped / ($/h)": "$2.63"
+      }
+    },
+    {
+      "state": "California",
+      "state_code": "CA",
+      "columns": {
+        "Min. wage / ($/h)": "$16.90",
+        "Tipped / ($/h)": "$16.90",
+        "Notes": "Main article: Minimum wage in California In 2023, the California State Legislature passed a law on a new minimum wage for fast food workers at $20.00. The new minimum wage took effect on April 1, 2024. It affects the following restaurants: Has little to no table service Part of a chain of at least 60 locations nationwide Sells food and beverage for immediate consumption During the same legislative session, the State Legislature passed 2023 SB 525 (Durazo) which increases minimum wages for healthcare workers to $25.00 per hour by June 1, 2028."
+      }
+    },
+    {
+      "state": "Colorado",
+      "state_code": "CO",
+      "columns": {
+        "Min. wage / ($/h)": "$15.16",
+        "Tipped / ($/h)": "$12.14",
+        "Notes": "Edgewater: $18.17 since January 1, 2026."
+      }
+    },
+    {
+      "state": "Connecticut",
+      "state_code": "CT",
+      "columns": {
+        "Min. wage / ($/h)": "$16.94",
+        "Tipped / ($/h)": "$6.38",
+        "Notes": "In 2019, the Connecticut government passed a law raising the minimum wage to $11.00 on October 1, 2019. The minimum wage increased to $14.00 on July 1, 2022, and $15.00 on June 1, 2023. Starting on January 1, 2024, the minimum wage will be indexed to the Employment Cost Index."
+      }
+    },
+    {
+      "state": "Delaware",
+      "state_code": "DE",
+      "columns": {
+        "Min. wage / ($/h)": "$15.00",
+        "Tipped / ($/h)": "$2.23",
+        "Notes": "Minimum wage increased to $15.00 effective on January 1, 2025."
+      }
+    },
+    {
+      "state": "Florida",
+      "state_code": "FL",
+      "columns": {
+        "Min. wage / ($/h)": "$14.00",
+        "Tipped / ($/h)": "$9.98",
+        "Notes": "Florida's minimum wage increased to $10.00 and the tipped minimum wage to $6.98 on September 30, 2021. In November 2020, Florida voters passed a Constitutional Amendment which will gradually raise the minimum wage to $15.00 per hour by 2026. After 2026, the minimum wage is increased annually on September 30 (effective January 1 of the following calendar year) based upon a cost of living formula (the Consumer Price Index for Urban Wage Earners and Clerical Workers, not seasonally adjusted, for the South Region or a successor index as calculated by the United States Department of Labor, using the rate of inflation for the 12 months prior to September 1). Minimum wage increased to $14.00 on September 30, 2025, with subsequent increases as follows: $15.00 on September 30, 2026"
+      }
+    },
+    {
+      "state": "Georgia",
+      "state_code": "GA",
+      "columns": {
+        "Min. wage / ($/h)": "$5.15",
+        "Tipped / ($/h)": "$2.13",
+        "Notes": "Only applicable to employers of 6 or more employees. The state law excludes from coverage any employment that is subject to the Federal Fair Labor Standards Act when the federal rate is greater than the state rate."
+      }
+    },
+    {
+      "state": "Hawaii",
+      "state_code": "HI",
+      "columns": {
+        "Min. wage / ($/h)": "$16.00",
+        "Tipped / ($/h)": "$14.75",
+        "Notes": "Minimum wage increased to $16.00 on January 1, 2026. The \"disability subminimum wage\" (wherein disabled workers are exempted from standard minimum wage requirements) was repealed in June 2021."
+      }
+    },
+    {
+      "state": "Idaho",
+      "state_code": "ID",
+      "columns": {
+        "Min. wage / ($/h)": "$7.25",
+        "Tipped / ($/h)": "$3.35"
+      }
+    },
+    {
+      "state": "Illinois",
+      "state_code": "IL",
+      "columns": {
+        "Min. wage / ($/h)": "$15.00",
+        "Tipped / ($/h)": "$9.00",
+        "Youth/training / ($/h)": "$13.00",
+        "Notes": "The current Illinois minimum wage is $15.00. As of January 1, 2020, if a worker under 18 works more than 650 hours for the employer during any calendar year, they must be paid the regular (over 18 wage). Tipped employees earn 60% of the minimum wage (employers may claim credit for tips, up to 40% of wage) and there is a training wage for tipped employees. Certain employees must be paid overtime, at time and one-half of the regular rate, after 40 hours of work in a workweek. In February 2019, Governor J. B. Pritzker approved a statewide minimum wage rising to $15 by 2025. Increases began on January 1, 2020, to $9.25 and rose to $10 on July 1, 2020. The rate increased $1 each year until 2025, when it became $15. Chicago: $16.60 since July 1, 2025. The base wage for tipped employees was formerly 60% of the non-tipped minimum rate, but is increasing by 8% of the rate per year until it reaches the equivalent level (currently 76%). Chicago's minimum wage increased to $14 an hour on July 1, 2020, and reached $15 on July 1, 2021. Cook County: $15.00 since July 1, 2025. The base wage for tipped employees is $9.00 since July 1, 2025. However, a large number of municipalities located within Cook County have opted-out of the county-level minimum wage ordinance."
+      }
+    },
+    {
+      "state": "Indiana",
+      "state_code": "IN",
+      "columns": {
+        "Min. wage / ($/h)": "$7.25",
+        "Tipped / ($/h)": "$2.13"
+      }
+    },
+    {
+      "state": "Iowa",
+      "state_code": "IA",
+      "columns": {
+        "Min. wage / ($/h)": "$7.25",
+        "Tipped / ($/h)": "$4.35",
+        "Notes": "Most small retail and service establishments grossing less than $300,000 annually are not required to pay the minimum wage. A tipped employee who makes $30.00 per month or more in tips, can be paid 60% of the minimum wage, i.e. as little as $4.35 per hour. Increased minimum wage laws in Johnson and Linn counties were nullified by the legislature. While unenforceable by law, Johnson county continues to ask businesses to pledge to honor the minimum wage of $10.25 since January 1, 2019. Other places that have symbolic minimum wages include Linn at $10.25, Polk City at $10.75, and Wapello at $10.10."
+      }
+    },
+    {
+      "state": "Kansas",
+      "state_code": "KS",
+      "columns": {
+        "Min. wage / ($/h)": "$7.25",
+        "Tipped / ($/h)": "$2.13",
+        "Notes": "Kansas had the lowest legislated, non-tipped worker minimum wage in the U.S., $2.65 per hour, until it was raised to $7.25, effective January 1, 2010."
+      }
+    },
+    {
+      "state": "Kentucky",
+      "state_code": "KY",
+      "columns": {
+        "Min. wage / ($/h)": "$7.25",
+        "Tipped / ($/h)": "$2.13",
+        "Notes": "Louisville: $8.10 from July 1, 2015, and increases to $9.00 by 2017. However, the Kentucky Supreme Court ruled that localities do not have authority to increase the minimum wage."
+      }
+    },
+    {
+      "state": "Louisiana",
+      "state_code": "LA",
+      "columns": {
+        "Min. wage / ($/h)": "None"
+      }
+    },
+    {
+      "state": "Maine",
+      "state_code": "ME",
+      "columns": {
+        "Min. wage / ($/h)": "$15.10",
+        "Tipped / ($/h)": "$7.55",
+        "Notes": "The minimum wage increased to $15.10 and tipped minimum wage to $7.55 on January 1, 2026. The tipped rate is half of the current state minimum wage. Rockland: Starting on January 1, 2026, for employers with more than 25 employees, the minimum wage will be $16.00. The minimum wage in future years be adjusted annually based on cost of living. Portland: $16.75 as of January 1, 2026."
+      }
+    },
+    {
+      "state": "Maryland",
+      "state_code": "MD",
+      "columns": {
+        "Min. wage / ($/h)": "$15.00",
+        "Tipped / ($/h)": "$3.63",
+        "Notes": "Minimum wage is $15.00 as of January 1, 2024. For employees working in Montgomery County, the minimum wage is $17.65 per hour for businesses with 51 or more employees, $16.00 per hour for businesses with 11 to 50 employees, and $15.50 per hour for businesses with 10 or fewer employees, effective July 1, 2025. County Council bill 12-16 was enacted on January 17, 2017, to adjust the minimum wage to $15 and base future adjustments on the Consumer Price Index, but was later vetoed by the County Executive. Howard County: $16.00 since January 1, 2025 for businesses with 15 or more employees."
+      }
+    },
+    {
+      "state": "Massachusetts",
+      "state_code": "MA",
+      "columns": {
+        "Min. wage / ($/h)": "$15.00",
+        "Tipped / ($/h)": "$6.75",
+        "Notes": "The minimum wage increased to $15.00 ($6.75 for tipped workers (defined as those in service work who make more than $20 in tips per month), $8 for many agricultural workers) on January 1, 2023. The \"Grand Bargain\" passed in 2018 raised wages on an annual schedule, phasing out time-and-a-half while prohibiting employers from requiring work on Sundays and holidays against employee wishes."
+      }
+    },
+    {
+      "state": "Michigan",
+      "state_code": "MI",
+      "columns": {
+        "Min. wage / ($/h)": "$13.73",
+        "Tipped / ($/h)": "$5.49",
+        "Youth/training / ($/h)": "$4.25 (training) $11.67 (youth)",
+        "Notes": "Public Act 1 of 2025 was signed into law on February 21, 2025. It schedules the following minimum wage increases: Jan. 1, 2026: $13.73 regular, $11.67 youth, $5.49 tipped Jan. 1, 2027: $15 regular, $12.75 youth, $6.30 tipped There will be no increase in the minimum wage if the unemployment rate rises to or above 8.5% in the previous year. Tipped workers must earn at least the standard Michigan minimum wage once tips are included in their wages. The tipped minimum wage is set at 40% of the state minimum for 2026, followed by gradual increases to 50% of the state minimum by 2031. The youth rate is set at 85% of the state minimum."
+      }
+    },
+    {
+      "state": "Minnesota",
+      "state_code": "MN",
+      "columns": {
+        "Min. wage / ($/h)": "$11.41",
+        "Tipped / ($/h)": "$11.41",
+        "Youth/training / ($/h)": "$9.31 (for small employers; training; youth; and employees in J-1 status working for hotels, motels, lodging establishments, or resorts)",
+        "Notes": "Beginning January 1, 2018, all minimum wage rates increase annually by the national implicit price deflator or 2.5%, whichever is lower. Overtime applies after 48 hours per week. Minneapolis: $16.37, effective for all businesses January 1, 2026. St. Paul: $15.97 for business with more than 100 employees; $15.00 for businesses with 6–100 employees; and $13.25 for businesses with 5 or fewer employees, effective July 1, 2025."
+      }
+    },
+    {
+      "state": "Mississippi",
+      "state_code": "MS",
+      "columns": {
+        "Min. wage / ($/h)": "None"
+      }
+    },
+    {
+      "state": "Missouri",
+      "state_code": "MO",
+      "columns": {
+        "Min. wage / ($/h)": "$15.00",
+        "Tipped / ($/h)": "$7.50",
+        "Notes": "On November 6, 2018, Missouri passed Proposition B, which increased the minimum wage. Effective January 1, 2021, the minimum wage increased to $10.30; $11.15 January 1, 2022; and $12.00 January 1, 2023. The minimum wage would afterwards be adjusted based on changes in the Consumer Price Index for Urban Wage Earners and Clerical Workers. A state law passed July 5, 2017 prevents Missouri cities and local governments from setting a higher minimum wage. Kansas City set up a voluntary living wage program for employers to register. In 2022, the living wage is $15.00."
+      }
+    },
+    {
+      "state": "Montana",
+      "state_code": "MT",
+      "columns": {
+        "Min. wage / ($/h)": "$10.85",
+        "Tipped / ($/h)": "$10.85",
+        "Notes": "Minimum wage rate is automatically adjusted annually based on the U.S. Consumer Price Index. Income from tips cannot offset an employee's pay rate while same minimum wage applied for both tipped and non-tipped employees. The state minimum wage for business with less than $110,000 in annual sales is $4.00."
+      }
+    },
+    {
+      "state": "Nebraska",
+      "state_code": "NE",
+      "columns": {
+        "Min. wage / ($/h)": "$15.00",
+        "Tipped / ($/h)": "$2.13",
+        "Youth/training / ($/h)": "75% of federal minimum",
+        "Notes": "Minimum wage increased to $15.00 January 1, 2026."
+      }
+    },
+    {
+      "state": "Nevada",
+      "state_code": "NV",
+      "columns": {
+        "Min. wage / ($/h)": "$12.00",
+        "Tipped / ($/h)": "$12.00",
+        "Notes": "The minimum wage has been $12.00 since July 1, 2023. Employers who offer health benefits can pay employees $11.00. Assembly Bill 456, signed on June 12, 2019, raises the minimum wage in Nevada by 75 cents each year until it reaches $12 an hour. Employers who offer health benefits can continue to pay employees $1 per hour less at the Lower Tier rate. Same minimum wage for both tipped and non-tipped employees. July 1, 2024: Lower Tier $11.00 and Higher Tier $12.00"
+      }
+    },
+    {
+      "state": "New Hampshire",
+      "state_code": "NH",
+      "columns": {
+        "Min. wage / ($/h)": "$7.25",
+        "Tipped / ($/h)": "$3.27"
+      }
+    },
+    {
+      "state": "New Jersey",
+      "state_code": "NJ",
+      "columns": {
+        "Min. wage / ($/h)": "$15.92 $14.20 (Agricultural)",
+        "Tipped / ($/h)": "$6.05",
+        "Youth/training / ($/h)": "$14.33",
+        "Notes": "Minimum wage increased to $15.49 on January 1, 2025. On January 17, 2019, Governor Phil Murphy and state legislative leaders passed an agreement to raise the minimum wage to $15 by 2024, with a bill to raise the minimum wage passed and signed by the Governor. There are four separate pay rates: regular employers, seasonal & small employers (6 & fewer employees), agricultural employers, and tipped workers. The general wage increase is TBD after 2024, TBD after 2026 for seasonal wages, and will stop at $5.13 for tipped workers in 2022, and is TBD in 2025. The minimum wage will increase in 2023 by an additional 13¢ in addition to its standard increases in pay rates due to an increase in the Consumer Price Index. January 1, 2026: $15.00 seasonal, $14.20 agricultural January 1, 2027: $15.00 agricultural"
+      }
+    },
+    {
+      "state": "New Mexico",
+      "state_code": "NM",
+      "columns": {
+        "Min. wage / ($/h)": "$12.00",
+        "Tipped / ($/h)": "$3.00",
+        "Notes": "Upcoming New Mexico minimum wage increases: Jan. 1, 2023: $12.00 regular $3.00 tipped Albuquerque: $12.00 effective January 1, 2023. The minimum wage for tipped employees is $7.20 Las Cruces: $13.01 and the tipped minimum wage is $5.20 effective January 1, 2026. Santa Fe County: $15.00 and the tipped minimum wage is $4.50 effective March 1, 2025."
+      }
+    },
+    {
+      "state": "New York",
+      "state_code": "NY",
+      "columns": {
+        "Min. wage / ($/h)": "$16.00",
+        "Tipped / ($/h)": "Varies",
+        "Notes": "A 2016 law changed the minimum wage over the next six years. \"Downstate\" includes Nassau, Suffolk, and Westchester counties. As of January 1, 2026: NYC and Downstate employers: $17.00; Upstate employers: $16.00 As of January 1, 2025, the following is the minimum for exempt employees: NYC and Downstate employees $1,275.00 per week; Upstate employees $1,199.10. Hospitality Industry varies. As of January 1, 2026 they are the following: For fast food workers: NYC employers: $17.00; Downstate employers: $17.00; Upstate employers: $16.00 For tipped food service workers: NYC employers: $11.35; Downstate employers: $11.35; Upstate employers: $10.70 For tipped service workers: NYC employers: $14.15; Downstate employers: $14.15; Upstate employers: $13.30"
+      }
+    },
+    {
+      "state": "North Carolina",
+      "state_code": "NC",
+      "columns": {
+        "Min. wage / ($/h)": "$7.25",
+        "Tipped / ($/h)": "$2.13",
+        "Notes": "The employer may take credit for tips earned by a tipped employee and may count them as wages up to the amount permitted in section 3(m) of the Fair Labor Standards Act. $15.00 minimum for full-time state employees, excluding temporary employees and public school and community college employees making below $15 (from July 1, 2018) Extended to non-certified educational staff and community college personnel from July 1, 2022. Charlotte city employees: $19.04 for all regular hourly employees from July 2, 2022, with an increase to $20.00 from January 7, 2023. Durham city employees: Latest living wage adjustment to $17.60, effective July 1, 2022. Greensboro city employees: $15 (regular and benefits-eligible part-time employees, from July 1, 2018) Raleigh city employees: Universal living wage policy adopted January 17, 2017, with minimum wage increased to $13.76 and subsequent annual adjustments. Latest living wage adjustment to $18.20 for permanent, full-time employees, and to $11.00 for temporary positions, effective September 10, 2022. Winston-Salem city employees: $14.31 (effective January 1, 2021)"
+      }
+    },
+    {
+      "state": "North Dakota",
+      "state_code": "ND",
+      "columns": {
+        "Min. wage / ($/h)": "$7.25",
+        "Tipped / ($/h)": "$4.86",
+        "Notes": "Tipped minimum is 67% of the minimum wage."
+      }
+    },
+    {
+      "state": "Ohio",
+      "state_code": "OH",
+      "columns": {
+        "Min. wage / ($/h)": "$11.00",
+        "Tipped / ($/h)": "$5.50",
+        "Youth/training / ($/h)": "$7.25 under 16 years old",
+        "Notes": "The rate is $7.25 for employers grossing $405,000 or less. The rate is adjusted annually on January 1 based on the U.S. Consumer Price Index. Ohio's minimum wage increased to $11.00 ($5.50 for tipped employees) on January 1, 2026."
+      }
+    },
+    {
+      "state": "Oklahoma",
+      "state_code": "OK",
+      "columns": {
+        "Min. wage / ($/h)": "$7.25",
+        "Tipped / ($/h)": "$2.13",
+        "Notes": "Minimum wage for employers grossing under $100,000 and with fewer than 10 employees per location is $2.00. (OK Statutes 40–197.5)."
+      }
+    },
+    {
+      "state": "Oregon",
+      "state_code": "OR",
+      "columns": {
+        "Min. wage / ($/h)": "$15.05 (non-rural counties) / $14.05 (rural counties) / $16.30 (Portland metro)",
+        "Tipped / ($/h)": "$15.05 (non-rural counties) / $14.05 (rural counties) / $16.30 (Portland metro)",
+        "Notes": "On March 2, 2016, Senate Bill 1532 was signed into law, increasing minimum wage depending on the county. Beginning July 1, 2019, the minimum wage increased to $11.25 for non-rural counties and to $11.00 for rural counties, thereafter increasing each year by fixed amounts until June 30, 2022, when the minimum wage will be $14.75 for the Portland metro area, $13.50 for other non-rural counties, and $12.50 for rural counties. Thereafter, the minimum wage will be adjusted each year based on the U.S. Consumer Price Index. Same minimum wage applied for both tipped and non-tipped employees. Non-rural counties are defined as Benton, Clackamas, Clatsop, Columbia, Deschutes, Hood River, Jackson, Josephine, Lane, Lincoln, Linn, Marion, Multnomah, Polk, Tillamook, Wasco, Washington, and Yamhill counties. Rural counties are defined as Baker, Coos, Crook, Curry, Douglas, Gilliam, Grant, Harney, Jefferson, Klamath, Lake, Malheur, Morrow, Sherman, Umatilla, Union, Wallowa, Wheeler counties. The Portland Metro rate ($1.25 over the non-rural rate) applies to employers located within the urban growth boundary (UGB) of the Portland metropolitan service district."
+      }
+    },
+    {
+      "state": "Pennsylvania",
+      "state_code": "PA",
+      "columns": {
+        "Min. wage / ($/h)": "$7.25",
+        "Tipped / ($/h)": "$2.83",
+        "Notes": "On January 31, 2022, minimum wage for all state employees was increased to $15.00. A state law currently prevents cities and local governments from setting a higher minimum wage."
+      }
+    },
+    {
+      "state": "Rhode Island",
+      "state_code": "RI",
+      "columns": {
+        "Min. wage / ($/h)": "$16.00",
+        "Tipped / ($/h)": "$3.89",
+        "Notes": "On May 20, 2021, Governor Daniel McKee signed a law raising Rhode Island's minimum wage to $15.00 on an annual schedule; tipped wages will remain at $3.89."
+      }
+    },
+    {
+      "state": "South Carolina",
+      "state_code": "SC",
+      "columns": {
+        "Min. wage / ($/h)": "None"
+      }
+    },
+    {
+      "state": "South Dakota",
+      "state_code": "SD",
+      "columns": {
+        "Min. wage / ($/h)": "$11.85",
+        "Tipped / ($/h)": "$5.93",
+        "Notes": "The minimum wage increased to $11.85 on January 1, 2026, and is indexed to inflation."
+      }
+    },
+    {
+      "state": "Tennessee",
+      "state_code": "TN",
+      "columns": {
+        "Min. wage / ($/h)": "None"
+      }
+    },
+    {
+      "state": "Texas",
+      "state_code": "TX",
+      "columns": {
+        "Min. wage / ($/h)": "$7.25",
+        "Tipped / ($/h)": "$2.13",
+        "Notes": "Applies to all workers in the state, excluding patients of the Texas Department of Mental Health and Mental Retardation who have diminished production capacity and who work on behalf of the department; their salary is calculated at the minimum wage times a percentage of their diminished capacity. Dallas County employees: $15.00 (effective October 1, 2019)."
+      }
+    },
+    {
+      "state": "Utah",
+      "state_code": "UT",
+      "columns": {
+        "Min. wage / ($/h)": "$7.25",
+        "Tipped / ($/h)": "$2.13"
+      }
+    },
+    {
+      "state": "Vermont",
+      "state_code": "VT",
+      "columns": {
+        "Min. wage / ($/h)": "$14.42",
+        "Tipped / ($/h)": "$7.21",
+        "Notes": "Effective January 1, 2026, the minimum wage increased to $14.42 and the tipped minimum wage increased to $7.21. In future years, the state minimum wage will be indexed to increase with inflation."
+      }
+    },
+    {
+      "state": "Virginia",
+      "state_code": "VA",
+      "columns": {
+        "Min. wage / ($/h)": "$12.77",
+        "Tipped / ($/h)": "$2.13",
+        "Notes": "The minimum wage in Virginia increased from $12.41 to $12.77 on January 1, 2026. Future minimum wage increases: January 1, 2027: $13.50 January 1, 2028: $15.00 Afterwards, the minimum wage will be re-adjusted by a Commonwealth Commissioner annually."
+      }
+    },
+    {
+      "state": "Washington",
+      "state_code": "WA",
+      "columns": {
+        "Min. wage / ($/h)": "$17.13",
+        "Tipped / ($/h)": "$17.13",
+        "Youth/training / ($/h)": "$14.56",
+        "Notes": "The minimum wage increased to $17.13 in 2026. It will be increased annually by a voter-approved cost-of-living adjustment based on the federal Consumer Price Index for Urban Wage Earners and Clerical Workers (CPI-W). Bellingham: $19.13 since January 1, 2026. Burien: $21.63 for businesses with 500 or more employees; $20.63 for businesses with 21 to 499 employees, since January 1, 2026. Everett: $20.77 for businesses with more than 500 employees worldwide; $18.77 for businesses with 15-500 employees worldwide or an annual gross revenue over $2 million since January 1, 2026. King County: $20.82 for businesses with more than 500 employees worldwide; $19.82 for businesses with 16 to 499 employees or an annual gross revenue of over $2 million; $18.32 for businesses with under 15 employees worldwide and an annual gross revenue under $2 million since January 1, 2026. Applies in unincorporated areas only. Renton: $21.57 for businesses with more than 500 employees worldwide; $20.57 for businesses with 15-500 employees worldwide or an annual gross revenue over $2 million since January 1, 2026. Seattle: $21.30 since January 1, 2026. City of SeaTac: $20.74 for airport-related businesses, $20.10 businesses with 15–500 employees; since January 1, 2025. Tukwila: $21.65 for businesses with more than 15 employees worldwide or an annual gross revenue over $2 million in Tukwila, since January 1, 2026."
+      }
+    },
+    {
+      "state": "West Virginia",
+      "state_code": "WV",
+      "columns": {
+        "Min. wage / ($/h)": "$8.75",
+        "Tipped / ($/h)": "$2.62",
+        "Notes": "Minimum wage increased to $8.75 on December 31, 2015. The state minimum wage is applicable to employers of six or more employees at one location not involved in interstate commerce and for tipped employees is 30% of the federal minimum wage."
+      }
+    },
+    {
+      "state": "Wisconsin",
+      "state_code": "WI",
+      "columns": {
+        "Min. wage / ($/h)": "$7.25",
+        "Tipped / ($/h)": "$2.33",
+        "Notes": "There is a special minimum wage for golf caddies: $5.90 per 9 holes and $10.50 per 18 holes. Another special minimum wage applies to camp counselors: $210 per week with board and lodging, $265 per week with board only, and $350 per week with no board or lodging provided. Governor Tony Evers has proposed legislation to increase the minimum wage for state employees to $15 by 2021, including employees at the University of Wisconsin-Madison."
+      }
+    },
+    {
+      "state": "Wyoming",
+      "state_code": "WY",
+      "columns": {
+        "Min. wage / ($/h)": "$5.15",
+        "Tipped / ($/h)": "$2.13"
+      }
+    }
+  ]
+}

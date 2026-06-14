@@ -54,6 +54,20 @@ const lawMasterSchema = mongoose.Schema(
       min: 0,
       max: 100,
     },
+    // Declares which structured attributes a state law of this category supports.
+    // Drives typed inputs in the admin form + consistent keys for comparison.
+    attribute_schema: {
+      type: [
+        {
+          key:     { type: String, required: true, trim: true },
+          label:   { type: String, trim: true },
+          type:    { type: String, enum: ["boolean", "number", "text", "enum"], default: "text" },
+          unit:    { type: String, trim: true },    // for number, e.g. "oz", "$/hr"
+          options: { type: [String], default: [] }, // for enum
+        },
+      ],
+      default: [],
+    },
     source_type: {
       type: String,
       enum: ["manual", "csv", "api", "migration"],

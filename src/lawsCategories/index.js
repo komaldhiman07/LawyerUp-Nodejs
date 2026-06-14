@@ -33,6 +33,36 @@ class UserCategoryLawsRoutes {
     );
     /* end */
 
+    /* ── Tracked StateLaw routes (declared before /:category_id) ───────────── */
+
+    /* add tracked state law(s) to a category */
+    router.post(
+      "/state-law/add",
+      checkSchema(Validator.addStateLawToCategory()),
+      handler(controller.addStateLawToCategory, (req) => [req])
+    );
+
+    /* remove a tracked state law */
+    router.delete(
+      "/state-law/delete",
+      checkSchema(Validator.stateLawRef()),
+      handler(controller.removeStateLawFromCategory, (req) => [req])
+    );
+
+    /* acknowledge an update (mark seen) */
+    router.post(
+      "/state-law/seen",
+      checkSchema(Validator.stateLawRef()),
+      handler(controller.markStateLawSeen, (req) => [req])
+    );
+
+    /* list a category's tracked state laws (hydrated + change status) */
+    router.get(
+      "/state-law/tracked/:category_id",
+      handler(controller.getTrackedStateLaws, (req) => [req])
+    );
+    /* end */
+
     /* get category law by category law id */
     router.get(
       "/:category_id",

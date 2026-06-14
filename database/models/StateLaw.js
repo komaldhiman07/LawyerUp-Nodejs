@@ -68,6 +68,92 @@ const stateLawSchema = mongoose.Schema(
       trim: true,
       maxlength: 500,
     },
+    // ── Tier 1: structured verdict, trust & risk ──────────────────────────────
+    // Scannable legality verdict (authoritative; auto-derived from summary on
+    // save when not explicitly set). Powers the app's verdict badge + compare.
+    legality: {
+      type: String,
+      enum: ["permitted", "restricted", "prohibited", "info"],
+      default: "info",
+      index: true,
+    },
+    // Short human label, e.g. "Recreational + Medical", "Permitless Carry".
+    legality_label: {
+      type: String,
+      trim: true,
+      maxlength: 80,
+    },
+    // Quick risk signal for penalties.
+    penalty_severity: {
+      type: String,
+      enum: ["none", "low", "medium", "high"],
+      default: "none",
+    },
+    // Sourcing & trust.
+    statute_reference: {
+      type: String,
+      trim: true,
+      maxlength: 200, // e.g. "Cal. Health & Safety Code § 11357"
+    },
+    official_url: {
+      type: String,
+      trim: true,
+      maxlength: 500,
+    },
+    sources: {
+      type: [
+        {
+          label: { type: String, trim: true, maxlength: 120 },
+          url: { type: String, trim: true, maxlength: 500 },
+        },
+      ],
+      default: [],
+    },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
+    last_reviewed_at: {
+      type: Date,
+      required: false,
+    },
+    reviewed_by: {
+      type: Schema.Types.ObjectId,
+      required: false,
+    },
+    // ── Tier 2: richer, structured content ────────────────────────────────────
+    // Plain-language takeaways for progressive disclosure.
+    key_points: {
+      type: [String],
+      default: [],
+    },
+    // Specific guidance for travellers/visitors (powers travel/compare).
+    traveler_note: {
+      type: String,
+      trim: true,
+      maxlength: 500,
+    },
+    // Structured value for sortable/numeric laws (min wage, possession limit…).
+    numeric_value: {
+      type: Number,
+      required: false,
+    },
+    unit: {
+      type: String,
+      trim: true,
+      maxlength: 20, // "$/hr", "oz", "years"
+    },
+    // Category-specific structured facts, e.g. { recreational: true, age_min: 21 }.
+    attributes: {
+      type: Map,
+      of: Schema.Types.Mixed,
+      default: undefined,
+    },
+    // Reciprocity (e.g. concealed-carry permit) — list of state codes.
+    reciprocity: {
+      type: [String],
+      default: [],
+    },
     status: {
       type: String,
       enum: ["draft", "active", "repealed"],

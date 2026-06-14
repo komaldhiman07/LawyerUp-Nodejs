@@ -1,0 +1,671 @@
+{
+  "category": "abortion",
+  "title": "Abortion law in the United States by state",
+  "source": "en.wikipedia.org",
+  "source_url": "https://en.wikipedia.org/wiki/Abortion_law_in_the_United_States_by_state",
+  "fetched_at": "2026-06-10T19:21:48.320Z",
+  "columns": [
+    "State",
+    "On-demand gestational limit",
+    "Waiting period",
+    "Mandatory ultrasound",
+    "Mandatory Social Counseling",
+    "% of counties without provider / (2017)",
+    "Parental notification for minors",
+    "Parental consent for minors",
+    "Active Legislation"
+  ],
+  "state_count": 50,
+  "rows": [
+    {
+      "state": "Alabama",
+      "state_code": "AL",
+      "columns": {
+        "On-demand gestational limit": "Fertilization",
+        "Waiting period": "N/A; abortion is banned here.",
+        "Mandatory ultrasound": "N/A; abortion is banned here.",
+        "Mandatory Social Counseling": "N/A; abortion is banned here.",
+        "% of counties without provider / (2017)": "100%",
+        "Parental notification for minors": "N/A; abortion is banned here.",
+        "Parental consent for minors": "N/A; abortion is banned here."
+      }
+    },
+    {
+      "state": "Alaska",
+      "state_code": "AK",
+      "columns": {
+        "On-demand gestational limit": "At any stage",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "Yes",
+        "% of counties without provider / (2017)": "37%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "Arizona",
+      "state_code": "AZ",
+      "columns": {
+        "On-demand gestational limit": "Viability",
+        "Waiting period": "Yes",
+        "Mandatory ultrasound": "Yes",
+        "Mandatory Social Counseling": "Yes",
+        "% of counties without provider / (2017)": "80%",
+        "Parental notification for minors": "Yes",
+        "Parental consent for minors": "Yes"
+      }
+    },
+    {
+      "state": "Arkansas",
+      "state_code": "AR",
+      "columns": {
+        "On-demand gestational limit": "Fertilization",
+        "Waiting period": "N/A; abortion is banned here.",
+        "Mandatory ultrasound": "N/A; abortion is banned here.",
+        "Mandatory Social Counseling": "N/A; abortion is banned here.",
+        "% of counties without provider / (2017)": "100%",
+        "Parental notification for minors": "N/A; abortion is banned here.",
+        "Parental consent for minors": "N/A; abortion is banned here."
+      }
+    },
+    {
+      "state": "California",
+      "state_code": "CA",
+      "columns": {
+        "On-demand gestational limit": "Viability",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "5%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "Colorado",
+      "state_code": "CO",
+      "columns": {
+        "On-demand gestational limit": "At any stage",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "27%",
+        "Parental notification for minors": "Yes",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "Connecticut",
+      "state_code": "CT",
+      "columns": {
+        "On-demand gestational limit": "Viability",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "5%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "Delaware",
+      "state_code": "DE",
+      "columns": {
+        "On-demand gestational limit": "Viability",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "Yes",
+        "% of counties without provider / (2017)": "33%",
+        "Parental notification for minors": "Yes",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "Florida",
+      "state_code": "FL",
+      "columns": {
+        "On-demand gestational limit": "6 weeks",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "Yes",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "20%",
+        "Parental notification for minors": "Yes",
+        "Parental consent for minors": "Yes"
+      }
+    },
+    {
+      "state": "Georgia",
+      "state_code": "GA",
+      "columns": {
+        "On-demand gestational limit": "6 weeks",
+        "Waiting period": "Yes",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "Yes",
+        "% of counties without provider / (2017)": "58%",
+        "Parental notification for minors": "Yes",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "Hawaii",
+      "state_code": "HI",
+      "columns": {
+        "On-demand gestational limit": "Viability",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "5%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "Idaho",
+      "state_code": "ID",
+      "columns": {
+        "On-demand gestational limit": "Fertilization",
+        "Waiting period": "N/A; abortion is banned here.",
+        "Mandatory ultrasound": "N/A; abortion is banned here.",
+        "Mandatory Social Counseling": "N/A; abortion is banned here.",
+        "% of counties without provider / (2017)": "100%",
+        "Parental notification for minors": "N/A; abortion is banned here.",
+        "Parental consent for minors": "N/A; abortion is banned here."
+      }
+    },
+    {
+      "state": "Illinois",
+      "state_code": "IL",
+      "columns": {
+        "On-demand gestational limit": "Viability",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "40%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "Indiana",
+      "state_code": "IN",
+      "columns": {
+        "On-demand gestational limit": "Fertilization",
+        "Waiting period": "N/A; abortion is banned here.",
+        "Mandatory ultrasound": "N/A; abortion is banned here.",
+        "Mandatory Social Counseling": "N/A; abortion is banned here.",
+        "% of counties without provider / (2017)": "100%",
+        "Parental notification for minors": "N/A; abortion is banned here.",
+        "Parental consent for minors": "N/A; abortion is banned here."
+      }
+    },
+    {
+      "state": "Iowa",
+      "state_code": "IA",
+      "columns": {
+        "On-demand gestational limit": "6 weeks",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "42%",
+        "Parental notification for minors": "Yes",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "Kansas",
+      "state_code": "KS",
+      "columns": {
+        "On-demand gestational limit": "22 weeks",
+        "Waiting period": "Yes",
+        "Mandatory ultrasound": "Yes",
+        "Mandatory Social Counseling": "Yes",
+        "% of counties without provider / (2017)": "56%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "One"
+      }
+    },
+    {
+      "state": "Kentucky",
+      "state_code": "KY",
+      "columns": {
+        "On-demand gestational limit": "Fertilization",
+        "Waiting period": "N/A; abortion is banned here.",
+        "Mandatory ultrasound": "N/A; abortion is banned here.",
+        "Mandatory Social Counseling": "N/A; abortion is banned here.",
+        "% of counties without provider / (2017)": "100%",
+        "Parental notification for minors": "N/A; abortion is banned here.",
+        "Parental consent for minors": "N/A; abortion is banned here."
+      }
+    },
+    {
+      "state": "Louisiana",
+      "state_code": "LA",
+      "columns": {
+        "On-demand gestational limit": "Fertilization",
+        "Waiting period": "N/A; abortion is banned here.",
+        "Mandatory ultrasound": "N/A; abortion is banned here.",
+        "Mandatory Social Counseling": "N/A; abortion is banned here.",
+        "% of counties without provider / (2017)": "100%",
+        "Parental notification for minors": "N/A; abortion is banned here.",
+        "Parental consent for minors": "N/A; abortion is banned here."
+      }
+    },
+    {
+      "state": "Maine",
+      "state_code": "ME",
+      "columns": {
+        "On-demand gestational limit": "Viability",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "55%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "Maryland",
+      "state_code": "MD",
+      "columns": {
+        "On-demand gestational limit": "At any stage",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "24%",
+        "Parental notification for minors": "Yes",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "Massachusetts",
+      "state_code": "MA",
+      "columns": {
+        "On-demand gestational limit": "24 weeks",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "Yes",
+        "% of counties without provider / (2017)": "14%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "One"
+      }
+    },
+    {
+      "state": "Michigan",
+      "state_code": "MI",
+      "columns": {
+        "On-demand gestational limit": "Viability",
+        "Waiting period": "No",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "No",
+        "% of counties without provider / (2017)": "40%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "One"
+      }
+    },
+    {
+      "state": "Minnesota",
+      "state_code": "MN",
+      "columns": {
+        "On-demand gestational limit": "At any stage",
+        "Waiting period": "No",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "No",
+        "% of counties without provider / (2017)": "59%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "Mississippi",
+      "state_code": "MS",
+      "columns": {
+        "On-demand gestational limit": "Fertilization",
+        "Waiting period": "N/A; abortion is banned here.",
+        "Mandatory ultrasound": "N/A; abortion is banned here.",
+        "Mandatory Social Counseling": "N/A; abortion is banned here.",
+        "% of counties without provider / (2017)": "100%",
+        "Parental notification for minors": "N/A; abortion is banned here.",
+        "Parental consent for minors": "N/A; abortion is banned here."
+      }
+    },
+    {
+      "state": "Missouri",
+      "state_code": "MO",
+      "columns": {
+        "On-demand gestational limit": "Viability",
+        "Waiting period": "No",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "No",
+        "% of counties without provider / (2017)": "~97%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "Montana",
+      "state_code": "MT",
+      "columns": {
+        "On-demand gestational limit": "Viability",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "55%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "Nebraska",
+      "state_code": "NE",
+      "columns": {
+        "On-demand gestational limit": "12 weeks",
+        "Waiting period": "Yes",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "Yes",
+        "% of counties without provider / (2017)": "41%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "One"
+      }
+    },
+    {
+      "state": "Nevada",
+      "state_code": "NV",
+      "columns": {
+        "On-demand gestational limit": "24 weeks",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "9%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "New Hampshire",
+      "state_code": "NH",
+      "columns": {
+        "On-demand gestational limit": "Viability",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "30%",
+        "Parental notification for minors": "Yes",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "New Jersey",
+      "state_code": "NJ",
+      "columns": {
+        "On-demand gestational limit": "At any stage",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "23%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "New Mexico",
+      "state_code": "NM",
+      "columns": {
+        "On-demand gestational limit": "At any stage",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "48%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "New York",
+      "state_code": "NY",
+      "columns": {
+        "On-demand gestational limit": "24 weeks",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "10%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "North Carolina",
+      "state_code": "NC",
+      "columns": {
+        "On-demand gestational limit": "12 weeks",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "53%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "One"
+      }
+    },
+    {
+      "state": "North Dakota",
+      "state_code": "ND",
+      "columns": {
+        "On-demand gestational limit": "Fertilization",
+        "Waiting period": "N/A; abortion is banned here.",
+        "Mandatory ultrasound": "N/A; abortion is banned here.",
+        "Mandatory Social Counseling": "N/A; abortion is banned here.",
+        "% of counties without provider / (2017)": "100%",
+        "Parental notification for minors": "N/A; abortion is banned here.",
+        "Parental consent for minors": "N/A; abortion is banned here."
+      }
+    },
+    {
+      "state": "Ohio",
+      "state_code": "OH",
+      "columns": {
+        "On-demand gestational limit": "Viability",
+        "Waiting period": "No",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "Yes",
+        "% of counties without provider / (2017)": "56%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "One"
+      }
+    },
+    {
+      "state": "Oklahoma",
+      "state_code": "OK",
+      "columns": {
+        "On-demand gestational limit": "Fertilization",
+        "Waiting period": "N/A; abortion is banned here.",
+        "Mandatory ultrasound": "N/A; abortion is banned here.",
+        "Mandatory Social Counseling": "N/A; abortion is banned here.",
+        "% of counties without provider / (2017)": "100%",
+        "Parental notification for minors": "N/A; abortion is banned here.",
+        "Parental consent for minors": "N/A; abortion is banned here."
+      }
+    },
+    {
+      "state": "Oregon",
+      "state_code": "OR",
+      "columns": {
+        "On-demand gestational limit": "At any stage",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "30%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "Pennsylvania",
+      "state_code": "PA",
+      "columns": {
+        "On-demand gestational limit": "24 weeks",
+        "Waiting period": "Yes",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "Yes",
+        "% of counties without provider / (2017)": "48%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "One"
+      }
+    },
+    {
+      "state": "Rhode Island",
+      "state_code": "RI",
+      "columns": {
+        "On-demand gestational limit": "Viability",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "Yes",
+        "% of counties without provider / (2017)": "36%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "One"
+      }
+    },
+    {
+      "state": "South Carolina",
+      "state_code": "SC",
+      "columns": {
+        "On-demand gestational limit": "6 weeks",
+        "Waiting period": "Yes",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "Yes",
+        "% of counties without provider / (2017)": "71%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "One"
+      }
+    },
+    {
+      "state": "South Dakota",
+      "state_code": "SD",
+      "columns": {
+        "On-demand gestational limit": "Fertilization",
+        "Waiting period": "N/A; abortion is banned here.",
+        "Mandatory ultrasound": "N/A; abortion is banned here.",
+        "Mandatory Social Counseling": "N/A; abortion is banned here.",
+        "% of counties without provider / (2017)": "100%",
+        "Parental notification for minors": "N/A; abortion is banned here.",
+        "Parental consent for minors": "N/A; abortion is banned here."
+      }
+    },
+    {
+      "state": "Tennessee",
+      "state_code": "TN",
+      "columns": {
+        "On-demand gestational limit": "Fertilization",
+        "Waiting period": "N/A; abortion is banned here.",
+        "Mandatory ultrasound": "N/A; abortion is banned here.",
+        "Mandatory Social Counseling": "N/A; abortion is banned here.",
+        "% of counties without provider / (2017)": "100%",
+        "Parental notification for minors": "N/A; abortion is banned here.",
+        "Parental consent for minors": "N/A; abortion is banned here."
+      }
+    },
+    {
+      "state": "Texas",
+      "state_code": "TX",
+      "columns": {
+        "On-demand gestational limit": "Fertilization",
+        "Waiting period": "N/A; abortion is banned here.",
+        "Mandatory ultrasound": "N/A; abortion is banned here.",
+        "Mandatory Social Counseling": "N/A; abortion is banned here.",
+        "% of counties without provider / (2017)": "100%",
+        "Parental notification for minors": "N/A; abortion is banned here.",
+        "Parental consent for minors": "N/A; abortion is banned here."
+      }
+    },
+    {
+      "state": "Utah",
+      "state_code": "UT",
+      "columns": {
+        "On-demand gestational limit": "18 weeks",
+        "Waiting period": "Yes",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "Yes",
+        "% of counties without provider / (2017)": "62%",
+        "Parental notification for minors": "Yes",
+        "Parental consent for minors": "One"
+      }
+    },
+    {
+      "state": "Vermont",
+      "state_code": "VT",
+      "columns": {
+        "On-demand gestational limit": "At any stage",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "38%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "Virginia",
+      "state_code": "VA",
+      "columns": {
+        "On-demand gestational limit": "25 weeks",
+        "Waiting period": "Yes",
+        "Mandatory ultrasound": "24 hours",
+        "Mandatory Social Counseling": "Yes",
+        "% of counties without provider / (2017)": "78%",
+        "Parental notification for minors": "Yes",
+        "Parental consent for minors": "One"
+      }
+    },
+    {
+      "state": "Washington",
+      "state_code": "WA",
+      "columns": {
+        "On-demand gestational limit": "Viability",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "15%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "No"
+      }
+    },
+    {
+      "state": "West Virginia",
+      "state_code": "WV",
+      "columns": {
+        "On-demand gestational limit": "Fertilization",
+        "Waiting period": "N/A; abortion is banned here.",
+        "Mandatory ultrasound": "N/A; abortion is banned here.",
+        "Mandatory Social Counseling": "N/A; abortion is banned here.",
+        "% of counties without provider / (2017)": "100%",
+        "Parental notification for minors": "N/A; abortion is banned here.",
+        "Parental consent for minors": "N/A; abortion is banned here."
+      }
+    },
+    {
+      "state": "Wisconsin",
+      "state_code": "WI",
+      "columns": {
+        "On-demand gestational limit": "22 weeks",
+        "Waiting period": "Yes",
+        "Mandatory ultrasound": "24 hours",
+        "Mandatory Social Counseling": "Yes",
+        "% of counties without provider / (2017)": "67%",
+        "Parental notification for minors": "No",
+        "Parental consent for minors": "One"
+      }
+    },
+    {
+      "state": "Wyoming",
+      "state_code": "WY",
+      "columns": {
+        "On-demand gestational limit": "Viability",
+        "Waiting period": "None",
+        "Mandatory ultrasound": "No",
+        "Mandatory Social Counseling": "None",
+        "% of counties without provider / (2017)": "96%",
+        "Parental notification for minors": "Yes",
+        "Parental consent for minors": "One"
+      }
+    }
+  ]
+}

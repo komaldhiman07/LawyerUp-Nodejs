@@ -28,26 +28,6 @@ class UserValidator {
   };
   /* end */
 
-  /* two factor authorization validator */
-  twoFactorAuth = () => {
-    return {
-      type: {
-        in: ["body"],
-        exists: {
-          errorMessage: "Type is required!",
-        }
-      },
-      secret_2fa: {
-        optional: { options: { nullable: false } },
-      },
-      otp: {
-        in: ["body"],
-        errorMessage: "OTP is required!",
-      },
-    };
-  };
-  /* end */
-
   login = () => this.field;
 
   validateOtp = () => {

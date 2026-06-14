@@ -94,6 +94,37 @@ class UserCategoryLawsValidator {
     };
   };
 
+  /* add tracked StateLaw(s) to a category */
+  addStateLawToCategory = () => {
+    return {
+      category_id: {
+        in: ["body"],
+        exists: { errorMessage: "category_id is required!" },
+      },
+      laws: {
+        in: ["body"],
+        exists: { errorMessage: "laws is required!" },
+        isArray: { errorMessage: "laws must be an array!" },
+      },
+    };
+  };
+  /* end */
+
+  /* remove / mark-seen a tracked StateLaw */
+  stateLawRef = () => {
+    return {
+      category_id: {
+        in: ["body"],
+        exists: { errorMessage: "category_id is required!" },
+      },
+      law_id: {
+        in: ["body"],
+        exists: { errorMessage: "law_id is required!" },
+      },
+    };
+  };
+  /* end */
+
   /* remaining law list validator */
   remainingLawList = () => {
     return {

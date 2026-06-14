@@ -19,11 +19,6 @@ export const THEME = {
   LIGHT: "light",
   DARK: "dark"
 };
-export const TWO_FACTOR_AUTH_TYPE = {
-  GENERATE: "generate",
-  VERIFY: "verify",
-};
-
 export const DEFAULT = {
   TRUE: 1,
   FALSE: 0,

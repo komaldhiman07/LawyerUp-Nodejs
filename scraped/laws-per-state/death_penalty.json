@@ -1,0 +1,253 @@
+{
+  "category": "death_penalty",
+  "title": "Capital punishment in the United States",
+  "source": "en.wikipedia.org",
+  "source_url": "https://en.wikipedia.org/wiki/Capital_punishment_in_the_United_States",
+  "fetched_at": "2026-06-10T19:21:41.310Z",
+  "columns": [
+    "Gender",
+    "Gender",
+    "Gender"
+  ],
+  "state_count": 34,
+  "rows": [
+    {
+      "state": "Texas",
+      "state_code": "TX",
+      "columns": {
+        "Gender": "35.9%"
+      }
+    },
+    {
+      "state": "Florida",
+      "state_code": "FL",
+      "columns": {
+        "Gender": "8%"
+      }
+    },
+    {
+      "state": "Oklahoma",
+      "state_code": "OK",
+      "columns": {
+        "Gender": "7.8%"
+      }
+    },
+    {
+      "state": "Virginia",
+      "state_code": "VA",
+      "columns": {
+        "Gender": "6.8%"
+      }
+    },
+    {
+      "state": "Missouri",
+      "state_code": "MO",
+      "columns": {
+        "Gender": "6.1%"
+      }
+    },
+    {
+      "state": "Alabama",
+      "state_code": "AL",
+      "columns": {
+        "Gender": "5%"
+      }
+    },
+    {
+      "state": "Georgia",
+      "state_code": "GA",
+      "columns": {
+        "Gender": "4.6%"
+      }
+    },
+    {
+      "state": "Ohio",
+      "state_code": "OH",
+      "columns": {
+        "Gender": "3.4%"
+      }
+    },
+    {
+      "state": "South Carolina",
+      "state_code": "SC",
+      "columns": {
+        "Gender": "3%"
+      }
+    },
+    {
+      "state": "Arizona",
+      "state_code": "AZ",
+      "columns": {
+        "Gender": "2.6%"
+      }
+    },
+    {
+      "state": "North Carolina",
+      "state_code": "NC",
+      "columns": {
+        "Gender": "2.6%"
+      }
+    },
+    {
+      "state": "Arkansas",
+      "state_code": "AR",
+      "columns": {
+        "Gender": "1.9%"
+      }
+    },
+    {
+      "state": "Louisiana",
+      "state_code": "LA",
+      "columns": {
+        "Gender": "1.7%"
+      }
+    },
+    {
+      "state": "Mississippi",
+      "state_code": "MS",
+      "columns": {
+        "Gender": "1.5%"
+      }
+    },
+    {
+      "state": "Indiana",
+      "state_code": "IN",
+      "columns": {
+        "Gender": "1.4%"
+      }
+    },
+    {
+      "state": "Delaware",
+      "state_code": "DE",
+      "columns": {
+        "Gender": "1%"
+      }
+    },
+    {
+      "state": "Tennessee",
+      "state_code": "TN",
+      "columns": {
+        "Gender": "1%"
+      }
+    },
+    {
+      "state": "California",
+      "state_code": "CA",
+      "columns": {
+        "Gender": "0.8%"
+      }
+    },
+    {
+      "state": "Illinois",
+      "state_code": "IL",
+      "columns": {
+        "Gender": "0.7%"
+      }
+    },
+    {
+      "state": "Nevada",
+      "state_code": "NV",
+      "columns": {
+        "Gender": "0.7%"
+      }
+    },
+    {
+      "state": "Utah",
+      "state_code": "UT",
+      "columns": {
+        "Gender": "0.5%"
+      }
+    },
+    {
+      "state": "Maryland",
+      "state_code": "MD",
+      "columns": {
+        "Gender": "0.3%"
+      }
+    },
+    {
+      "state": "South Dakota",
+      "state_code": "SD",
+      "columns": {
+        "Gender": "0.3%"
+      }
+    },
+    {
+      "state": "Washington",
+      "state_code": "WA",
+      "columns": {
+        "Gender": "0.3%"
+      }
+    },
+    {
+      "state": "Nebraska",
+      "state_code": "NE",
+      "columns": {
+        "Gender": "0.2%"
+      }
+    },
+    {
+      "state": "Idaho",
+      "state_code": "ID",
+      "columns": {
+        "Gender": "0.2%"
+      }
+    },
+    {
+      "state": "Kentucky",
+      "state_code": "KY",
+      "columns": {
+        "Gender": "0.2%"
+      }
+    },
+    {
+      "state": "Montana",
+      "state_code": "MT",
+      "columns": {
+        "Gender": "0.2%"
+      }
+    },
+    {
+      "state": "Pennsylvania",
+      "state_code": "PA",
+      "columns": {
+        "Gender": "0.2%"
+      }
+    },
+    {
+      "state": "Oregon",
+      "state_code": "OR",
+      "columns": {
+        "Gender": "0.1%"
+      }
+    },
+    {
+      "state": "Colorado",
+      "state_code": "CO",
+      "columns": {
+        "Gender": "0.06%"
+      }
+    },
+    {
+      "state": "Connecticut",
+      "state_code": "CT",
+      "columns": {
+        "Gender": "0.06%"
+      }
+    },
+    {
+      "state": "New Mexico",
+      "state_code": "NM",
+      "columns": {
+        "Gender": "0.06%"
+      }
+    },
+    {
+      "state": "Wyoming",
+      "state_code": "WY",
+      "columns": {
+        "Gender": "0.06%"
+      }
+    }
+  ]
+}

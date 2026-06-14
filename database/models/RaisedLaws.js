@@ -29,6 +29,53 @@ const raisedLawsSchema = mongoose.Schema(
             },
         }
         ],
+        // ── Structured suggestion fields ─────────────────────────────────────
+        type: {
+            type: String,
+            enum: ["missing", "error", "update"],
+            default: "missing",
+        },
+        state_code: {            // primary relevant state (2-letter)
+            type: String,
+            uppercase: true,
+            trim: true,
+            default: "",
+        },
+        law_key: {               // category, e.g. "marijuana"
+            type: String,
+            lowercase: true,
+            trim: true,
+            default: "",
+        },
+        source_url: {
+            type: String,
+            trim: true,
+            default: "",
+        },
+        // Reference to an existing StateLaw being reported (type=error/update)
+        linked_law_id: {
+            type: String,
+            default: "",
+        },
+        // ── Moderation ───────────────────────────────────────────────────────
+        status: {
+            type: String,
+            enum: ["submitted", "reviewing", "accepted", "rejected", "duplicate", "published"],
+            default: "submitted",
+            index: true,
+        },
+        admin_note: {
+            type: String,
+            default: "",
+        },
+        resolved_by: {
+            type: Schema.Types.ObjectId,
+            required: false,
+        },
+        resolved_at: {
+            type: Date,
+            required: false,
+        },
     },
     {
         timestamps: true,

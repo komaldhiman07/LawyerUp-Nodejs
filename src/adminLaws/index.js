@@ -79,6 +79,22 @@ class AdminLawsRoutes {
       handler(controller.toggleUserStatus, (req) => [req])
     );
 
+    /* ── Raise-a-Law moderation queue ─────────────────────────────────── */
+    router.get(
+      "/suggestions",
+      handler(controller.listSuggestions, (req) => [req])
+    );
+
+    router.put(
+      "/suggestions/:id/status",
+      handler(controller.resolveSuggestion, (req) => [req])
+    );
+
+    router.post(
+      "/suggestions/:id/convert",
+      handler(controller.convertSuggestionToDraft, (req) => [req])
+    );
+
     router.get(
       "/ingestion/jobs",
       handler(controller.listIngestionJobs, (req) => [req])

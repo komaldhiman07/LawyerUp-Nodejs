@@ -1,12 +1,39 @@
+import mongoose from "mongoose";
 import UserCategoryLaws from "../../database/models/userCategoryLaws";
 import Laws from "../../database/models/laws";
 import UserLikedLaws from "../../database/models/UserLikedLaws";
+import StateLaw from "../../database/models/StateLaw";
 export class CategoryService {
   constructor() {}
 
   /* add category law */
   addCategoryLaw = (data) => UserCategoryLaws.create(data);
   /* end */
+
+  // ── Tracked StateLaw helpers ───────────────────────────────────────────────
+
+  /* derive scannable legality verdict from a StateLaw summary */
+  classifyLegality = (lawKey, summary) => {
+    if (lawKey === "minimum_wage" || lawKey === "death_penalty") return "info";
+    const s = (summary || "").toLowerCase();
+    if (/\billegal\b|prohibit|banned|not legal|felony/.test(s)) return "prohibited";
+    if (/medical only|limited|permit required|decriminal|restricted|misdemeanor|conditional/.test(s)) {
+      return "restricted";
+    }
+    if (/legal|permitless|recreational|constitutional carry|allowed|lawful/.test(s)) {
+      return "permitted";
+    }
+    return "info";
+  };
+
+  /* fetch current StateLaw docs by their _ids */
+  getStateLawsByIds = (ids) =>
+    StateLaw.find({
+      _id: { $in: ids.map((i) => new mongoose.Types.ObjectId(i)) },
+      is_deleted: false,
+    })
+      .select("state_code law_key title summary details penalty_text effective_from published_at updatedAt version")
+      .lean();
 
   /* get category law by city and law id */
   getUserCategoryLaw = (data) => UserCategoryLaws.findOne(data).lean();

@@ -3,6 +3,7 @@ import raiseLawService from "./raisedLaw.service.js";
 import { RESPONSE_CODES } from "../../config/constants.js";
 import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
 import StateLaw from "../../database/models/StateLaw.js";
+import { classifyLegality } from "../helpers/lawClassifier.js";
 
 class LawsController {
   constructor() {}
@@ -13,6 +14,8 @@ class LawsController {
     const { user } = req;
     try {
       data.user_id = user.data._id;
+      data.type = data.type || "missing";
+      data.status = "submitted";        // new submissions always enter the queue
       const result = await raiseLawService.addRaisedLaw(data);
       return {
         status: RESPONSE_CODES.POST,
@@ -163,6 +166,109 @@ class LawsController {
   };
   /* end */
 
+  /* aggregate stats per law category — powers the app home category grid */
+  getStateLawStats = async (req) => {
+    try {
+      const laws = await StateLaw
+        .find({ status: 'active', is_deleted: false })
+        .select('state_code law_key summary')
+        .lean();
+
+      const byKey = {};
+      for (const law of laws) {
+        (byKey[law.law_key] = byKey[law.law_key] || []).push(law);
+      }
+
+      const stats = {};
+      for (const [key, arr] of Object.entries(byKey)) {
+        const total = new Set(arr.map((a) => a.state_code)).size;
+        const summaries = arr.map((a) => a.summary || '');
+        let headline;
+
+        if (key === 'marijuana' || key === 'gambling') {
+          const n = summaries.filter(
+            (s) => /legal/i.test(s) && !/illegal/i.test(s)
+          ).length;
+          headline = `${n} legal`;
+        } else if (key === 'guns') {
+          const n = summaries.filter(
+            (s) => /permitless|constitutional/i.test(s)
+          ).length;
+          headline = `${n} permitless`;
+        } else if (key === 'death_penalty') {
+          const n = summaries.filter(
+            (s) => /abolish|no death penalty|repeal/i.test(s)
+          ).length;
+          headline = `${n} abolished`;
+        } else if (key === 'minimum_wage') {
+          const amounts = summaries
+            .map((s) => {
+              const m = s.match(/\$\s*([0-9]+(?:\.[0-9]+)?)/);
+              return m ? parseFloat(m[1]) : null;
+            })
+            .filter((x) => x !== null);
+          headline = amounts.length
+            ? `$${Math.min(...amounts).toFixed(0)}–$${Math.max(...amounts).toFixed(0)}`
+            : `${total} states`;
+        } else {
+          headline = `${total} states`;
+        }
+
+        stats[key] = { total, headline };
+      }
+
+      return {
+        status: RESPONSE_CODES.GET,
+        success: true,
+        message: CUSTOM_MESSAGES.DATA_LOADED_SUCCESS,
+        data: stats,
+      };
+    } catch (error) {
+      return {
+        status: RESPONSE_CODES.SERVER_ERROR,
+        success: false,
+        message: error,
+        data: {},
+      };
+    }
+  };
+  /* end */
+
+  /* law change detail — before/after diffs from audit log */
+  getStateLawChangeDetail = async (req) => {
+    const { query } = req;
+    try {
+      const detail = await raiseLawService.getStateLawChangeDetail({
+        stateCode: query.state_code,
+        lawKey: query.law_key,
+        homeState: query.home_state,
+        changeTypeHint: query.change_type,
+      });
+      if (!detail) {
+        return {
+          status: RESPONSE_CODES.NOT_FOUND,
+          success: false,
+          message: CUSTOM_MESSAGES.LAW_NOT_FOUND,
+          data: {},
+        };
+      }
+      return {
+        status: RESPONSE_CODES.GET,
+        success: true,
+        message: CUSTOM_MESSAGES.DATA_LOADED_SUCCESS,
+        data: detail,
+      };
+    } catch (error) {
+      return {
+        status: RESPONSE_CODES.SERVER_ERROR,
+        success: false,
+        message: error,
+        data: {},
+      };
+    }
+  };
+  /* end */
+
   /* list active state laws — user-facing read-only endpoint */
   getStateLaws = async (req) => {
     const { query } = req;
@@ -172,11 +278,20 @@ class LawsController {
       if (query.law_key)    filter.law_key    = query.law_key.trim().toLowerCase();
       if (query.q)          filter.$text      = { $search: query.q.trim() };
 
-      const laws = await StateLaw
+      const rows = await StateLaw
         .find(filter)
-        .select('state_code law_key title summary details penalty_text effective_from published_at version')
+        .select('state_code law_key title summary details penalty_text penalty_severity ' +
+          'legality legality_label statute_reference official_url sources verified ' +
+          'last_reviewed_at key_points traveler_note numeric_value unit attributes reciprocity ' +
+          'effective_from published_at updatedAt version')
         .sort({ state_code: 1, law_key: 1 })
         .lean();
+
+      // Prefer the stored verdict; fall back to a derived one for legacy rows.
+      const laws = rows.map((law) => ({
+        ...law,
+        legality: law.legality || classifyLegality(law.law_key, law.summary),
+      }));
 
       return {
         status: RESPONSE_CODES.GET,

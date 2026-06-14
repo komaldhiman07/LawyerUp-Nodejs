@@ -1,8 +1,6 @@
 import bcrypt from "bcrypt";
 import { matchedData } from "express-validator";
 import jwt from "jsonwebtoken";
-import speakeasy from "speakeasy";
-import QRCode from "qrcode";
 
 import userService from "./user.service.js";
 import User from "../../database/models/User";
@@ -11,7 +9,6 @@ import UploadDocument from "../services/common/uploadDocToS3";
 import {
   RESPONSE_CODES,
   ROLE_IDS,
-  TWO_FACTOR_AUTH_TYPE,
   DEFAULT,
 } from "../../config/constants.js";
 import { CUSTOM_MESSAGES } from "../../config/customMessages.js";
@@ -550,6 +547,32 @@ class UserController {
       message: CUSTOM_MESSAGES.STATUS_UPDATED,
     };
   };
+
+  /* Lightweight home-state/city update — no image side effects.
+     Used when the user picks their home state from the location sheet. */
+  updateHomeState = async (req) => {
+    const data = matchedData(req);
+    const payload = {};
+    if (data.state !== undefined) payload.state = data.state;
+    if (data.city !== undefined) payload.city = data.city;
+    if (Object.keys(payload).length === 0) {
+      return {
+        status: RESPONSE_CODES.BAD_REQUEST,
+        success: false,
+        message: "Nothing to update.",
+        data: {},
+      };
+    }
+    await userService.updateUser(payload, req.user.data._id);
+    const userData = await userService.getUser({ _id: req.user.data._id });
+    return {
+      status: RESPONSE_CODES.POST,
+      success: true,
+      message: CUSTOM_MESSAGES.PROFILE_UPDATE_SUCCESS || "Updated successfully",
+      data: { state: userData.state, city: userData.city },
+    };
+  };
+  /* end */
 
   updateProfile = async (req) => {
     const data = matchedData(req);
@@ -1313,109 +1336,6 @@ class UserController {
   };
   /* end */
 
-  /* two factor authorization */
-  twoFactorAuth = async (req) => {
-    const data = matchedData(req);
-    const { user } = req;
-    console.log("user: ", user);
-
-    try {
-      if (data.type === TWO_FACTOR_AUTH_TYPE.GENERATE) {
-        const secretCodeRes = speakeasy.generateSecret({
-          name: "lawyerUp",
-          length: 10,
-        });
-        console.log("secretCodeRes :", secretCodeRes);
-        const qr_code = await QRCode.toDataURL(secretCodeRes.otpauth_url);
-        console.log("qr_code :", qr_code);
-
-        const secret_code = secretCodeRes.base32;
-        console.log("secret_code :", secret_code);
-
-        console.log("User detail updated...");
-        return {
-          status: RESPONSE_CODES.POST,
-          success: true,
-          message: CUSTOM_MESSAGES.SUCCESS,
-          data: { secret_code, qr_code },
-        };
-      } else if (data.type === TWO_FACTOR_AUTH_TYPE.VERIFY) {
-        console.log("user id : ", user.data._id);
-        console.log("User body data : ", data);
-        // const userDetail = await userService.getUser({ _id: user.data._id });
-
-        if (data.secret_2fa && data.otp) {
-          const verified = await speakeasy.totp.verify({
-            secret: data.secret_2fa,
-            encoding: "base32",
-            token: data.otp,
-          });
-          if (verified) {
-            await userService.updateUser(
-              {
-                enabled_2fa: DEFAULT.TRUE,
-                secret_2fa: data.secret_code,
-              },
-              user.data._id
-            );
-          }
-          console.log("verified :", verified);
-          return {
-            status: RESPONSE_CODES.POST,
-            success: verified,
-            message: verified
-              ? CUSTOM_MESSAGES.TWO_FACTOR_VERIFICATION_SUCCESS
-              : CUSTOM_MESSAGES.TWO_FACTOR_VERIFICATION_FAILED,
-            data: {},
-          };
-        } else {
-          return {
-            status: RESPONSE_CODES.BAD_REQUEST,
-            success: false,
-            message: CUSTOM_MESSAGES.TWO_FACTOR_NOT_SETUP,
-            data: {},
-          };
-        }
-      } else {
-        //Validate otp after login
-        const userDetail = await userService.getUser({ _id: user.data._id });
-        if (userDetail.secret_2fa && data.otp) {
-          const validate = await speakeasy.totp.verify({
-            secret: userDetail.secret_2fa,
-            encoding: "base32",
-            token: data.otp,
-          });
-          if (validate) {
-            await userService.updateUser(
-              {
-                enabled_2fa: DEFAULT.TRUE,
-                secret_2fa: data.secret_code,
-              },
-              user.data._id
-            );
-          }
-          console.log("validate :", validate);
-          return {
-            status: RESPONSE_CODES.POST,
-            success: validate,
-            message: validate
-              ? CUSTOM_MESSAGES.TWO_FACTOR_VALIDATE_SUCCESS
-              : CUSTOM_MESSAGES.TWO_FACTOR_VALIDATE_FAILED,
-            data: {},
-          };
-        }
-      }
-    } catch (error) {
-      console.log("Catch error : ", error);
-      return {
-        status: RESPONSE_CODES.SERVER_ERROR,
-        success: false,
-        message: error.message,
-        data: {},
-      };
-    }
-  };
-  /* end */
 }
 
 export default UserController;
